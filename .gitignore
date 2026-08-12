@@ -1,0 +1,11 @@
+.DS_Store
+.venv/
+.claude/settings.local.json
+
+# Unrelated to this project — documents a different repo (Claude Skills
+# marketplace) that predates this website in the same folder.
+/CLAUDE.md
+
+# Original source video kept at project root under its raw export name;
+# the site uses the clean working copy at assets/video/hero-burgers.mp4.
+/ElevenLabs_video_gemini-omni-flash_VIDEO 1 — OPENI_2026-08-12T15_50_49.mp4

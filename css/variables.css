@@ -1,0 +1,55 @@
+:root {
+  /* Color palette — dark cinematic charcoal, warm amber/gold, deep red-brown (cheese/char/sauce tones) */
+  --color-bg: #15110e;
+  --color-bg-elevated: #1c1712;
+  --color-bg-solid-nav: rgba(21, 17, 14, 0.92);
+  --color-text: #f4ebe0;
+  --color-text-muted: #cbb9a3;
+  --color-text-faint: #8a7a68;
+  --color-accent: #d9a253;
+  --color-accent-strong: #e8b25d;
+  --color-accent-contrast: #1c1712;
+  --color-secondary: #7a2e1d;
+  --color-secondary-strong: #a3402a;
+  --color-border: rgba(244, 235, 224, 0.12);
+  --color-focus: #e8b25d;
+
+  /* Typography */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Manrope", "Helvetica Neue", Arial, sans-serif;
+
+  --fs-eyebrow: 0.8125rem;
+  --fs-body: 1rem;
+  --fs-body-lg: 1.125rem;
+  --fs-h3: clamp(1.25rem, 4vw, 1.75rem);
+  --fs-h2: clamp(1.75rem, 5vw, 2.75rem);
+  --fs-h1: clamp(2.25rem, 8vw, 4rem);
+
+  /* Spacing scale */
+  --space-2xs: 0.375rem;
+  --space-xs: 0.625rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  /* Radii / shadows */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --shadow-glow: 0 40px 100px -20px rgba(217, 162, 83, 0.35);
+  --shadow-soft: 0 20px 60px -25px rgba(0, 0, 0, 0.6);
+
+  /* Layout */
+  --nav-height: 68px;
+  --max-width: 1560px;
+  --tap-target: 44px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.2s;
+  --dur-base: 0.4s;
+  --dur-slow: 0.7s;
+}
