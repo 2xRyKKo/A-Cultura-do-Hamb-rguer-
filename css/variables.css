@@ -1,78 +1,62 @@
 /* ==========================================================================
-   FONTS — self-hosted (no Google Fonts CDN request). Subset to the "latin"
-   range only, which fully covers PT/EN/ES (all accented characters used —
-   á à â ã ç é ê í ó ô õ ú ü — sit inside U+0000–00FF). Three files total:
-   Fraunces and Inter both ship as variable fonts covering their full
-   weight range in one file each; only Fraunces' italic (used solely for
-   burger/menu item names, see main.css) came as a static, non-variable
-   instance pinned to weight 600, hence the single fixed-weight rule below
-   instead of a range.
+   FONTS — self-hosted, no Google Fonts CDN request. Calistoga (display) +
+   Plus Jakarta Sans (body/UI). Calistoga is a warm, hand-lettered-feeling
+   slab serif — closer to the restaurant's own artisanal, hand-painted-mural
+   register than a delicate editorial serif. Ships in one weight only (no
+   italic), which is fine: the display face's own character carries the
+   personality, no italic accent needed. Subset to "latin" (PT/EN/ES).
    ========================================================================== */
 @font-face {
-  font-family: "Fraunces";
+  font-family: "Calistoga";
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 400;
   font-display: swap;
-  src: url("../assets/fonts/fraunces-variable.woff2") format("woff2");
+  src: url("../assets/fonts/calistoga-regular.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Fraunces";
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url("../assets/fonts/fraunces-italic-variable.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Inter";
+  font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url("../assets/fonts/inter-variable.woff2") format("woff2");
+  src: url("../assets/fonts/plus-jakarta-sans-variable.woff2") format("woff2");
 }
 
 :root {
   /* ==========================================================================
-     COLOR — white walls + natural wood + black typography. One consistent
-     theme sitewide (including the hero) — no light/dark re-scoping needed,
-     which also removes the whole class of "inherited color" bugs that
-     came with the previous dark-hero-section approach.
-       - white/warm off-white: ~70-75% of the interface (backgrounds, cards)
-       - wood brown: ~15-20% (borders, hovers, selected states, eyebrow,
-         section washes) — a desaturated walnut tone, deliberately not
-         orange/copper/gold/burgundy
-       - black: ~5-10% (typography, prices, nav, primary buttons, icons)
+     COLOR — white walls + the restaurant's real brand green + black ink.
+     Verified against the actual venue, not invented: the green (#30743F)
+     matches their moss-wall logo installation, illuminated shopfront sign,
+     and current printed menu. One consistent theme sitewide.
+       - white: primary (~70-75%) — backgrounds, cards
+       - green: secondary (~15-20%) — nav, buttons, selected states, dividers
+       - black: tertiary (~5-10%) — typography, prices, fine details
      Every pairing verified against WCAG AA.
      ========================================================================== */
-  --color-bg: #fbf8f3;
-  --color-bg-elevated: #f1e9dc;
-  --color-bg-solid-nav: rgba(251, 248, 243, 0.94);
-  --color-text: #1c1712;
-  --color-text-muted: #6b5d4f;
-  --color-text-faint: #7d6f5f;
-  --color-accent: #6b4f38;
-  --color-accent-strong: #4a3320;
-  --color-accent-contrast: #fbf8f3;
-  --color-secondary: #1c1712;
-  --color-secondary-strong: #000000;
-  --color-border: rgba(107, 79, 56, 0.22);
-  --color-focus: #6b4f38;
+  --color-bg: #fbfaf7;
+  --color-bg-elevated: #f3efe6;
+  --color-bg-solid-nav: rgba(251, 250, 247, 0.94);
+  --color-ink: #15130f;
+  --color-ink-muted: #6b6459;
+  --color-ink-faint: #8a8276;
+  --color-green: #30743f;
+  --color-green-strong: #1e4a29;
+  --color-green-contrast: #fbfaf7;
+  --color-border: rgba(48, 116, 63, 0.2);
+  --color-focus: #30743f;
 
-  /* Typography — Fraunces (warm editorial serif, crafted without being
-     decorative) + Inter (clean, highly legible modern sans). Two families,
-     as asked, matched to "white walls + natural wood + artisan" register. */
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  /* Typography */
+  --font-display: "Calistoga", "Georgia", serif;
+  --font-body: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
   --letter-spacing-eyebrow: 0.14em;
   --letter-spacing-display: -0.01em;
 
   --fs-eyebrow: 0.8125rem;
   --fs-body: 1rem;
   --fs-body-lg: 1.125rem;
-  --fs-h3: clamp(1.25rem, 4vw, 1.75rem);
-  --fs-h2: clamp(1.75rem, 5vw, 2.75rem);
-  --fs-h1: clamp(2.25rem, 8vw, 4rem);
+  --fs-h3: clamp(1.35rem, 4.2vw, 1.9rem);
+  --fs-h2: clamp(1.9rem, 5.5vw, 3rem);
+  --fs-h1: clamp(2.6rem, 9vw, 4.75rem);
 
   /* Spacing scale */
   --space-3xs: 0.25rem;
@@ -84,27 +68,20 @@
   --space-xl: 4rem;
   --space-2xl: 6rem;
 
-  /* Container — single source of truth for horizontal page padding, shared by
-     every section shell (.container) AND the hero, so nothing sits on a
-     different grid from anything else. */
   --container-padding: var(--space-sm);
 
-  /* Radii / shadows — soft, warm, restrained. Wood-tinted shadows rather
-     than pure black, to stay warm rather than sterile. */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
   --radius-pill: 999px;
-  --shadow-soft: 0 16px 40px -22px rgba(28, 23, 18, 0.22);
-  --shadow-cta: 0 10px 24px -10px rgba(28, 23, 18, 0.3);
-  --shadow-cta-hover: 0 14px 30px -10px rgba(28, 23, 18, 0.38);
+  --shadow-soft: 0 16px 40px -22px rgba(21, 19, 15, 0.22);
+  --shadow-cta: 0 10px 24px -10px rgba(21, 19, 15, 0.3);
+  --shadow-cta-hover: 0 14px 30px -10px rgba(21, 19, 15, 0.38);
 
-  /* Layout */
   --nav-height: 68px;
   --max-width: 1560px;
   --tap-target: 44px;
 
-  /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 0.2s;
   --dur-base: 0.4s;

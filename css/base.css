@@ -20,7 +20,7 @@ html {
 body {
   margin: 0;
   background: var(--color-bg);
-  color: var(--color-text);
+  color: var(--color-ink);
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: 1.5;
@@ -46,12 +46,8 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
-  /* 1.2, not the tighter 1.1 — Fraunces' descenders (g/j/y/p/q) need the
-     room, especially anywhere this heading gets wrapped in the
-     split-line-mask reveal (overflow:hidden sized off this line-height —
-     confirmed live that a tighter value clips descenders). */
   line-height: 1.2;
 }
 
@@ -79,7 +75,6 @@ ul {
   list-style: none;
 }
 
-/* Accessibility helpers */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -97,8 +92,8 @@ ul {
   top: -100%;
   left: var(--space-sm);
   z-index: 1000;
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
+  background: var(--color-green);
+  color: var(--color-green-contrast);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -115,7 +110,6 @@ ul {
   border-radius: 4px;
 }
 
-/* Base tap-target sizing for interactive elements per mobile table-side UX constraints */
 button,
 a[href],
 summary {
@@ -131,16 +125,32 @@ summary {
   font-size: var(--fs-eyebrow);
   letter-spacing: var(--letter-spacing-eyebrow);
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-green);
   font-weight: 700;
 }
 
-/* Single source of truth for horizontal page padding — every section shell
-   AND the hero share this token (see .hero__inner in main.css), so content
-   always sits on the same grid regardless of section. */
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
   padding-inline: var(--container-padding);
+}
+
+/* Word-reveal mask structure built by splitLines() in animations.js —
+   each word sits inside an overflow:hidden mask so GSAP can animate a
+   clean upward reveal without letters spilling outside their line. */
+.split-visual {
+  display: block;
+}
+
+.split-line-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: inherit;
+}
+
+.split-word {
+  display: inline-block;
+  will-change: transform;
 }

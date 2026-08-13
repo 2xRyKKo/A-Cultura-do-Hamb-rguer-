@@ -7,6 +7,7 @@
   var lastFocusedEl = null;
 
   var fabEl, fabCountEl, drawerEl, backdropEl, listEl, emptyEl, liveRegionEl, titleEl;
+  var submitBlockEl, tableInputEl, notesInputEl, submitBtnEl, submitStatusEl;
 
   function t(key) {
     return window.ACHB_I18N ? window.ACHB_I18N.t(key) : key;
@@ -143,14 +144,59 @@
         emptyEl.textContent = t("myorder.empty");
         emptyEl.style.display = "";
       }
+      if (submitBlockEl) submitBlockEl.hidden = true;
       return;
     }
     if (emptyEl) emptyEl.style.display = "none";
+    if (submitBlockEl) submitBlockEl.hidden = false;
 
     ids.forEach(function (id) {
       var row = buildRow(id, state[id]);
       if (row) listEl.appendChild(row);
     });
+  }
+
+  function submitOrder() {
+    var tableId = (tableInputEl.value || "").toString().trim();
+    if (!tableId) {
+      submitStatusEl.textContent = t("myorder.errorMissingTable");
+      return;
+    }
+    if (!window.ACHB_SUPABASE) {
+      submitStatusEl.textContent = t("myorder.errorGeneric");
+      return;
+    }
+
+    var items = Object.keys(state).map(function (id) {
+      var item = findItem(id);
+      return { id: id, name: item ? item.name : id, qty: state[id] };
+    });
+
+    submitBtnEl.disabled = true;
+    submitStatusEl.textContent = t("myorder.sending");
+
+    window.ACHB_SUPABASE.from("table_orders")
+      .insert({
+        table_id: tableId,
+        items: items,
+        notes: (notesInputEl.value || "").toString().trim() || null,
+      })
+      .then(function (res) {
+        submitBtnEl.disabled = false;
+        if (res.error) {
+          submitStatusEl.textContent = t("myorder.errorGeneric");
+          return;
+        }
+        submitStatusEl.textContent = t("myorder.success");
+        track("order_submitted", { table: tableId, itemCount: items.length });
+        state = {};
+        saveState();
+        render();
+      })
+      .catch(function () {
+        submitBtnEl.disabled = false;
+        submitStatusEl.textContent = t("myorder.errorGeneric");
+      });
   }
 
   function getFocusable() {
@@ -211,6 +257,13 @@
     emptyEl = document.getElementById("myorder-empty");
     liveRegionEl = document.getElementById("myorder-live");
     titleEl = document.getElementById("myorder-title");
+    submitBlockEl = document.getElementById("myorder-submit-block");
+    tableInputEl = document.getElementById("myorder-table-input");
+    notesInputEl = document.getElementById("myorder-notes-input");
+    submitBtnEl = document.getElementById("myorder-submit-btn");
+    submitStatusEl = document.getElementById("myorder-submit-status");
+
+    if (tableInputEl && window.ACHB_TABLE) tableInputEl.value = window.ACHB_TABLE;
 
     loadState();
     render();
@@ -219,6 +272,7 @@
     var closeBtn = document.getElementById("myorder-close");
     if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
     if (backdropEl) backdropEl.addEventListener("click", closeDrawer);
+    if (submitBtnEl) submitBtnEl.addEventListener("click", submitOrder);
   }
 
   window.ACHB_MYORDER = { addItem: addItem };

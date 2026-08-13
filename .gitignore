@@ -9,3 +9,12 @@
 # Original source video kept at project root under its raw export name;
 # the site uses the clean working copy at assets/video/hero-burgers.mp4.
 /ElevenLabs_video_gemini-omni-flash_VIDEO 1 — OPENI_2026-08-12T15_50_49.mp4
+/ElevenLabs_video_gemini-omni-flash_quero que mudes_2026-08-13T14_27_53.mp4
+
+# Raw logo source (ChatGPT-generated) kept at project root; the site uses
+# the processed, green-background versions in assets/images/.
+/ChatGPT Image 12_08_2026, 21_12_17.png
+
+# Scraped reference material from the client's legacy site — research
+# material for the rebuild, not part of the shipped site.
+/research/

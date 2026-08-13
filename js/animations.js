@@ -123,94 +123,32 @@
   }
 
   // --------------------------------------------------------------------
-  // Hero video — dual-layer crossfade loop.
-  //
-  // The supplied source clip is a one-way "explosion" animation (closed
-  // burgers -> full separation) that does NOT return to its start frame
-  // within its own 6s duration, so a single looping <video> would show a
-  // visible jump-cut at the seam. Two identical <video> elements are kept
-  // permanently playing (native loop), phase-offset by half the clip's
-  // duration, so one of them is always safely mid-clip while the other is
-  // near its own jump point — a CSS opacity crossfade swaps which layer is
-  // visible right before each one's jump, masking the seam.
+  // Hero video — single element, native loop. Plays its full duration on
+  // every pass with no early cut/crossfade — the client explicitly wants
+  // the whole clip to run through every time, seam or not.
   // --------------------------------------------------------------------
   function initHeroVideoLoop() {
     var media = document.querySelector(".hero__media");
     if (!media || REDUCE_MOTION) return;
 
-    var videoA = media.querySelector('[data-video-layer="a"]');
-    var videoB = media.querySelector('[data-video-layer="b"]');
-    if (!videoA || !videoB) return;
-
-    var CROSSFADE_LEAD = 0.4; // seconds before a layer's own end to swap away from it
-    var active = videoA;
-    var standby = videoB;
-    var bArmed = false;
-
-    function swapIfNeeded(video) {
-      if (video !== active || !bArmed) return;
-      if (!video.duration) return;
-      if (video.currentTime >= video.duration - CROSSFADE_LEAD) {
-        active.setAttribute("data-active", "false");
-        standby.setAttribute("data-active", "true");
-        var tmp = active;
-        active = standby;
-        standby = tmp;
-      }
-    }
-
-    videoA.addEventListener("timeupdate", function () {
-      swapIfNeeded(videoA);
-    });
-    videoB.addEventListener("timeupdate", function () {
-      swapIfNeeded(videoB);
-    });
+    var video = media.querySelector(".hero__video-layer");
+    if (!video) return;
 
     // Setting these as JS properties (not just HTML attributes) is required
     // for reliable autoplay on iOS Safari in some versions — the attribute
     // alone is not always enough once .play() is called programmatically.
-    videoA.muted = true;
-    videoA.defaultMuted = true;
-    videoA.playsInline = true;
-    videoB.muted = true;
-    videoB.defaultMuted = true;
-    videoB.playsInline = true;
-
-    videoA.setAttribute("data-active", "true");
-    videoA.play().catch(function () {});
-
-    // Layer B only requests the (identical) video URL once layer A has
-    // fully buffered, so its request is served from the HTTP cache rather
-    // than triggering a second full download of the same 1.8MB asset —
-    // keeps the NFC-tap critical path to a single video transfer.
-    function armLayerB() {
-      if (bArmed) return;
-      var src = videoB.getAttribute("data-src");
-      if (!src || !videoA.duration) return;
-      bArmed = true;
-      videoB.src = src;
-      videoB.addEventListener(
-        "loadedmetadata",
-        function () {
-          videoB.currentTime = videoA.duration / 2;
-          videoB.play().catch(function () {});
-        },
-        { once: true }
-      );
-    }
-
-    videoA.addEventListener("canplaythrough", armLayerB, { once: true });
-    // Safety net: some browsers/network conditions never fire canplaythrough
-    // for short clips — arm layer B a few seconds in regardless.
-    window.setTimeout(armLayerB, 3000);
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.play().catch(function () {});
 
     // Browsers (Safari in particular) can pause background-tab video for
     // power saving — if the customer's phone locks briefly or they switch
-    // apps and come back, resume whichever layer is currently the visible
-    // one rather than leaving the hero frozen on a still frame.
+    // apps and come back, resume playback rather than leaving the hero
+    // frozen on a still frame.
     document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "visible" && active.paused) {
-        active.play().catch(function () {});
+      if (document.visibilityState === "visible" && video.paused) {
+        video.play().catch(function () {});
       }
     });
   }

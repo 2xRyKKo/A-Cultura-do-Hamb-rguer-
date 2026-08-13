@@ -9,4 +9,5 @@ window.ACHB_CONFIG = {
   GOOGLE_MAPS_URL: "https://maps.google.com/?q=A+Cultura+do+Hamburguer,+Rua+da+Atalaia+57,+1200-037+Lisboa",
   GOOGLE_REVIEW_URL: "https://maps.google.com/?q=A+Cultura+do+Hamburguer,+Rua+da+Atalaia+57,+1200-037+Lisboa",
   INSTAGRAM_URL: "https://www.instagram.com/aculturadohamburguer/",
+  FACEBOOK_URL: "https://www.facebook.com/aculturadohamburguer/",
 };

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Entrar — A Cultura do Hambúrguer</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../assets/images/favicon-64.png" type="image/png" />
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="staff.css" />
+</head>
+<body>
+  <main class="staff-auth">
+    <div class="staff-auth__card">
+      <img class="staff-auth__logo" src="../assets/images/logo-mark.png" alt="A Cultura do Hambúrguer" />
+      <h1>Área de Staff</h1>
+      <p class="staff-auth__subtitle">Entra com a conta que o dono te criou.</p>
+      <form id="login-form">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required autocomplete="username" />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" required autocomplete="current-password" />
+        </label>
+        <button class="btn btn--primary" type="submit" id="login-submit">Entrar</button>
+        <p class="staff-auth__status" id="login-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+  <script src="../js/supabase-client.js" defer></script>
+  <script src="staff-auth.js" defer></script>
+  <script src="login.js" defer></script>
+</body>
+</html>

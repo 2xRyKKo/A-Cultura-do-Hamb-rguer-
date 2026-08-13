@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel — A Cultura do Hambúrguer</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../assets/images/favicon-64.png" type="image/png" />
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="staff.css" />
+</head>
+<body>
+  <div id="dashboard-gate" class="staff-gate">
+    <p>A verificar acesso...</p>
+  </div>
+
+  <div id="dashboard-app" class="staff-dashboard" hidden>
+    <header class="staff-dashboard__header">
+      <div>
+        <img class="staff-dashboard__logo" src="../assets/images/logo-mark.png" alt="" />
+        <span id="dashboard-user-name"></span>
+      </div>
+      <button class="btn btn--ghost" id="signout-btn" type="button">Sair</button>
+    </header>
+
+    <main class="staff-dashboard__main">
+      <section class="staff-panel" aria-labelledby="reservations-panel-title">
+        <h2 id="reservations-panel-title">Reservas</h2>
+        <div class="staff-list" id="reservations-list">
+          <p class="staff-empty">A carregar...</p>
+        </div>
+      </section>
+
+      <section class="staff-panel" aria-labelledby="orders-panel-title">
+        <h2 id="orders-panel-title">Pedidos das Mesas</h2>
+        <div class="staff-list" id="orders-list">
+          <p class="staff-empty">A carregar...</p>
+        </div>
+      </section>
+
+      <section class="staff-panel" id="staff-management-panel" hidden aria-labelledby="staff-panel-title">
+        <h2 id="staff-panel-title">Gerir Staff (só o dono vê isto)</h2>
+        <div class="staff-list" id="staff-list">
+          <p class="staff-empty">A carregar...</p>
+        </div>
+        <p class="staff-hint">Para adicionar staff novo: Supabase → Authentication → Users → Add user. Aparece aqui automaticamente.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+  <script src="../js/supabase-client.js" defer></script>
+  <script src="staff-auth.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</body>
+</html>
