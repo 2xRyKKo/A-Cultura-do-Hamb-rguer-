@@ -65,6 +65,7 @@ window.TRANSLATIONS = {
       phoneLabel: "Telefone",
       emailLabel: "Email",
       mapsCta: "Ver no Google Maps",
+      mapTitle: "Mapa: A Cultura do Hambúrguer, Rua da Atalaia 57, Lisboa",
     },
     reviews: {
       eyebrow: "Avaliações",
@@ -144,6 +145,7 @@ window.TRANSLATIONS = {
       phoneLabel: "Phone",
       emailLabel: "Email",
       mapsCta: "View on Google Maps",
+      mapTitle: "Map: A Cultura do Hambúrguer, Rua da Atalaia 57, Lisbon",
     },
     reviews: {
       eyebrow: "Reviews",
@@ -223,6 +225,7 @@ window.TRANSLATIONS = {
       phoneLabel: "Teléfono",
       emailLabel: "Correo",
       mapsCta: "Ver en Google Maps",
+      mapTitle: "Mapa: A Cultura do Hambúrguer, Rua da Atalaia 57, Lisboa",
     },
     reviews: {
       eyebrow: "Reseñas",

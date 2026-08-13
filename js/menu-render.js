@@ -2,7 +2,8 @@
   "use strict";
 
   var pillsEl = null;
-  var categoriesEl = null;
+  var columnLeftEl = null;
+  var columnRightEl = null;
   var itemObserver = null;
   var viewedItems = {};
 
@@ -94,10 +95,10 @@
     return row;
   }
 
-  function buildCategory(cat, index) {
+  function buildCategory(cat) {
     var summary = el("summary");
     var summaryInner = el("div", "menu-category__summary-inner", [
-      textEl("span", null, tf(cat.name)),
+      textEl("h3", "menu-category__name", tf(cat.name)),
       (function () {
         var chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         chevron.setAttribute("class", "menu-category__chevron");
@@ -122,7 +123,9 @@
 
     var details = el("details", "menu-category", children);
     details.id = "menu-cat-" + cat.id;
-    if (index === 0) details.open = true;
+    // Hambúrgueres opens by default — that's what most NFC/table scanners
+    // came here to decide on, regardless of where it sits in the data order.
+    if (cat.id === "hamburgueres") details.open = true;
 
     details.addEventListener("toggle", function () {
       if (details.open) track("category_view", { category: cat.id });
@@ -170,16 +173,35 @@
 
   function render() {
     if (!pillsEl) pillsEl = document.getElementById("menu-pills");
-    if (!categoriesEl) categoriesEl = document.getElementById("menu-categories");
-    if (!pillsEl || !categoriesEl) return;
+    if (!columnLeftEl) columnLeftEl = document.getElementById("menu-categories-left");
+    if (!columnRightEl) columnRightEl = document.getElementById("menu-categories-right");
+    if (!pillsEl || !columnLeftEl || !columnRightEl) return;
 
     var data = window.MENU_DATA || [];
     pillsEl.innerHTML = "";
-    categoriesEl.innerHTML = "";
+    columnLeftEl.innerHTML = "";
+    columnRightEl.innerHTML = "";
 
-    data.forEach(function (cat, index) {
+    // Balance the two desktop columns by running item count (greedy:
+    // always add the next category to whichever column is currently
+    // lighter), not a plain first-half/second-half split — categories
+    // range from 1 item (Vinho Rosé) to 10 (Hambúrgueres), so a naive
+    // split would leave one column much taller than the other.
+    var leftCount = 0;
+    var rightCount = 0;
+
+    data.forEach(function (cat) {
       pillsEl.appendChild(buildPill(cat));
-      categoriesEl.appendChild(buildCategory(cat, index));
+      var categoryEl = buildCategory(cat);
+      var weight = cat.items.length;
+
+      if (leftCount <= rightCount) {
+        columnLeftEl.appendChild(categoryEl);
+        leftCount += weight;
+      } else {
+        columnRightEl.appendChild(categoryEl);
+        rightCount += weight;
+      }
     });
 
     observeItems();

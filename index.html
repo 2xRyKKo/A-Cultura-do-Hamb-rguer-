@@ -1,17 +1,73 @@
 <!doctype html>
 <html lang="pt" class="no-js">
 <head>
+  <script>
+    // Strip any #fragment as the very first thing that runs, before the
+    // browser has parsed enough of the document to act on a native
+    // scroll-to-fragment — the whole NFC experience is built around the
+    // hero being the first thing seen, never a mid-page section.
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title data-i18n="meta.title">A Cultura do Hambúrguer — Bairro Alto, Lisboa</title>
   <meta name="description" data-i18n-attr='{"content":"meta.description"}' content="A Cultura do Hambúrguer – Best Burger in Lisbon." />
-  <meta name="theme-color" content="#15110e" />
+  <meta name="theme-color" content="#14100d" />
+  <meta name="robots" content="index, follow" />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315110e'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23d9a253' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E" />
+  <!-- TODO: set the real canonical URL once this site has a confirmed production domain -->
+  <!-- <link rel="canonical" href="https://aculturadohamburguer.pt/" /> -->
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:site_name" content="A Cultura do Hambúrguer" />
+  <meta property="og:title" data-i18n-attr='{"content":"meta.title"}' content="A Cultura do Hambúrguer — Bairro Alto, Lisboa" />
+  <meta property="og:description" data-i18n-attr='{"content":"meta.description"}' content="A Cultura do Hambúrguer – Best Burger in Lisbon." />
+  <meta property="og:image" content="assets/images/hero-poster.jpg" />
+  <meta property="og:locale" content="pt_PT" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="es_ES" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" data-i18n-attr='{"content":"meta.title"}' content="A Cultura do Hambúrguer — Bairro Alto, Lisboa" />
+  <meta name="twitter:description" data-i18n-attr='{"content":"meta.description"}' content="A Cultura do Hambúrguer – Best Burger in Lisbon." />
+  <meta name="twitter:image" content="assets/images/hero-poster.jpg" />
+
+  <link rel="icon" type="image/png" href="assets/images/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "A Cultura do Hambúrguer",
+      "image": "assets/images/hero-poster.jpg",
+      "logo": "assets/images/logo-mark.png",
+      "servesCuisine": ["Burgers", "Portuguese"],
+      "priceRange": "€€",
+      "telephone": "+351213462322",
+      "email": "aculturadohamburguer@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua da Atalaia 57",
+        "addressLocality": "Lisboa",
+        "postalCode": "1200-037",
+        "addressCountry": "PT"
+      },
+      "sameAs": ["https://www.instagram.com/aculturadohamburguer/"],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.7",
+        "bestRating": "5"
+      }
+    }
+  </script>
+
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-variable.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-variable.woff2" crossorigin />
 
   <link rel="preload" as="image" href="assets/images/hero-poster.jpg" fetchpriority="high" />
   <link rel="preload" as="video" href="assets/video/hero-burgers.mp4" />
@@ -32,7 +88,10 @@
   <!-- ============================ NAV ============================ -->
   <header class="nav" id="site-nav">
     <div class="nav__inner">
-      <a href="#hero" class="nav__logo" data-i18n="nav.logo">A Cultura do Hambúrguer</a>
+      <a href="#hero" class="nav__logo">
+        <img src="assets/images/logo-mark.png" alt="" class="nav__logo-mark" width="36" height="36" />
+        <span data-i18n="nav.logo">A Cultura do Hambúrguer</span>
+      </a>
 
       <nav class="nav__links" aria-label="Navegação principal">
         <a class="nav__link" href="#burgers" data-i18n="nav.linkBurgers">Hambúrgueres</a>
@@ -175,16 +234,21 @@
           <span class="eyebrow" data-i18n="menu.eyebrow">O Cardápio</span>
           <h2 class="section__title" id="menu-title" data-i18n="menu.title">Cardápio Completo</h2>
           <p class="section__lede" data-i18n="menu.lede">Consulte, compare, decida — e mostre a sua escolha ao empregado.</p>
-          <p class="menu-category__note" data-i18n="menu.allergensNote">Informação sobre alergénios: a confirmar.</p>
         </div>
 
         <nav class="menu-pills" id="menu-pills" aria-label="Categorias do cardápio"></nav>
 
-        <div class="menu-categories" id="menu-categories"></div>
+        <div class="menu-categories">
+          <div class="menu-categories__col" id="menu-categories-left"></div>
+          <div class="menu-categories__col" id="menu-categories-right"></div>
+        </div>
 
-        <p class="menu-footnote" data-i18n="menu.footnote">
-          Todos os nossos produtos são frescos e feitos no dia, desde o corte dos legumes ao moer da carne. IVA
-          incluído à taxa legal em vigor (13% e 23%, DL 10/2015).
+        <p class="menu-footnote">
+          <span data-i18n="menu.allergensNote">Informação sobre alergénios: a confirmar.</span>
+          <span data-i18n="menu.footnote">
+            Todos os nossos produtos são frescos e feitos no dia, desde o corte dos legumes ao moer da carne. IVA
+            incluído à taxa legal em vigor (13% e 23%, DL 10/2015).
+          </span>
         </p>
       </div>
     </section>
@@ -195,15 +259,22 @@
         <div class="section__head">
           <span class="eyebrow" data-i18n="info.eyebrow">O Restaurante</span>
           <h2 class="section__title" id="info-title" data-i18n="info.title">Onde Estamos</h2>
+          <p class="section__lede info-atmosphere__text" data-i18n="info.atmosphereText">
+            No coração do Bairro Alto, um ambiente acolhedor e sofisticado — mesas com iluminação quente, uma
+            zona de balcão e bancos altos, decoração com elementos gráficos e murais, e uma atmosfera noturna
+            cheia de personalidade.
+          </p>
         </div>
 
         <div class="info-grid">
-          <div class="info-atmosphere">
-            <p class="info-atmosphere__text" data-i18n="info.atmosphereText">
-              No coração do Bairro Alto, um ambiente acolhedor e sofisticado — mesas com iluminação quente, uma
-              zona de balcão e bancos altos, decoração com elementos gráficos e murais, e uma atmosfera noturna
-              cheia de personalidade.
-            </p>
+          <div class="info-map">
+            <iframe
+              src="https://www.google.com/maps?q=Rua+da+Atalaia+57,+1200-037+Lisboa&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              data-i18n-attr='{"title":"info.mapTitle"}'
+              title="Mapa: A Cultura do Hambúrguer, Rua da Atalaia 57, Lisboa"
+            ></iframe>
           </div>
 
           <div class="info-card">
@@ -288,7 +359,10 @@
   <!-- ============================ FOOTER ============================ -->
   <footer class="footer">
     <div class="container footer__inner">
-      <span class="nav__logo" data-i18n="nav.logo">A Cultura do Hambúrguer</span>
+      <div class="footer__brand">
+        <img src="assets/images/logo-mark.png" alt="" class="footer__logo-mark" width="64" height="64" loading="lazy" />
+        <span class="nav__logo" data-i18n="nav.logo">A Cultura do Hambúrguer</span>
+      </div>
 
       <div class="footer__social">
         <a id="footer-instagram-link" class="footer__social-link" href="#" target="_blank" rel="noopener" data-i18n-attr='{"aria-label":"footer.instagramAria"}' aria-label="Instagram da Cultura do Hambúrguer">

@@ -166,6 +166,16 @@
       swapIfNeeded(videoB);
     });
 
+    // Setting these as JS properties (not just HTML attributes) is required
+    // for reliable autoplay on iOS Safari in some versions — the attribute
+    // alone is not always enough once .play() is called programmatically.
+    videoA.muted = true;
+    videoA.defaultMuted = true;
+    videoA.playsInline = true;
+    videoB.muted = true;
+    videoB.defaultMuted = true;
+    videoB.playsInline = true;
+
     videoA.setAttribute("data-active", "true");
     videoA.play().catch(function () {});
 
@@ -193,6 +203,16 @@
     // Safety net: some browsers/network conditions never fire canplaythrough
     // for short clips — arm layer B a few seconds in regardless.
     window.setTimeout(armLayerB, 3000);
+
+    // Browsers (Safari in particular) can pause background-tab video for
+    // power saving — if the customer's phone locks briefly or they switch
+    // apps and come back, resume whichever layer is currently the visible
+    // one rather than leaving the hero frozen on a still frame.
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" && active.paused) {
+        active.play().catch(function () {});
+      }
+    });
   }
 
   // --------------------------------------------------------------------

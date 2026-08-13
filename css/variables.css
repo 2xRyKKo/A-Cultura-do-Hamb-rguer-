@@ -1,22 +1,71 @@
-:root {
-  /* Color palette — dark cinematic charcoal, warm amber/gold, deep red-brown (cheese/char/sauce tones) */
-  --color-bg: #15110e;
-  --color-bg-elevated: #1c1712;
-  --color-bg-solid-nav: rgba(21, 17, 14, 0.92);
-  --color-text: #f4ebe0;
-  --color-text-muted: #cbb9a3;
-  --color-text-faint: #8a7a68;
-  --color-accent: #d9a253;
-  --color-accent-strong: #e8b25d;
-  --color-accent-contrast: #1c1712;
-  --color-secondary: #7a2e1d;
-  --color-secondary-strong: #a3402a;
-  --color-border: rgba(244, 235, 224, 0.12);
-  --color-focus: #e8b25d;
+/* ==========================================================================
+   FONTS — self-hosted (no Google Fonts CDN request). Subset to the "latin"
+   range only, which fully covers PT/EN/ES (all accented characters used —
+   á à â ã ç é ê í ó ô õ ú ü — sit inside U+0000–00FF). Three files total:
+   Fraunces and Inter both ship as variable fonts covering their full
+   weight range in one file each; only Fraunces' italic (used solely for
+   burger/menu item names, see main.css) came as a static, non-variable
+   instance pinned to weight 600, hence the single fixed-weight rule below
+   instead of a range.
+   ========================================================================== */
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../assets/fonts/fraunces-variable.woff2") format("woff2");
+}
 
-  /* Typography */
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/fraunces-italic-variable.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../assets/fonts/inter-variable.woff2") format("woff2");
+}
+
+:root {
+  /* ==========================================================================
+     COLOR — white walls + natural wood + black typography. One consistent
+     theme sitewide (including the hero) — no light/dark re-scoping needed,
+     which also removes the whole class of "inherited color" bugs that
+     came with the previous dark-hero-section approach.
+       - white/warm off-white: ~70-75% of the interface (backgrounds, cards)
+       - wood brown: ~15-20% (borders, hovers, selected states, eyebrow,
+         section washes) — a desaturated walnut tone, deliberately not
+         orange/copper/gold/burgundy
+       - black: ~5-10% (typography, prices, nav, primary buttons, icons)
+     Every pairing verified against WCAG AA.
+     ========================================================================== */
+  --color-bg: #fbf8f3;
+  --color-bg-elevated: #f1e9dc;
+  --color-bg-solid-nav: rgba(251, 248, 243, 0.94);
+  --color-text: #1c1712;
+  --color-text-muted: #6b5d4f;
+  --color-text-faint: #7d6f5f;
+  --color-accent: #6b4f38;
+  --color-accent-strong: #4a3320;
+  --color-accent-contrast: #fbf8f3;
+  --color-secondary: #1c1712;
+  --color-secondary-strong: #000000;
+  --color-border: rgba(107, 79, 56, 0.22);
+  --color-focus: #6b4f38;
+
+  /* Typography — Fraunces (warm editorial serif, crafted without being
+     decorative) + Inter (clean, highly legible modern sans). Two families,
+     as asked, matched to "white walls + natural wood + artisan" register. */
   --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --letter-spacing-eyebrow: 0.14em;
+  --letter-spacing-display: -0.01em;
 
   --fs-eyebrow: 0.8125rem;
   --fs-body: 1rem;
@@ -26,6 +75,7 @@
   --fs-h1: clamp(2.25rem, 8vw, 4rem);
 
   /* Spacing scale */
+  --space-3xs: 0.25rem;
   --space-2xs: 0.375rem;
   --space-xs: 0.625rem;
   --space-sm: 1rem;
@@ -34,13 +84,20 @@
   --space-xl: 4rem;
   --space-2xl: 6rem;
 
-  /* Radii / shadows */
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
+  /* Container — single source of truth for horizontal page padding, shared by
+     every section shell (.container) AND the hero, so nothing sits on a
+     different grid from anything else. */
+  --container-padding: var(--space-sm);
+
+  /* Radii / shadows — soft, warm, restrained. Wood-tinted shadows rather
+     than pure black, to stay warm rather than sterile. */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
   --radius-pill: 999px;
-  --shadow-glow: 0 40px 100px -20px rgba(217, 162, 83, 0.35);
-  --shadow-soft: 0 20px 60px -25px rgba(0, 0, 0, 0.6);
+  --shadow-soft: 0 16px 40px -22px rgba(28, 23, 18, 0.22);
+  --shadow-cta: 0 10px 24px -10px rgba(28, 23, 18, 0.3);
+  --shadow-cta-hover: 0 14px 30px -10px rgba(28, 23, 18, 0.38);
 
   /* Layout */
   --nav-height: 68px;
@@ -52,4 +109,10 @@
   --dur-fast: 0.2s;
   --dur-base: 0.4s;
   --dur-slow: 0.7s;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: var(--space-lg);
+  }
 }

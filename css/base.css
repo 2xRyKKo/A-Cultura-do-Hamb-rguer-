@@ -48,7 +48,11 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   margin: 0;
-  line-height: 1.1;
+  /* 1.2, not the tighter 1.1 — Fraunces' descenders (g/j/y/p/q) need the
+     room, especially anywhere this heading gets wrapped in the
+     split-line-mask reveal (overflow:hidden sized off this line-height —
+     confirmed live that a tighter value clips descenders). */
+  line-height: 1.2;
 }
 
 p {
@@ -125,21 +129,18 @@ summary {
 .eyebrow {
   font-family: var(--font-body);
   font-size: var(--fs-eyebrow);
-  letter-spacing: 0.14em;
+  letter-spacing: var(--letter-spacing-eyebrow);
   text-transform: uppercase;
   color: var(--color-accent);
   font-weight: 700;
 }
 
+/* Single source of truth for horizontal page padding — every section shell
+   AND the hero share this token (see .hero__inner in main.css), so content
+   always sits on the same grid regardless of section. */
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-sm);
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding-inline: var(--space-lg);
-  }
+  padding-inline: var(--container-padding);
 }

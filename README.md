@@ -39,8 +39,12 @@ fabricated; fill each in with real data when available.
 8. **Google Place ID** — not supplied, so both the "Ver no Google Maps" and "Avaliar no Google Maps" links in
    `js/config.js` (`GOOGLE_MAPS_URL`, `GOOGLE_REVIEW_URL`) point to the same real Maps search by name+address.
    A confirmed Place ID would allow a direct "write a review" deep link.
-9. **Favicon / logo mark** — no real logo asset exists. `index.html` currently uses a simple inline "C"
-   monogram in the brand colors as a placeholder favicon — swap for a real logo file when available.
+9. ~~**Favicon / logo mark**~~ — resolved. The real restaurant seal (circular badge, "A Cultura do
+   Hambúrguer — Uma Experiência com Sabor") is in use: `assets/images/logo-original.png` (source, 1536×1024),
+   `assets/images/logo-mark.png` (512×512 square crop, used in nav + footer), `assets/images/favicon-64.png`
+   and `assets/images/apple-touch-icon.png` (generated from the same crop). The badge's fine print isn't
+   legible at nav-icon size by design — it reads as a small brand seal there, with the actual name carried
+   by the adjacent text; the footer version (44px+) is where the detail is appreciable.
 10. **Table numbers / NFC-tag & QR provisioning** — `js/table-session.js` reads `?t=<id>` from the URL and
     works with any value today. The actual list of tables, NFC tag writing, and per-table QR code generation
     is a deployment-time step, not a code change.
