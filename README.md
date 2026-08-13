@@ -20,7 +20,7 @@ To test the NFC per-table flow, append a query param, e.g. `http://localhost:800
 
 ## What's built
 
-- **Public site** (`index.html`): hero video, signature burgers, full real menu (18 categories/67 items,
+- **Public site** (`index.html`): hero video, signature burgers, full real menu (18 categories/66 items,
   i18n PT/EN/ES), "Meu Pedido" shortlist, restaurant info + photo gallery, **reservation form**, reviews
   (time-gated), footer.
 - **Reservations** (`#reservations`, `js/reservations.js`): public form, inserts into Supabase `reservations`
@@ -37,7 +37,7 @@ To test the NFC per-table flow, append a query param, e.g. `http://localhost:800
 ## Open items — real data still needed from the restaurant
 
 1. **Allergen data** — the `allergens` field exists on every item in `js/data/menu-data.js` (currently `null`
-   for all 67 items) and the Menu section shows a general "to confirm" note. Fill in real values per item
+   for all 66 items) and the Menu section shows a general "to confirm" note. Fill in real values per item
    (e.g. `allergens: ["gluten", "lactose"]`) once the restaurant provides them.
 2. **Google Place ID** — not supplied, so both the "Ver no Google Maps" and "Avaliar no Google Maps" links in
    `js/config.js` (`GOOGLE_MAPS_URL`, `GOOGLE_REVIEW_URL`) point to the same real Maps search by name+address.
