@@ -445,6 +445,13 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 10% 50%);
 }
 
+.flag-tag--second {
+  /* Quieter tone than the #1 Vendas green — Amália is the section's other
+     featured signature, not a claim about matching sales numbers. */
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
 /* ==========================================================================
    SIGNATURE BURGERS — now uses the client's real food photography (burger
    on black slate, shot against classic Portuguese azulejo tiles) instead

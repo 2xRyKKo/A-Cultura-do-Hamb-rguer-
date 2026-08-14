@@ -32,6 +32,7 @@ window.TRANSLATIONS = {
       title: "Assinaturas da Casa",
       lede: "Duas escolhas que definem a Cultura do Hambúrguer.",
       badgeBestseller: "#1 Vendas",
+      badgeSecond: "#2 Assinatura",
       caption:
         "Todos os nossos produtos são frescos e feitos no dia, desde o corte dos legumes ao moer da carne.",
       cta: "Ver o cardápio completo",
@@ -157,6 +158,7 @@ window.TRANSLATIONS = {
       title: "House Signatures",
       lede: "Two choices that define A Cultura do Hambúrguer.",
       badgeBestseller: "#1 Best-Seller",
+      badgeSecond: "#2 Signature",
       caption: "All our products are fresh and made on the day, from cutting the vegetables to grinding the meat.",
       cta: "See the full menu",
     },
@@ -281,6 +283,7 @@ window.TRANSLATIONS = {
       title: "Firmas de la Casa",
       lede: "Dos elecciones que definen A Cultura do Hambúrguer.",
       badgeBestseller: "#1 Más Vendida",
+      badgeSecond: "#2 Firma",
       caption: "Todos nuestros productos son frescos y hechos al día, desde cortar las verduras hasta moler la carne.",
       cta: "Ver el menú completo",
     },
@@ -405,6 +408,7 @@ window.TRANSLATIONS = {
       title: "Signatures de la Maison",
       lede: "Deux choix qui définissent A Cultura do Hambúrguer.",
       badgeBestseller: "#1 des Ventes",
+      badgeSecond: "#2 Signature",
       caption:
         "Tous nos produits sont frais et préparés le jour même, de la découpe des légumes au hachage de la viande.",
       cta: "Voir le menu complet",
