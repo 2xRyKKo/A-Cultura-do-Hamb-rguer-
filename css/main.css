@@ -53,16 +53,17 @@
 .nav__logo span {
   display: inline;
   color: var(--color-ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 34vw;
+  font-weight: 700;
+  white-space: normal;
+  max-width: 30vw;
   font-size: 0.8rem;
+  line-height: 1.05;
 }
 
 @media (min-width: 1024px) {
   .nav__logo span {
     max-width: none;
+    white-space: nowrap;
     font-size: 1.25rem;
   }
 }
