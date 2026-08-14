@@ -638,14 +638,17 @@
 }
 
 .menu-item__badge {
+  /* Same flag-notch shape as .flag-tag (see comment above that rule) —
+     the real #1 best-seller mark should look identical everywhere it
+     appears on the site, not just on the Signature Burgers photo. */
   background: var(--color-green);
   color: var(--color-green-contrast);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-pill);
+  padding: 0.22rem 0.5rem 0.22rem 0.45rem;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 15% 50%);
 }
 
 .menu-item__side {
