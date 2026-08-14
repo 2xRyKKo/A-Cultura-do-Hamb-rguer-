@@ -1,8 +1,18 @@
 /* ==========================================================================
-   FONTS — display face is Cinzel Decorative, loaded from Google Fonts
-   (see the <link> tags in index.html <head>); body/UI face is Plus
-   Jakarta Sans, still self-hosted.
+   FONTS — both self-hosted, no external CDN round-trip. Cinzel Decorative
+   (display) downloaded once from Google Fonts and served locally instead
+   of via a live fonts.googleapis.com/fonts.gstatic.com request on every
+   visit; Plus Jakarta Sans (body/UI) was already self-hosted. Both
+   subset to "latin" (covers PT/EN/ES/FR accented characters).
    ========================================================================== */
+@font-face {
+  font-family: "Cinzel Decorative";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/cinzel-decorative-700.woff2") format("woff2");
+}
+
 @font-face {
   font-family: "Plus Jakarta Sans";
   font-style: normal;

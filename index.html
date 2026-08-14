@@ -81,13 +81,10 @@
     }
   </script>
 
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/cinzel-decorative-700.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/plus-jakarta-sans-variable.woff2" crossorigin />
   <link rel="preload" as="image" href="assets/images/hero-poster.jpg" fetchpriority="high" />
   <link rel="preload" as="video" href="assets/video/hero-burgers.mp4" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -233,6 +230,37 @@
     </section>
 
     <!-- =================== RESTAURANT INFO / ATMOSPHERE =================== -->
+    <!-- ======================= ATMOSPHERE STRIP ======================== -->
+    <section class="atmosphere-strip-section" aria-label="Fotografias do espaço">
+      <div class="container">
+        <p class="info-strip__label" data-i18n="info.strip">Mais um vislumbre do espaço</p>
+        <div class="info-strip-viewport" id="info-strip-viewport">
+          <div class="info-strip-track" id="info-strip-track">
+            <div class="info-strip" role="list" aria-label="Mais fotografias do espaço e do bar">
+              <img class="info-strip__img" src="assets/images/atmosphere-dining-wide.jpg" alt="Sala interior com mesas de madeira, cadeiras coloridas e fileiras de lâmpadas suspensas" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-pour.jpg" alt="Empregado de bar a servir uma cerveja de pressão" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-cocktail.jpg" alt="Cocktail a ser servido ao balcão" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-lemonades.jpg" alt="Duas limonadas caseiras, de lima e de frutos vermelhos" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-dessert.jpg" alt="Sobremesas caseiras em cúpulas de vidro no balcão" loading="lazy" />
+              <img class="info-strip__img info-strip__img--tall" src="assets/images/atmosphere-seating.jpg" alt="Mesa junto à parede de musgo, com cadeiras amarelas e iluminação quente" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-shelf.jpg" alt="Prateleira de garrafas de licores atrás do balcão" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-counter.jpg" alt="Balcão do bar com torneiras de cerveja e fruta fresca" loading="lazy" />
+            </div>
+            <div class="info-strip" aria-hidden="true">
+              <img class="info-strip__img" src="assets/images/atmosphere-dining-wide.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-pour.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-cocktail.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-lemonades.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-dessert.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img info-strip__img--tall" src="assets/images/atmosphere-seating.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-shelf.jpg" alt="" loading="lazy" />
+              <img class="info-strip__img" src="assets/images/atmosphere-bar-counter.jpg" alt="" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="info-section" id="info" aria-labelledby="info-title">
       <div class="container">
         <div class="section__head">
@@ -298,14 +326,6 @@
             data-i18n-attr='{"title":"info.mapTitle"}'
             title="Mapa: A Cultura do Hambúrguer, Rua da Atalaia 57, Lisboa"
           ></iframe>
-        </div>
-        <p class="info-strip__label" data-i18n="info.strip">Mais um vislumbre do espaço</p>
-        <div class="info-strip" role="list" aria-label="Mais fotografias do espaço e do bar">
-          <img class="info-strip__img" src="assets/images/atmosphere-dining-wide.jpg" alt="Sala interior com mesas de madeira, cadeiras coloridas e fileiras de lâmpadas suspensas" loading="lazy" />
-          <img class="info-strip__img" src="assets/images/atmosphere-bar-pour.jpg" alt="Empregado de bar a servir uma cerveja de pressão" loading="lazy" />
-          <img class="info-strip__img" src="assets/images/atmosphere-cocktail.jpg" alt="Cocktail a ser servido ao balcão" loading="lazy" />
-          <img class="info-strip__img" src="assets/images/atmosphere-dessert.jpg" alt="Sobremesas caseiras em cúpulas de vidro no balcão" loading="lazy" />
-          <img class="info-strip__img info-strip__img--tall" src="assets/images/atmosphere-seating.jpg" alt="Mesa junto à parede de musgo, com cadeiras amarelas e iluminação quente" loading="lazy" />
         </div>
       </div>
     </section>

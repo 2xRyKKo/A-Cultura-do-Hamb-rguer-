@@ -1055,8 +1055,11 @@
   display: block;
 }
 
+.atmosphere-strip-section {
+  padding-top: var(--space-lg);
+}
+
 .info-strip__label {
-  margin-top: var(--space-xl);
   margin-bottom: var(--space-sm);
   font-size: var(--fs-eyebrow);
   text-transform: uppercase;
@@ -1064,38 +1067,70 @@
   color: var(--color-ink-faint);
 }
 
-.info-strip {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: min(72vw, 260px);
+/* Continuous auto-scrolling marquee: the track holds two identical copies
+   of the image row back to back, animated from 0 to -50% — since both
+   halves are the same width, that's a perfect, seamless loop with no
+   visible jump at the seam. Pure CSS, no JS timer running forever. */
+.info-strip-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.info-strip-track {
+  display: flex;
   gap: var(--space-xs);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: var(--space-2xs);
-  -webkit-overflow-scrolling: touch;
+  width: max-content;
+  animation: info-strip-scroll 45s linear infinite;
+}
+
+.info-strip-viewport:hover .info-strip-track,
+.info-strip-viewport:focus-within .info-strip-track {
+  animation-play-state: paused;
+}
+
+@keyframes info-strip-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.info-strip {
+  display: flex;
+  gap: var(--space-xs);
 }
 
 .info-strip__img {
-  width: 100%;
+  width: min(72vw, 260px);
   height: 210px;
+  flex-shrink: 0;
   border-radius: var(--radius-md);
   object-fit: cover;
-  scroll-snap-align: start;
 }
 
 .info-strip__img--tall {
-  height: 210px;
   object-position: top;
 }
 
 @media (min-width: 768px) {
-  .info-strip {
-    grid-auto-columns: unset;
-    grid-template-columns: repeat(5, 1fr);
-    overflow-x: visible;
-  }
   .info-strip__img {
+    width: 280px;
     height: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-strip-track {
+    animation: none;
+  }
+  .info-strip-viewport {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .info-strip-track [aria-hidden="true"] {
+    display: none;
   }
 }
 
