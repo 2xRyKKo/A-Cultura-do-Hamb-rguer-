@@ -65,8 +65,12 @@
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2.5rem;
-  --space-xl: 4rem;
-  --space-2xl: 6rem;
+  /* xl/2xl drive section padding-block — kept tighter on mobile (below)
+     and restored to full size at larger breakpoints, since 4rem/6rem of
+     empty space between sections reads as generous on desktop but as
+     excessive scrolling on a phone. */
+  --space-xl: 2.75rem;
+  --space-2xl: 3.75rem;
 
   --container-padding: var(--space-sm);
 
@@ -91,5 +95,14 @@
 @media (min-width: 768px) {
   :root {
     --container-padding: var(--space-lg);
+    --space-xl: 3.5rem;
+    --space-2xl: 4.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
   }
 }
