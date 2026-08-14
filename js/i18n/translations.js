@@ -58,7 +58,7 @@ window.TRANSLATIONS = {
       tablePlaceholder: "Ex: 7",
       notesLabel: "Notas (opcional)",
       notesPlaceholder: "Ex: sem cebola no Salgadeiras",
-      submitOrder: "Enviar Pedido ao Empregado",
+      submitOrder: "Realizar o Pedido",
       sending: "A enviar...",
       success: "Pedido enviado! O empregado já vai ter isto.",
       errorMissingTable: "Por favor indique a sua mesa.",
