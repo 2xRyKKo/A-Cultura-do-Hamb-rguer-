@@ -1,19 +1,8 @@
 /* ==========================================================================
-   FONTS — self-hosted, no Google Fonts CDN request. Calistoga (display) +
-   Plus Jakarta Sans (body/UI). Calistoga is a warm, hand-lettered-feeling
-   slab serif — closer to the restaurant's own artisanal, hand-painted-mural
-   register than a delicate editorial serif. Ships in one weight only (no
-   italic), which is fine: the display face's own character carries the
-   personality, no italic accent needed. Subset to "latin" (PT/EN/ES).
+   FONTS — display face is Cinzel Decorative, loaded from Google Fonts
+   (see the <link> tags in index.html <head>); body/UI face is Plus
+   Jakarta Sans, still self-hosted.
    ========================================================================== */
-@font-face {
-  font-family: "Calistoga";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../assets/fonts/calistoga-regular.woff2") format("woff2");
-}
-
 @font-face {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
@@ -46,7 +35,7 @@
   --color-focus: #30743f;
 
   /* Typography */
-  --font-display: "Calistoga", "Georgia", serif;
+  --font-display: "Cinzel Decorative", "Georgia", serif;
   --font-body: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
   --letter-spacing-eyebrow: 0.14em;
   --letter-spacing-display: -0.01em;
