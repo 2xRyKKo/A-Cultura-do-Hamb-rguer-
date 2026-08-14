@@ -51,13 +51,19 @@
    which produced bogus negative positioning for the whole logo lockup —
    showing just the mark avoids fighting that space budget altogether. */
 .nav__logo span {
-  display: none;
+  display: inline;
+  color: var(--color-ink);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 34vw;
+  font-size: 0.8rem;
 }
 
 @media (min-width: 1024px) {
   .nav__logo span {
-    display: inline;
+    max-width: none;
+    font-size: 1.25rem;
   }
 }
 
@@ -1084,7 +1090,11 @@
    visible jump at the seam. Pure CSS, no JS timer running forever. */
 .info-strip-viewport {
   overflow: hidden;
-  width: 100%;
+  /* Full-bleed: break out of .container so the carousel runs edge to edge
+     instead of stopping at the page's usual side padding. */
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .info-strip-track {
