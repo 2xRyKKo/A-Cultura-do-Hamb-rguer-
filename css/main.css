@@ -1305,3 +1305,114 @@
 .reservation-form__status--error {
   color: #b3261e;
 }
+
+/* ==========================================================================
+   RATING TOAST — small, dismissible, non-modal. Shows once per session at
+   the same moment the Reviews section reveals itself (reuses the
+   `reviewsRevealed` event from reviews-gate.js, no separate timer). Never
+   gated by the rating given — every score gets the same optional comment
+   step, no routing happy/unhappy customers differently.
+   ========================================================================== */
+.rating-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--space-md) + 60px);
+  z-index: 95;
+  width: min(90vw, 320px);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md);
+  transform: translate(-50%, 150%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--dur-slow) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+}
+
+.rating-toast[data-open="true"] {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rating-toast__dismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-faint);
+  font-size: 0.9rem;
+  border-radius: 50%;
+}
+
+.rating-toast__step {
+  display: none;
+}
+
+.rating-toast[data-step="rate"] [data-rating-step="rate"],
+.rating-toast[data-step="comment"] [data-rating-step="comment"],
+.rating-toast[data-step="done"] [data-rating-step="done"] {
+  display: block;
+}
+
+.rating-toast__prompt {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  padding-right: var(--space-lg);
+  margin: 0 0 var(--space-sm);
+}
+
+.rating-toast__stars {
+  display: flex;
+  gap: var(--space-2xs);
+}
+
+.rating-toast__star {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-border);
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  transition: color var(--dur-fast);
+}
+
+.rating-toast__star[data-filled="true"] {
+  color: var(--color-green);
+}
+
+.rating-toast__comment-prompt {
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-xs);
+}
+
+.rating-toast__textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+  min-height: 56px;
+}
+
+.rating-toast__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  margin-top: var(--space-sm);
+}
+
+.rating-toast__btn-sm {
+  padding: 0.5rem 0.9rem;
+  min-height: 36px;
+  font-size: 0.8rem;
+}

@@ -423,6 +423,33 @@
     </div>
   </div>
 
+  <!-- ========================== RATING TOAST ========================== -->
+  <div class="rating-toast" id="rating-toast" data-open="false" data-step="rate" role="dialog" aria-labelledby="rating-toast-prompt">
+    <button class="rating-toast__dismiss" id="rating-toast-dismiss" type="button" data-i18n-attr='{"aria-label":"ratingToast.dismiss"}' aria-label="Fechar">✕</button>
+    <div class="rating-toast__step" data-rating-step="rate">
+      <p class="rating-toast__prompt" id="rating-toast-prompt" data-i18n="ratingToast.prompt">Está a gostar da experiência? Avalie-nos:</p>
+      <div class="rating-toast__stars" id="rating-toast-stars" role="radiogroup" aria-labelledby="rating-toast-prompt">
+        <button class="rating-toast__star" type="button" data-star="1" role="radio" aria-checked="false">★</button>
+        <button class="rating-toast__star" type="button" data-star="2" role="radio" aria-checked="false">★</button>
+        <button class="rating-toast__star" type="button" data-star="3" role="radio" aria-checked="false">★</button>
+        <button class="rating-toast__star" type="button" data-star="4" role="radio" aria-checked="false">★</button>
+        <button class="rating-toast__star" type="button" data-star="5" role="radio" aria-checked="false">★</button>
+      </div>
+    </div>
+    <div class="rating-toast__step" data-rating-step="comment">
+      <p class="rating-toast__prompt" data-i18n="ratingToast.thanks">Obrigado pela sua avaliação!</p>
+      <p class="rating-toast__comment-prompt" data-i18n="ratingToast.commentPrompt">Quer deixar um comentário? (opcional)</p>
+      <textarea class="rating-toast__textarea" id="rating-toast-comment" rows="2" data-i18n-attr='{"placeholder":"ratingToast.commentPlaceholder"}' placeholder="A sua opinião..."></textarea>
+      <div class="rating-toast__actions">
+        <button class="btn btn--ghost rating-toast__btn-sm" type="button" id="rating-toast-skip" data-i18n="ratingToast.skip">Não, obrigado</button>
+        <button class="btn btn--primary rating-toast__btn-sm" type="button" id="rating-toast-submit" data-i18n="ratingToast.submit">Enviar</button>
+      </div>
+    </div>
+    <div class="rating-toast__step" data-rating-step="done">
+      <p class="rating-toast__prompt" data-i18n="ratingToast.submitted">Obrigado pelo seu feedback!</p>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
@@ -439,6 +466,7 @@
   <script src="js/reservations.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/reviews-gate.js" defer></script>
+  <script src="js/rating-toast.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script src="js/interactions.js" defer></script>
   <script src="js/main.js" defer></script>

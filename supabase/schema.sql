@@ -143,6 +143,33 @@ create policy "analytics: staff can read"
   on public.analytics_events for select
   using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.active));
 
+-- ---------------------------------------------------------------------------
+-- site_feedback — on-site star rating + optional comment (Phase 6), shown
+-- as a small toast ~5 minutes into the session (same timer as the Reviews
+-- section). Not gated by score — every rating gets the same comment step,
+-- never routed differently based on how many stars were given. Same
+-- public-insert / staff-read shape as reservations/table_orders.
+-- ---------------------------------------------------------------------------
+create table if not exists public.site_feedback (
+  id uuid primary key default gen_random_uuid(),
+  rating int not null check (rating between 1 and 5),
+  comment text,
+  table_id text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.site_feedback enable row level security;
+
+drop policy if exists "site_feedback: anyone can submit" on public.site_feedback;
+create policy "site_feedback: anyone can submit"
+  on public.site_feedback for insert
+  with check (true);
+
+drop policy if exists "site_feedback: staff can read" on public.site_feedback;
+create policy "site_feedback: staff can read"
+  on public.site_feedback for select
+  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.active));
+
 -- ============================================================================
 -- ONE-TIME MANUAL STEP (do this after running the script above):
 --
