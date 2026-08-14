@@ -2,7 +2,6 @@
   "use strict";
 
   var groupsEl = null;
-  var pillsEl = null;
   var categoriesEl = null;
   var itemObserver = null;
   var viewedItems = {};
@@ -150,21 +149,6 @@
     return details;
   }
 
-  function buildPill(cat) {
-    var btn = el("button", "menu-pill");
-    btn.type = "button";
-    btn.textContent = tf(cat.name);
-    btn.setAttribute("data-pill-for", cat.id);
-    btn.addEventListener("click", function () {
-      var target = document.getElementById("menu-cat-" + cat.id);
-      if (!target) return;
-      if (!target.open) target.open = true;
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      track("category_view", { category: cat.id, via: "pill" });
-    });
-    return btn;
-  }
-
   function buildGroupTab(group) {
     var btn = el("button", "menu-group-tab");
     btn.type = "button";
@@ -196,7 +180,6 @@
     categoryIds.forEach(function (catId) {
       var cat = findCategory(catId);
       if (!cat) return;
-      pillsEl.appendChild(buildPill(cat));
       categoriesEl.appendChild(buildCategory(cat));
     });
   }
@@ -207,7 +190,6 @@
     })[0];
     if (!group) return;
 
-    pillsEl.innerHTML = "";
     categoriesEl.innerHTML = "";
 
     if (group.subgroups) {
@@ -256,9 +238,8 @@
 
   function render() {
     if (!groupsEl) groupsEl = document.getElementById("menu-groups");
-    if (!pillsEl) pillsEl = document.getElementById("menu-pills");
     if (!categoriesEl) categoriesEl = document.getElementById("menu-categories");
-    if (!groupsEl || !pillsEl || !categoriesEl) return;
+    if (!groupsEl || !categoriesEl) return;
 
     var groups = window.MENU_GROUPS || [];
     if (!activeGroupId && groups.length) activeGroupId = groups[0].id;

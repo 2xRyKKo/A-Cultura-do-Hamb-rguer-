@@ -12,7 +12,7 @@
   function initMagneticHover() {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-    var targets = document.querySelectorAll(".btn, .menu-pill, .myorder-fab");
+    var targets = document.querySelectorAll(".btn, .menu-group-tab, .myorder-fab");
     targets.forEach(function (el) {
       var strength = 14;
       el.addEventListener("mousemove", function (e) {
@@ -39,7 +39,7 @@
     document.addEventListener(
       "touchstart",
       function (e) {
-        var target = e.target.closest("button, a[href], .menu-pill");
+        var target = e.target.closest("button, a[href], .menu-group-tab");
         if (!target) return;
 
         var rect = target.getBoundingClientRect();

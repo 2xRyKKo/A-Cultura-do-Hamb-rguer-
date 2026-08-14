@@ -572,9 +572,9 @@
   background: var(--color-bg-elevated);
 }
 
-/* Three big theme tabs (Comida / Bebidas / Vinhos) — the primary way to
-   navigate the menu now; the pill row below narrows within whichever
-   theme is active. Sticky, stacked directly above the pills. */
+/* Three big theme tabs (Comida / Bebidas / Vinhos) — the only pill-shaped
+   navigation now; categories render straight below as accordions, no
+   second row of per-category pills. Sticky under the nav bar. */
 .menu-groups {
   display: flex;
   gap: var(--space-xs);
@@ -583,14 +583,15 @@
   background: var(--color-bg);
   z-index: 11;
   padding-top: var(--space-sm);
-  padding-bottom: var(--space-xs);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }
 
 .menu-group-tab {
   flex: 1;
   min-height: var(--tap-target);
   padding: 0.65rem 0.5rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   border: 1.5px solid var(--color-border);
   background: var(--color-bg);
   font-family: var(--font-display);
@@ -606,49 +607,18 @@
   color: var(--color-green-contrast);
 }
 
-.menu-pills {
-  display: flex;
-  gap: var(--space-2xs);
-  overflow-x: auto;
-  padding-bottom: var(--space-sm);
-  margin-bottom: var(--space-lg);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  position: sticky;
-  top: calc(var(--nav-height) + 60px);
-  background: var(--color-bg-elevated);
-  z-index: 10;
-  padding-top: var(--space-sm);
-}
-.menu-pills::-webkit-scrollbar {
-  display: none;
-}
-
-.menu-pill {
-  flex-shrink: 0;
-  padding: 0.6rem 1.1rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border);
-  font-size: 0.85rem;
-  font-weight: 600;
-  white-space: nowrap;
-  background: var(--color-bg);
-  transition: background var(--dur-fast), border-color var(--dur-fast);
-}
-
-.menu-pill[aria-current="true"] {
-  background: var(--color-green);
-  color: var(--color-green-contrast);
-  border-color: var(--color-green);
-}
-
 /* Subgroup headings (e.g. "Sem Álcool" / "Com Álcool" inside Bebidas) —
-   column-span: all forces a clean break across both desktop columns
-   instead of getting stranded partway down one side. */
+   deliberately quiet: body font, small, same register as .eyebrow
+   elsewhere on the site, not a competing display heading. column-span:
+   all forces a clean break across both desktop columns instead of
+   getting stranded partway down one side. */
 .menu-subgroup-heading {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--color-green-strong);
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-green);
   margin: var(--space-md) 0 var(--space-2xs);
   column-span: all;
 }
@@ -1264,7 +1234,7 @@
 }
 
 .btn,
-.menu-pill,
+.menu-group-tab,
 .myorder-fab {
   transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out),
     box-shadow var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
