@@ -91,22 +91,69 @@
 }
 
 .lang-switch {
-  display: flex;
-  gap: var(--space-2xs);
-  border: 1px solid currentColor;
-  border-color: color-mix(in srgb, currentColor 22%, transparent);
-  border-radius: var(--radius-pill);
-  padding: 3px;
+  position: relative;
 }
 
-.lang-switch__btn {
+.lang-switch__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   min-height: var(--tap-target);
-  min-width: var(--tap-target);
-  padding-inline: var(--space-xs);
+  padding-inline: var(--space-sm) var(--space-xs);
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 22%, transparent);
   border-radius: var(--radius-pill);
   font-size: 0.75rem;
   font-weight: 700;
   color: inherit;
+}
+
+.lang-switch__chevron {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.lang-switch[data-open="true"] .lang-switch__chevron {
+  transform: rotate(180deg);
+}
+
+.lang-switch__menu {
+  position: absolute;
+  top: calc(100% + var(--space-2xs));
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 7rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: 6px;
+  /* Slides open/closed instead of the old always-visible row of buttons. */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: max-height var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.lang-switch[data-open="true"] .lang-switch__menu {
+  max-height: 16rem;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.lang-switch__btn {
+  min-height: var(--tap-target);
+  padding-inline: var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-align: left;
   opacity: 0.7;
   transition: background var(--dur-fast), color var(--dur-fast), opacity var(--dur-fast);
 }

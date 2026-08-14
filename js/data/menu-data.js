@@ -1,14 +1,14 @@
 /*
  * Full real menu of "A Cultura do Hambúrguer" — prices, ingredients and
  * categories are exactly as supplied by the restaurant. Descriptions are
- * faithful PT/EN/ES translations of the real ingredient lists — nothing
+ * faithful PT/EN/ES/FR translations of the real ingredient lists — nothing
  * invented. `allergens: null` means the restaurant has not yet supplied
  * allergen data; the UI renders an honest "to confirm" note wherever null.
  */
 window.MENU_DATA = [
   {
     id: "petiscos",
-    name: { pt: "Petiscos", en: "Starters", es: "Aperitivos" },
+    name: { pt: "Petiscos", en: "Starters", es: "Aperitivos", fr: "Entrées" },
     items: [
       {
         id: "cascas-batata",
@@ -18,6 +18,7 @@ window.MENU_DATA = [
           pt: "Servido com Molho Tártaro.",
           en: "Served with tartar sauce.",
           es: "Servido con salsa tártara.",
+          fr: "Servi avec sauce tartare.",
         },
         allergens: null,
       },
@@ -29,6 +30,7 @@ window.MENU_DATA = [
           pt: "Servido com Molho Tártaro.",
           en: "Served with tartar sauce.",
           es: "Servido con salsa tártara.",
+          fr: "Servi avec sauce tartare.",
         },
         allergens: null,
       },
@@ -40,6 +42,7 @@ window.MENU_DATA = [
           pt: "Servidas com maionese de alho.",
           en: "Served with garlic mayo.",
           es: "Servidas con mayonesa de ajo.",
+          fr: "Servies avec mayonnaise à l'ail.",
         },
         allergens: null,
       },
@@ -47,11 +50,12 @@ window.MENU_DATA = [
   },
   {
     id: "hamburgueres",
-    name: { pt: "Hambúrgueres", en: "Burgers", es: "Hamburguesas" },
+    name: { pt: "Hambúrgueres", en: "Burgers", es: "Hamburguesas", fr: "Burgers" },
     note: {
       pt: "Acompanhados de batata frita e maionese caseira. Carne 160g, 100% novilho.",
       en: "Served with fries and homemade mayo. 160g patty, 100% young beef.",
       es: "Servidos con patatas fritas y mayonesa casera. Carne 160g, 100% ternera.",
+      fr: "Servis avec frites et mayonnaise maison. Steak haché 160g, 100% génisse.",
     },
     items: [
       {
@@ -62,6 +66,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Queijo Cheddar, Tomate, Alface, Maionese de Alho",
           en: "Burger bun, beef patty with cheddar cheese, tomato, lettuce, garlic mayo",
           es: "Pan de hamburguesa, hamburguesa con queso cheddar, tomate, lechuga, mayonesa de ajo",
+          fr: "Pain burger, steak haché avec fromage cheddar, tomate, laitue, mayonnaise à l'ail",
         },
         allergens: null,
       },
@@ -74,6 +79,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Queijo Manchego, Bacon Crocante, Cebola Caramelizada, Tomate, Maionese de Manjericão",
           en: "Burger bun, beef patty with manchego cheese, crispy bacon, caramelized onion, tomato, basil mayo",
           es: "Pan de hamburguesa, hamburguesa con queso manchego, bacon crujiente, cebolla caramelizada, tomate, mayonesa de albahaca",
+          fr: "Pain burger, steak haché avec fromage manchego, bacon croustillant, oignon caramélisé, tomate, mayonnaise au basilic",
         },
         allergens: null,
       },
@@ -85,6 +91,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Queijo Emmental, Tomate Cherry Assado, Bacon Frito, Sour Cream, Ananás",
           en: "Burger bun, beef patty with emmental cheese, roasted cherry tomato, fried bacon, sour cream, pineapple",
           es: "Pan de hamburguesa, hamburguesa con queso emmental, tomate cherry asado, bacon frito, sour cream, piña",
+          fr: "Pain burger, steak haché avec fromage emmental, tomate cerise rôtie, bacon frit, sour cream, ananas",
         },
         allergens: null,
       },
@@ -96,6 +103,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Queijo Gorgonzola, Salame Picante, Cebola Confitada, Agrião, Tomate, Molho Tártaro",
           en: "Burger bun, beef patty with gorgonzola cheese, spicy salami, confit onion, watercress, tomato, tartar sauce",
           es: "Pan de hamburguesa, hamburguesa con queso gorgonzola, salami picante, cebolla confitada, berro, tomate, salsa tártara",
+          fr: "Pain burger, steak haché avec fromage gorgonzola, salami épicé, oignon confit, cresson, tomate, sauce tartare",
         },
         allergens: null,
       },
@@ -107,6 +115,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Maionese de Abacate, Cebola Roxa, Cebola Crua, Presunto Frito, Pimentos Vermelhos Assados, Molho Tártaro",
           en: "Burger bun, beef patty with avocado mayo, red onion, raw onion, fried cured ham, roasted red peppers, tartar sauce",
           es: "Pan de hamburguesa, hamburguesa con mayonesa de aguacate, cebolla morada, cebolla cruda, jamón curado frito, pimientos rojos asados, salsa tártara",
+          fr: "Pain burger, steak haché avec mayonnaise à l'avocat, oignon rouge, oignon cru, jambon fumé frit, poivrons rouges rôtis, sauce tartare",
         },
         allergens: null,
       },
@@ -118,6 +127,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Queijo Cheddar, Ovo Estrelado, Presunto, Cogumelos, Tomate, Alface, Maionese",
           en: "Burger bun, beef patty with cheddar cheese, fried egg, cured ham, mushrooms, tomato, lettuce, mayo",
           es: "Pan de hamburguesa, hamburguesa con queso cheddar, huevo frito, jamón curado, champiñones, tomate, lechuga, mayonesa",
+          fr: "Pain burger, steak haché avec fromage cheddar, œuf au plat, jambon fumé, champignons, tomate, laitue, mayonnaise",
         },
         allergens: null,
       },
@@ -129,6 +139,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer de Beterraba, Feijão Preto e Arroz, Queijo Cheddar, Alface Iceberg, Maionese de Alho",
           en: "Burger bun, beetroot patty, black beans and rice, cheddar cheese, iceberg lettuce, garlic mayo",
           es: "Pan de hamburguesa, hamburguesa de remolacha, frijoles negros y arroz, queso cheddar, lechuga iceberg, mayonesa de ajo",
+          fr: "Pain burger, steak de betterave, haricots noirs et riz, fromage cheddar, laitue iceberg, mayonnaise à l'ail",
         },
         allergens: null,
       },
@@ -140,6 +151,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer, Hambúrguer com Chouriço e Malagueta, Queijo da Serra, Ovo Estrelado, Cebola Confitada, Agrião, Maionese de Pimentos Vermelhos",
           en: "Burger bun, beef patty with spicy chorizo, Serra cheese, fried egg, confit onion, watercress, red pepper mayo",
           es: "Pan de hamburguesa, hamburguesa con chorizo picante, queso da Serra, huevo frito, cebolla confitada, berro, mayonesa de pimientos rojos",
+          fr: "Pain burger, steak haché avec chorizo et piment, fromage da Serra, œuf au plat, oignon confit, cresson, mayonnaise au poivron rouge",
         },
         allergens: null,
       },
@@ -151,6 +163,7 @@ window.MENU_DATA = [
           pt: "Pão de Hambúrguer Brioche, Hambúrguer com Queijo Emmental, Couve Roxa, Cebola Roxa Frita, Bacon Fino, Molho Tártaro, Picles",
           en: "Brioche burger bun, beef patty with emmental cheese, red cabbage, fried red onion, thin-cut bacon, tartar sauce, pickles",
           es: "Pan de hamburguesa brioche, hamburguesa con queso emmental, col morada, cebolla morada frita, bacon fino, salsa tártara, pepinillos",
+          fr: "Pain burger brioché, steak haché avec fromage emmental, chou rouge, oignon rouge frit, bacon fin, sauce tartare, cornichons",
         },
         allergens: null,
       },
@@ -164,7 +177,7 @@ window.MENU_DATA = [
   },
   {
     id: "smash-burger",
-    name: { pt: "Smash Burger", en: "Smash Burger", es: "Smash Burger" },
+    name: { pt: "Smash Burger", en: "Smash Burger", es: "Smash Burger", fr: "Smash Burger" },
     items: [
       {
         id: "old-school",
@@ -174,6 +187,7 @@ window.MENU_DATA = [
           pt: "Sem batatas fritas. 100g de Carne de Vaca de Novilho Smashed, Pão de Hambúrguer Brioche, Molho Especial, Queijo Cheddar, Abacate, Cebola, Bacon",
           en: "No fries included. 100g smashed young-beef patty, brioche burger bun, special sauce, cheddar cheese, avocado, onion, bacon",
           es: "Sin patatas fritas. 100g de carne de ternera smashed, pan de hamburguesa brioche, salsa especial, queso cheddar, aguacate, cebolla, bacon",
+          fr: "Sans frites. 100g de bœuf de génisse smashed, pain burger brioché, sauce spéciale, fromage cheddar, avocat, oignon, bacon",
         },
         allergens: null,
       },
@@ -181,7 +195,7 @@ window.MENU_DATA = [
   },
   {
     id: "saladas",
-    name: { pt: "Saladas", en: "Salads", es: "Ensaladas" },
+    name: { pt: "Saladas", en: "Salads", es: "Ensaladas", fr: "Salades" },
     items: [
       {
         id: "mediterranica",
@@ -191,6 +205,7 @@ window.MENU_DATA = [
           pt: "Mistura de Alfaces, Tomate Cherry, Azeitonas, Mozzarella Fresca, Abacate, Vinagre Balsâmico Creme, Molho de Iogurte e Manjericão",
           en: "Mixed lettuces, cherry tomato, olives, fresh mozzarella, avocado, balsamic cream, yogurt and basil dressing",
           es: "Mezcla de lechugas, tomate cherry, aceitunas, mozzarella fresca, aguacate, crema de vinagre balsámico, salsa de yogur y albahaca",
+          fr: "Mélange de laitues, tomate cerise, olives, mozzarella fraîche, avocat, crème de vinaigre balsamique, sauce yaourt et basilic",
         },
         allergens: null,
       },
@@ -202,6 +217,7 @@ window.MENU_DATA = [
           pt: "Alface, Peito de Frango Grelhado, Croutons, Bacon Crocante, Lascas de Queijo Parmesão, Molho Caesar",
           en: "Lettuce, grilled chicken breast, croutons, crispy bacon, shaved parmesan, Caesar dressing",
           es: "Lechuga, pechuga de pollo a la plancha, croutons, bacon crujiente, virutas de queso parmesano, salsa Caesar",
+          fr: "Laitue, poitrine de poulet grillée, croûtons, bacon croustillant, copeaux de parmesan, sauce Caesar",
         },
         allergens: null,
       },
@@ -209,11 +225,12 @@ window.MENU_DATA = [
   },
   {
     id: "pregos",
-    name: { pt: "Pregos", en: "Pregos", es: "Pregos" },
+    name: { pt: "Pregos", en: "Pregos", es: "Pregos", fr: "Pregos" },
     note: {
       pt: "Acompanhados de batata frita e maionese caseira, servidos em Bolo do Caco.",
       en: "Portuguese steak rolls, served with fries, homemade mayo, on Bolo do Caco bread.",
       es: "Bocadillos de bistec, servidos con patatas fritas, mayonesa casera, en pan Bolo do Caco.",
+      fr: "Sandwichs de bœuf, servis avec frites, mayonnaise maison, sur pain Bolo do Caco.",
     },
     items: [
       {
@@ -224,6 +241,7 @@ window.MENU_DATA = [
           pt: "Bolo do Caco, Mostarda Dijon",
           en: "Bolo do Caco bread, Dijon mustard",
           es: "Pan Bolo do Caco, mostaza Dijon",
+          fr: "Pain Bolo do Caco, moutarde de Dijon",
         },
         allergens: null,
       },
@@ -235,6 +253,7 @@ window.MENU_DATA = [
           pt: "Bolo do Caco, Queijo Manchego, Pancetta Frita, Maionese de Manjericão",
           en: "Bolo do Caco bread, Manchego cheese, fried pancetta, basil mayo",
           es: "Pan Bolo do Caco, queso Manchego, panceta frita, mayonesa de albahaca",
+          fr: "Pain Bolo do Caco, fromage Manchego, pancetta frite, mayonnaise au basilic",
         },
         allergens: null,
       },
@@ -246,6 +265,7 @@ window.MENU_DATA = [
           pt: "Bolo do Caco da Ilha, Tomate Cherry Confitado, Rúcula, Maionese de Alho",
           en: "Ilha-style Bolo do Caco bread, confit cherry tomato, arugula, garlic mayo",
           es: "Pan Bolo do Caco estilo Ilha, tomate cherry confitado, rúcula, mayonesa de ajo",
+          fr: "Pain Bolo do Caco façon Ilha, tomate cerise confite, roquette, mayonnaise à l'ail",
         },
         allergens: null,
       },
@@ -257,6 +277,7 @@ window.MENU_DATA = [
           pt: "Bolo do Caco, Peito de Frango Grelhado, Bacon Crocante, Molho Caesar, Queijo Parmesão",
           en: "Bolo do Caco bread, grilled chicken breast, crispy bacon, Caesar dressing, parmesan cheese",
           es: "Pan Bolo do Caco, pechuga de pollo a la plancha, bacon crujiente, salsa Caesar, queso parmesano",
+          fr: "Pain Bolo do Caco, poitrine de poulet grillée, bacon croustillant, sauce Caesar, fromage parmesan",
         },
         allergens: null,
       },
@@ -264,7 +285,7 @@ window.MENU_DATA = [
   },
   {
     id: "sobremesas",
-    name: { pt: "Sobremesas", en: "Desserts", es: "Postres" },
+    name: { pt: "Sobremesas", en: "Desserts", es: "Postres", fr: "Desserts" },
     items: [
       {
         id: "tarte-lima",
@@ -274,6 +295,7 @@ window.MENU_DATA = [
           pt: "Tarte Caseira, Miami Style, Chantilly de Limão",
           en: "Homemade tart, Miami style, lime whipped cream",
           es: "Tarta casera, estilo Miami, chantillí de lima",
+          fr: "Tarte maison, style Miami, chantilly au citron vert",
         },
         allergens: null,
       },
@@ -291,6 +313,7 @@ window.MENU_DATA = [
           pt: "Bolo de Chocolate Caseiro",
           en: "Homemade chocolate cake",
           es: "Bizcocho de chocolate casero",
+          fr: "Gâteau au chocolat maison",
         },
         allergens: null,
       },
@@ -298,7 +321,7 @@ window.MENU_DATA = [
   },
   {
     id: "maioneses-extras",
-    name: { pt: "Maioneses / Extras", en: "Mayonnaises / Extras", es: "Mayonesas / Extras" },
+    name: { pt: "Maioneses / Extras", en: "Mayonnaises / Extras", es: "Mayonesas / Extras", fr: "Mayonnaises / Extras" },
     items: [
       {
         id: "maionese-extra",
@@ -308,6 +331,7 @@ window.MENU_DATA = [
           pt: "Sabores: Pimentos Vermelhos, Manjericão, Alho, Molho Tártaro, Barbecue, Beringela",
           en: "Flavors: red pepper, basil, garlic, tartar, barbecue, eggplant",
           es: "Sabores: pimientos rojos, albahaca, ajo, tártara, barbacoa, berenjena",
+          fr: "Saveurs : poivron rouge, basilic, ail, tartare, barbecue, aubergine",
         },
         allergens: null,
       },
@@ -316,7 +340,7 @@ window.MENU_DATA = [
   },
   {
     id: "limonadas",
-    name: { pt: "Limonadas", en: "Lemonades", es: "Limonadas" },
+    name: { pt: "Limonadas", en: "Lemonades", es: "Limonadas", fr: "Limonades" },
     items: [
       { id: "limonada-lima", name: "Lima", price: "3,90€", allergens: null },
       { id: "limonada-frutos-vermelhos", name: "Frutos Vermelhos", price: "3,90€", allergens: null },
@@ -324,7 +348,7 @@ window.MENU_DATA = [
   },
   {
     id: "cocktails",
-    name: { pt: "Cocktails", en: "Cocktails", es: "Cócteles" },
+    name: { pt: "Cocktails", en: "Cocktails", es: "Cócteles", fr: "Cocktails" },
     items: [
       {
         id: "basilic-gin-fizz",
@@ -334,6 +358,7 @@ window.MENU_DATA = [
           pt: "Gin Fizz intensamente envolvido em manjericão e gengibre.",
           en: "Gin Fizz intensely infused with basil and ginger.",
           es: "Gin Fizz intensamente envuelto en albahaca y jengibre.",
+          fr: "Gin Fizz intensément infusé au basilic et au gingembre.",
         },
         allergens: null,
       },
@@ -345,6 +370,7 @@ window.MENU_DATA = [
           pt: "Rum envelhecido com maracujá e casca de laranja amarga e angostura bitters.",
           en: "Aged rum with passion fruit, bitter orange peel and angostura bitters.",
           es: "Ron añejo con maracuyá, cáscara de naranja amarga y angostura bitters.",
+          fr: "Rhum vieilli avec fruit de la passion, zeste d'orange amère et angostura bitters.",
         },
         allergens: null,
       },
@@ -356,6 +382,7 @@ window.MENU_DATA = [
           pt: "Gin da casa com limonada de frutos vermelhos.",
           en: "House gin with red berry lemonade.",
           es: "Ginebra de la casa con limonada de frutos rojos.",
+          fr: "Gin maison avec limonade de fruits rouges.",
         },
         allergens: null,
       },
@@ -367,6 +394,7 @@ window.MENU_DATA = [
           pt: "Vodka, sumo de lima, espuma de gengibre e raspas de lima.",
           en: "Vodka, lime juice, ginger foam and lime zest.",
           es: "Vodka, zumo de lima, espuma de jengibre y ralladura de lima.",
+          fr: "Vodka, jus de citron vert, mousse de gingembre et zestes de citron vert.",
         },
         allergens: null,
       },
@@ -378,6 +406,7 @@ window.MENU_DATA = [
           pt: "Cachaça 51, lima e açúcar castanho líquido.",
           en: "Cachaça 51, lime and liquid brown sugar.",
           es: "Cachaça 51, lima y azúcar moreno líquido.",
+          fr: "Cachaça 51, citron vert et sucre roux liquide.",
         },
         allergens: null,
       },
@@ -389,6 +418,7 @@ window.MENU_DATA = [
           pt: "Rum, lima, açúcar líquido, hortelã fresca e água gaseificada.",
           en: "Rum, lime, liquid sugar, fresh mint and soda water.",
           es: "Ron, lima, azúcar líquido, menta fresca y agua con gas.",
+          fr: "Rhum, citron vert, sucre liquide, menthe fraîche et eau gazeuse.",
         },
         allergens: null,
       },
@@ -400,6 +430,7 @@ window.MENU_DATA = [
           pt: "Tequila, sumo de limão e licor de laranja.",
           en: "Tequila, lemon juice and orange liqueur.",
           es: "Tequila, zumo de limón y licor de naranja.",
+          fr: "Tequila, jus de citron et liqueur d'orange.",
         },
         allergens: null,
       },
@@ -411,6 +442,7 @@ window.MENU_DATA = [
           pt: "Aperol, Prosecco, club soda e casca de laranja.",
           en: "Aperol, Prosecco, club soda and orange peel.",
           es: "Aperol, Prosecco, club soda y cáscara de naranja.",
+          fr: "Aperol, Prosecco, soda et zeste d'orange.",
         },
         allergens: null,
       },
@@ -422,6 +454,7 @@ window.MENU_DATA = [
           pt: "Café expresso, licor de café e vodka.",
           en: "Espresso coffee, coffee liqueur and vodka.",
           es: "Café espresso, licor de café y vodka.",
+          fr: "Café expresso, liqueur de café et vodka.",
         },
         allergens: null,
       },
@@ -429,7 +462,7 @@ window.MENU_DATA = [
   },
   {
     id: "gins",
-    name: { pt: "Gins", en: "Gins", es: "Ginebras" },
+    name: { pt: "Gins", en: "Gins", es: "Ginebras", fr: "Gins" },
     items: [
       { id: "hendricks", name: "Hendrick's", price: "11,00€", allergens: null },
       { id: "tanqueray", name: "Tanqueray", price: "8,00€", allergens: null },
@@ -437,7 +470,7 @@ window.MENU_DATA = [
   },
   {
     id: "bebidas",
-    name: { pt: "Bebidas", en: "Soft Drinks", es: "Bebidas" },
+    name: { pt: "Bebidas", en: "Soft Drinks", es: "Bebidas", fr: "Boissons" },
     items: [
       { id: "agua-50cl", name: "Água 0,50cl", price: "2,10€", allergens: null },
       { id: "agua-castelo-25cl", name: "Água Castelo 0,25cl", price: "1,70€", allergens: null },
@@ -449,6 +482,7 @@ window.MENU_DATA = [
           pt: "Normal ou Zero",
           en: "Regular or Zero",
           es: "Normal o Zero",
+          fr: "Normal ou Zero",
         },
         allergens: null,
       },
@@ -461,6 +495,7 @@ window.MENU_DATA = [
           pt: "Limão, Pêssego ou Chá Verde",
           en: "Lemon, Peach or Green Tea",
           es: "Limón, Melocotón o Té Verde",
+          fr: "Citron, Pêche ou Thé Vert",
         },
         allergens: null,
       },
@@ -469,7 +504,7 @@ window.MENU_DATA = [
   },
   {
     id: "cervejas",
-    name: { pt: "Cervejas", en: "Beers", es: "Cervezas" },
+    name: { pt: "Cervejas", en: "Beers", es: "Cervezas", fr: "Bières" },
     items: [
       {
         id: "sagres",
@@ -502,14 +537,14 @@ window.MENU_DATA = [
         id: "bandida",
         name: "Bandida",
         price: "3,95€",
-        description: { pt: "Sidra · 40cl", en: "Cider · 40cl", es: "Sidra · 40cl" },
+        description: { pt: "Sidra · 40cl", en: "Cider · 40cl", es: "Sidra · 40cl", fr: "Cidre · 40cl" },
         allergens: null,
       },
       {
         id: "corona",
         name: "Corona",
         price: "4,55€",
-        description: { pt: "35cl · Garrafa", en: "35cl · Bottle", es: "35cl · Botella" },
+        description: { pt: "35cl · Garrafa", en: "35cl · Bottle", es: "35cl · Botella", fr: "35cl · Bouteille" },
         allergens: null,
       },
       {
@@ -520,6 +555,7 @@ window.MENU_DATA = [
           pt: "Sem Álcool · 25cl · Garrafa",
           en: "Alcohol-free · 25cl · Bottle",
           es: "Sin Alcohol · 25cl · Botella",
+          fr: "Sans Alcool · 25cl · Bouteille",
         },
         allergens: null,
       },
@@ -536,7 +572,7 @@ window.MENU_DATA = [
   },
   {
     id: "outras-bebidas",
-    name: { pt: "Outras Bebidas", en: "Other Drinks", es: "Otras Bebidas" },
+    name: { pt: "Outras Bebidas", en: "Other Drinks", es: "Otras Bebidas", fr: "Autres Boissons" },
     items: [
       { id: "ginja", name: "Ginja", price: "4,00€ / Shot", allergens: null },
       { id: "licor-beirao", name: "Licor Beirão", price: "5,00€ / 4,00€", allergens: null },
@@ -547,14 +583,14 @@ window.MENU_DATA = [
         id: "vinho-porto",
         name: "Vinho do Porto",
         price: "5,50€ / Copo",
-        variantNote: { pt: "Branco ou Tinto", en: "White or Red", es: "Blanco o Tinto" },
+        variantNote: { pt: "Branco ou Tinto", en: "White or Red", es: "Blanco o Tinto", fr: "Blanc ou Rouge" },
         allergens: null,
       },
     ],
   },
   {
     id: "vinhos-tintos",
-    name: { pt: "Vinhos Tintos", en: "Red Wines", es: "Vinos Tintos" },
+    name: { pt: "Vinhos Tintos", en: "Red Wines", es: "Vinos Tintos", fr: "Vins Rouges" },
     items: [
       { id: "ea-cartuxa", name: "E.A. Cartuxa", price: "4,70€ / 15,90€", region: "Alentejo", allergens: null },
       { id: "duque-de-viseu", name: "Duque de Viseu", price: "4,70€ / 15,90€", region: "Dão", allergens: null },
@@ -563,7 +599,7 @@ window.MENU_DATA = [
   },
   {
     id: "vinhos-brancos",
-    name: { pt: "Vinhos Brancos", en: "White Wines", es: "Vinos Blancos" },
+    name: { pt: "Vinhos Brancos", en: "White Wines", es: "Vinos Blancos", fr: "Vins Blancs" },
     items: [
       { id: "monte-velho", name: "Monte Velho", price: "3,90€ / 13,80€", region: "Alentejo", allergens: null },
       {
@@ -577,19 +613,19 @@ window.MENU_DATA = [
   },
   {
     id: "vinho-rose",
-    name: { pt: "Vinho Rosé", en: "Rosé Wine", es: "Vino Rosado" },
+    name: { pt: "Vinho Rosé", en: "Rosé Wine", es: "Vino Rosado", fr: "Vin Rosé" },
     items: [{ id: "rose", name: "Rosé", price: "3,90€ / 13,90€", allergens: null }],
   },
   {
     id: "vinho-verde",
-    name: { pt: "Vinho Verde", en: "Vinho Verde", es: "Vinho Verde" },
+    name: { pt: "Vinho Verde", en: "Vinho Verde", es: "Vinho Verde", fr: "Vinho Verde" },
     items: [
       { id: "muralhas-de-moncao", name: "Muralhas de Monção", price: "14,90€", region: "Minho", allergens: null },
     ],
   },
   {
     id: "sangrias",
-    name: { pt: "Sangrias", en: "Sangrias", es: "Sangrías" },
+    name: { pt: "Sangrias", en: "Sangrias", es: "Sangrías", fr: "Sangrias" },
     items: [
       { id: "sangria-tinta", name: "Tinta", price: "14,90€", allergens: null },
       { id: "sangria-branca", name: "Branca", price: "14,90€", allergens: null },

@@ -4,6 +4,9 @@
   var navEl, hamburgerEl, overlayEl, lastFocusedEl;
   var isOpen = false;
 
+  var langSwitchEl, langSwitchTriggerEl, langSwitchMenuEl, langSwitchCurrentEl;
+  var isLangOpen = false;
+
   function getFocusable(container) {
     return Array.prototype.slice.call(
       container.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')
@@ -65,6 +68,58 @@
     if (lastFocusedEl) lastFocusedEl.focus();
   }
 
+  function onLangSwitchDocClick(e) {
+    if (langSwitchEl && !langSwitchEl.contains(e.target)) closeLangSwitch();
+  }
+
+  function onLangSwitchKeydown(e) {
+    if (e.key === "Escape") {
+      closeLangSwitch();
+      if (langSwitchTriggerEl) langSwitchTriggerEl.focus();
+    }
+  }
+
+  function openLangSwitch() {
+    isLangOpen = true;
+    langSwitchEl.setAttribute("data-open", "true");
+    langSwitchTriggerEl.setAttribute("aria-expanded", "true");
+    document.addEventListener("click", onLangSwitchDocClick);
+    document.addEventListener("keydown", onLangSwitchKeydown);
+  }
+
+  function closeLangSwitch() {
+    isLangOpen = false;
+    if (langSwitchEl) langSwitchEl.setAttribute("data-open", "false");
+    if (langSwitchTriggerEl) langSwitchTriggerEl.setAttribute("aria-expanded", "false");
+    document.removeEventListener("click", onLangSwitchDocClick);
+    document.removeEventListener("keydown", onLangSwitchKeydown);
+  }
+
+  function updateLangSwitchTrigger() {
+    if (langSwitchCurrentEl && window.ACHB_I18N) {
+      langSwitchCurrentEl.textContent = window.ACHB_I18N.getLang().toUpperCase();
+    }
+  }
+
+  function initLangSwitch() {
+    langSwitchEl = document.getElementById("lang-switch");
+    langSwitchTriggerEl = document.getElementById("lang-switch-trigger");
+    langSwitchMenuEl = document.getElementById("lang-switch-menu");
+    langSwitchCurrentEl = document.getElementById("lang-switch-current");
+    if (!langSwitchEl || !langSwitchTriggerEl || !langSwitchMenuEl) return;
+
+    updateLangSwitchTrigger();
+
+    langSwitchTriggerEl.addEventListener("click", function () {
+      if (isLangOpen) closeLangSwitch();
+      else openLangSwitch();
+    });
+
+    langSwitchMenuEl.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
+      btn.addEventListener("click", closeLangSwitch);
+    });
+  }
+
   function initScrollState() {
     var heroEl = document.getElementById("hero");
     if (!heroEl || !navEl) return;
@@ -115,9 +170,11 @@
       });
     }
 
+    initLangSwitch();
     initScrollState();
   }
 
   document.addEventListener("DOMContentLoaded", init);
   document.addEventListener("languagechange", updateHamburgerLabel);
+  document.addEventListener("languagechange", updateLangSwitchTrigger);
 })();

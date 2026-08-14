@@ -112,10 +112,17 @@
         <a class="nav__link" href="#reviews" data-i18n="nav.linkReviews">Avaliações</a>
       </div>
       <div class="nav__right">
-        <div class="lang-switch" role="group" aria-label="Idioma">
-          <button class="lang-switch__btn" type="button" data-lang-btn="pt">PT</button>
-          <button class="lang-switch__btn" type="button" data-lang-btn="en">EN</button>
-          <button class="lang-switch__btn" type="button" data-lang-btn="es">ES</button>
+        <div class="lang-switch" id="lang-switch" data-open="false">
+          <button class="lang-switch__trigger" type="button" id="lang-switch-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="lang-switch-menu">
+            <span id="lang-switch-current">PT</span>
+            <svg class="lang-switch__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="lang-switch__menu" id="lang-switch-menu" role="group" aria-label="Idioma">
+            <button class="lang-switch__btn" type="button" data-lang-btn="pt">PT</button>
+            <button class="lang-switch__btn" type="button" data-lang-btn="en">EN</button>
+            <button class="lang-switch__btn" type="button" data-lang-btn="es">ES</button>
+            <button class="lang-switch__btn" type="button" data-lang-btn="fr">FR</button>
+          </div>
         </div>
         <button class="nav__hamburger" id="nav-hamburger" type="button" aria-expanded="false" aria-controls="nav-overlay" data-i18n-attr='{"aria-label":"nav.openMenu"}' aria-label="Abrir menu">
           <span></span><span></span><span></span>

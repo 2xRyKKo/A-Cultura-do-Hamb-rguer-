@@ -3,7 +3,7 @@ window.ACHB_CONFIG = {
   TABLE_PARAM_NAME: "t",
   ANALYTICS_ENABLED: true,
   DEFAULT_LANG: "pt",
-  SUPPORTED_LANGS: ["pt", "en", "es"],
+  SUPPORTED_LANGS: ["pt", "en", "es", "fr"],
   // No confirmed Google Place ID was supplied, so both links point to the same
   // real Maps search (name + address) rather than a fabricated placeid deep-link.
   GOOGLE_MAPS_URL: "https://maps.google.com/?q=A+Cultura+do+Hamburguer,+Rua+da+Atalaia+57,+1200-037+Lisboa",
