@@ -30,11 +30,26 @@
     var holdUntil = Date.now() + 2500;
     var holdInterval = window.setInterval(function () {
       if (window.scrollY > 0) snapToTop();
-      if (Date.now() >= holdUntil) {
-        window.clearInterval(holdInterval);
-        html.style.scrollBehavior = originalScrollBehavior;
-      }
+      if (Date.now() >= holdUntil) stopHolding();
     }, 100);
+
+    function stopHolding() {
+      window.clearInterval(holdInterval);
+      html.style.scrollBehavior = originalScrollBehavior;
+      document.removeEventListener("touchstart", stopHolding);
+      document.removeEventListener("wheel", stopHolding);
+      document.removeEventListener("pointerdown", stopHolding);
+    }
+
+    // The moment the visitor tries to scroll themselves — touch drag, wheel,
+    // trackpad, even just a tap — trust that completely and stop correcting.
+    // This loop exists only to fight the browser's own fragment-driven
+    // re-scroll while the page is still settling on its own, never the
+    // visitor's own input; without this, a scroll attempt in the first
+    // 2.5s got silently snapped back to the top.
+    document.addEventListener("touchstart", stopHolding, { passive: true, once: true });
+    document.addEventListener("wheel", stopHolding, { passive: true, once: true });
+    document.addEventListener("pointerdown", stopHolding, { passive: true, once: true });
   }
 
   function initPreloadFade() {
