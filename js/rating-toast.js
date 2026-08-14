@@ -132,6 +132,14 @@
 
     updateStarAriaLabels();
     document.addEventListener("reviewsRevealed", maybeShow);
+
+    // Belt-and-suspenders: if the Reviews section was already revealed
+    // before this script's own init ran (reviews-gate.js loads first),
+    // the event above would already be missed — check the DOM directly too.
+    var reviewsEl = document.getElementById("reviews");
+    if (reviewsEl && reviewsEl.classList.contains("reviews--revealed")) {
+      maybeShow();
+    }
   }
 
   document.addEventListener("DOMContentLoaded", init);

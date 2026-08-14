@@ -32,14 +32,18 @@
     var elapsed = Date.now() - start;
     var remaining = delayMs - elapsed;
 
-    if (remaining <= 0) {
-      reveal(sectionEl);
-      return;
-    }
-
-    window.setTimeout(function () {
-      reveal(sectionEl);
-    }, remaining);
+    // Always fire on a timer, even a 0ms one, rather than calling reveal()
+    // synchronously here when remaining <= 0. A synchronous call would
+    // dispatch "reviewsRevealed" before other scripts that also listen for
+    // it (rating-toast.js) have run their own DOMContentLoaded handler and
+    // registered their listener yet — deferring one tick guarantees every
+    // DOMContentLoaded-registered listener is already in place first.
+    window.setTimeout(
+      function () {
+        reveal(sectionEl);
+      },
+      Math.max(remaining, 0)
+    );
   }
 
   document.addEventListener("DOMContentLoaded", init);
