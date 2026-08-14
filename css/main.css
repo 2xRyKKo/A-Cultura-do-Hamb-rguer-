@@ -580,7 +580,6 @@
   gap: var(--space-xs);
   position: sticky;
   top: var(--nav-height);
-  background: var(--color-bg);
   z-index: 11;
   padding-top: var(--space-sm);
   padding-bottom: var(--space-sm);
