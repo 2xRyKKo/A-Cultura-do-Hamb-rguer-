@@ -128,7 +128,14 @@
     if (cat.id === "hamburgueres") details.open = true;
 
     details.addEventListener("toggle", function () {
-      if (details.open) track("category_view", { category: cat.id });
+      if (details.open) {
+        track("category_view", { category: cat.id });
+        // Accordion behaviour: keep only one category open at a time so the
+        // menu doesn't stack into a long, disorganised list of open panels.
+        document.querySelectorAll(".menu-category").forEach(function (other) {
+          if (other !== details && other.open) other.open = false;
+        });
+      }
     });
 
     return details;
