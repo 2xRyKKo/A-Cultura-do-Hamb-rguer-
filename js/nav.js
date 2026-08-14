@@ -4,8 +4,9 @@
   var navEl, hamburgerEl, overlayEl, lastFocusedEl;
   var isOpen = false;
 
-  var langSwitchEl, langSwitchTriggerEl, langSwitchMenuEl, langSwitchCurrentEl;
+  var langSwitchEl, langSwitchTriggerEl, langSwitchMenuEl, langSwitchCurrentEl, langSwitchCurrentFlagEl;
   var isLangOpen = false;
+  var LANG_FLAGS = { pt: "🇵🇹", en: "🇬🇧", es: "🇪🇸", fr: "🇫🇷" };
 
   function getFocusable(container) {
     return Array.prototype.slice.call(
@@ -96,9 +97,10 @@
   }
 
   function updateLangSwitchTrigger() {
-    if (langSwitchCurrentEl && window.ACHB_I18N) {
-      langSwitchCurrentEl.textContent = window.ACHB_I18N.getLang().toUpperCase();
-    }
+    if (!window.ACHB_I18N) return;
+    var lang = window.ACHB_I18N.getLang();
+    if (langSwitchCurrentEl) langSwitchCurrentEl.textContent = lang.toUpperCase();
+    if (langSwitchCurrentFlagEl) langSwitchCurrentFlagEl.textContent = LANG_FLAGS[lang] || "";
   }
 
   function initLangSwitch() {
@@ -106,6 +108,7 @@
     langSwitchTriggerEl = document.getElementById("lang-switch-trigger");
     langSwitchMenuEl = document.getElementById("lang-switch-menu");
     langSwitchCurrentEl = document.getElementById("lang-switch-current");
+    langSwitchCurrentFlagEl = document.getElementById("lang-switch-current-flag");
     if (!langSwitchEl || !langSwitchTriggerEl || !langSwitchMenuEl) return;
 
     updateLangSwitchTrigger();
