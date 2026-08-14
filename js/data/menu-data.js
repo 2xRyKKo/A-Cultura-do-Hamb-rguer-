@@ -470,7 +470,7 @@ window.MENU_DATA = [
   },
   {
     id: "bebidas",
-    name: { pt: "Bebidas", en: "Soft Drinks", es: "Bebidas", fr: "Boissons" },
+    name: { pt: "Refrigerantes", en: "Soft Drinks", es: "Refrescos", fr: "Sodas" },
     items: [
       { id: "agua-50cl", name: "Água 0,50cl", price: "2,10€", allergens: null },
       { id: "agua-castelo-25cl", name: "Água Castelo 0,25cl", price: "1,70€", allergens: null },
@@ -630,5 +630,43 @@ window.MENU_DATA = [
       { id: "sangria-tinta", name: "Tinta", price: "14,90€", allergens: null },
       { id: "sangria-branca", name: "Branca", price: "14,90€", allergens: null },
     ],
+  },
+];
+
+/*
+ * Top-level menu grouping — purely presentational, does not change any of
+ * the real data above. Groups the 18 categories into 3 themes (Comida /
+ * Bebidas / Vinhos) so the Menu section shows a handful of big tabs
+ * instead of 18 flat pills. Bebidas is further split into two subgroups
+ * (Sem Álcool / Com Álcool); Vinhos deliberately stays its own top-level
+ * tab, not a Bebidas subgroup — wine is its own decision, not an
+ * afterthought under "drinks".
+ */
+window.MENU_GROUPS = [
+  {
+    id: "comida",
+    name: { pt: "Comida", en: "Food", es: "Comida", fr: "Nourriture" },
+    categories: ["petiscos", "hamburgueres", "smash-burger", "pregos", "saladas", "sobremesas", "maioneses-extras"],
+  },
+  {
+    id: "bebidas",
+    name: { pt: "Bebidas", en: "Drinks", es: "Bebidas", fr: "Boissons" },
+    subgroups: [
+      {
+        id: "sem-alcool",
+        name: { pt: "Sem Álcool", en: "Non-Alcoholic", es: "Sin Alcohol", fr: "Sans Alcool" },
+        categories: ["limonadas", "bebidas"],
+      },
+      {
+        id: "com-alcool",
+        name: { pt: "Com Álcool", en: "Alcoholic", es: "Con Alcohol", fr: "Avec Alcool" },
+        categories: ["cocktails", "gins", "cervejas", "outras-bebidas", "sangrias"],
+      },
+    ],
+  },
+  {
+    id: "vinhos",
+    name: { pt: "Vinhos", en: "Wines", es: "Vinos", fr: "Vins" },
+    categories: ["vinhos-tintos", "vinhos-brancos", "vinho-rose", "vinho-verde"],
   },
 ];

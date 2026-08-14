@@ -1,11 +1,12 @@
 (function () {
   "use strict";
 
+  var groupsEl = null;
   var pillsEl = null;
-  var columnLeftEl = null;
-  var columnRightEl = null;
+  var categoriesEl = null;
   var itemObserver = null;
   var viewedItems = {};
+  var activeGroupId = null;
 
   function t(key) {
     return window.ACHB_I18N ? window.ACHB_I18N.t(key) : key;
@@ -34,6 +35,14 @@
     var node = el(tag, className);
     node.textContent = text;
     return node;
+  }
+
+  function findCategory(id) {
+    var data = window.MENU_DATA || [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].id === id) return data[i];
+    }
+    return null;
   }
 
   function buildPriceBlock(item) {
@@ -156,6 +165,73 @@
     return btn;
   }
 
+  function buildGroupTab(group) {
+    var btn = el("button", "menu-group-tab");
+    btn.type = "button";
+    btn.textContent = tf(group.name);
+    btn.setAttribute("data-group-btn", group.id);
+    btn.addEventListener("click", function () {
+      setActiveGroup(group.id);
+    });
+    return btn;
+  }
+
+  function updateGroupTabsState() {
+    if (!groupsEl) return;
+    groupsEl.querySelectorAll("[data-group-btn]").forEach(function (btn) {
+      var isActive = btn.getAttribute("data-group-btn") === activeGroupId;
+      btn.setAttribute("aria-current", isActive ? "true" : "false");
+    });
+  }
+
+  function renderGroupTabs() {
+    groupsEl.innerHTML = "";
+    (window.MENU_GROUPS || []).forEach(function (group) {
+      groupsEl.appendChild(buildGroupTab(group));
+    });
+    updateGroupTabsState();
+  }
+
+  function renderCategoryList(categoryIds) {
+    categoryIds.forEach(function (catId) {
+      var cat = findCategory(catId);
+      if (!cat) return;
+      pillsEl.appendChild(buildPill(cat));
+      categoriesEl.appendChild(buildCategory(cat));
+    });
+  }
+
+  function renderActiveGroupContent() {
+    var group = (window.MENU_GROUPS || []).filter(function (g) {
+      return g.id === activeGroupId;
+    })[0];
+    if (!group) return;
+
+    pillsEl.innerHTML = "";
+    categoriesEl.innerHTML = "";
+
+    if (group.subgroups) {
+      group.subgroups.forEach(function (subgroup) {
+        // column-span: all in CSS makes this break cleanly across the
+        // desktop two-column flow instead of getting stranded in one side.
+        categoriesEl.appendChild(textEl("h3", "menu-subgroup-heading", tf(subgroup.name)));
+        renderCategoryList(subgroup.categories);
+      });
+    } else {
+      renderCategoryList(group.categories);
+    }
+
+    observeItems();
+  }
+
+  function setActiveGroup(groupId) {
+    if (groupId === activeGroupId) return;
+    activeGroupId = groupId;
+    updateGroupTabsState();
+    renderActiveGroupContent();
+    track("menu_group_view", { group: groupId });
+  }
+
   function observeItems() {
     if (itemObserver) itemObserver.disconnect();
     if (!("IntersectionObserver" in window)) return;
@@ -179,39 +255,16 @@
   }
 
   function render() {
+    if (!groupsEl) groupsEl = document.getElementById("menu-groups");
     if (!pillsEl) pillsEl = document.getElementById("menu-pills");
-    if (!columnLeftEl) columnLeftEl = document.getElementById("menu-categories-left");
-    if (!columnRightEl) columnRightEl = document.getElementById("menu-categories-right");
-    if (!pillsEl || !columnLeftEl || !columnRightEl) return;
+    if (!categoriesEl) categoriesEl = document.getElementById("menu-categories");
+    if (!groupsEl || !pillsEl || !categoriesEl) return;
 
-    var data = window.MENU_DATA || [];
-    pillsEl.innerHTML = "";
-    columnLeftEl.innerHTML = "";
-    columnRightEl.innerHTML = "";
+    var groups = window.MENU_GROUPS || [];
+    if (!activeGroupId && groups.length) activeGroupId = groups[0].id;
 
-    // Balance the two desktop columns by running item count (greedy:
-    // always add the next category to whichever column is currently
-    // lighter), not a plain first-half/second-half split — categories
-    // range from 1 item (Vinho Rosé) to 10 (Hambúrgueres), so a naive
-    // split would leave one column much taller than the other.
-    var leftCount = 0;
-    var rightCount = 0;
-
-    data.forEach(function (cat) {
-      pillsEl.appendChild(buildPill(cat));
-      var categoryEl = buildCategory(cat);
-      var weight = cat.items.length;
-
-      if (leftCount <= rightCount) {
-        columnLeftEl.appendChild(categoryEl);
-        leftCount += weight;
-      } else {
-        columnRightEl.appendChild(categoryEl);
-        rightCount += weight;
-      }
-    });
-
-    observeItems();
+    renderGroupTabs();
+    renderActiveGroupContent();
   }
 
   document.addEventListener("DOMContentLoaded", function () {

@@ -572,6 +572,40 @@
   background: var(--color-bg-elevated);
 }
 
+/* Three big theme tabs (Comida / Bebidas / Vinhos) — the primary way to
+   navigate the menu now; the pill row below narrows within whichever
+   theme is active. Sticky, stacked directly above the pills. */
+.menu-groups {
+  display: flex;
+  gap: var(--space-xs);
+  position: sticky;
+  top: var(--nav-height);
+  background: var(--color-bg);
+  z-index: 11;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-xs);
+}
+
+.menu-group-tab {
+  flex: 1;
+  min-height: var(--tap-target);
+  padding: 0.65rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-ink-muted);
+  text-align: center;
+  transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+}
+
+.menu-group-tab[aria-current="true"] {
+  background: var(--color-green);
+  border-color: var(--color-green);
+  color: var(--color-green-contrast);
+}
+
 .menu-pills {
   display: flex;
   gap: var(--space-2xs);
@@ -581,7 +615,7 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   position: sticky;
-  top: var(--nav-height);
+  top: calc(var(--nav-height) + 60px);
   background: var(--color-bg-elevated);
   z-index: 10;
   padding-top: var(--space-sm);
@@ -608,19 +642,33 @@
   border-color: var(--color-green);
 }
 
+/* Subgroup headings (e.g. "Sem Álcool" / "Com Álcool" inside Bebidas) —
+   column-span: all forces a clean break across both desktop columns
+   instead of getting stranded partway down one side. */
+.menu-subgroup-heading {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-green-strong);
+  margin: var(--space-md) 0 var(--space-2xs);
+  column-span: all;
+}
+.menu-subgroup-heading:first-child {
+  margin-top: 0;
+}
+
 .menu-categories {
-  display: grid;
-  gap: 0 var(--space-2xl);
+  column-count: 1;
 }
 
 @media (min-width: 1024px) {
   .menu-categories {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
+    column-count: 2;
+    column-gap: var(--space-2xl);
   }
 }
 
 .menu-category {
+  break-inside: avoid;
   border: none;
   margin-bottom: var(--space-md);
 }
