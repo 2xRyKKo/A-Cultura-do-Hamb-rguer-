@@ -140,7 +140,36 @@
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
-    video.play().catch(function () {});
+
+    function tryPlay() {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    tryPlay();
+    // Retry once the browser actually has data to play — covers the case
+    // where the first attempt above fired before enough of the file had
+    // loaded to start.
+    video.addEventListener("loadeddata", tryPlay);
+    video.addEventListener("canplay", tryPlay);
+
+    // Last-resort fallback: some browsers/devices (data-saver modes, some
+    // in-app browsers) block even muted autoplay outright regardless of
+    // attributes, showing a native play control instead. If that happens,
+    // start the instant the visitor does anything at all on the page —
+    // as close to "on its own" as is technically possible once a policy
+    // like that is in play.
+    if (video.paused) {
+      var onFirstInteraction = function () {
+        tryPlay();
+        ["touchstart", "pointerdown", "click", "scroll", "keydown"].forEach(function (evt) {
+          document.removeEventListener(evt, onFirstInteraction);
+        });
+      };
+      ["touchstart", "pointerdown", "click", "scroll", "keydown"].forEach(function (evt) {
+        document.addEventListener(evt, onFirstInteraction, { passive: true, once: true });
+      });
+    }
 
     // Browsers (Safari in particular) can pause background-tab video for
     // power saving — if the customer's phone locks briefly or they switch
@@ -148,7 +177,7 @@
     // frozen on a still frame.
     document.addEventListener("visibilitychange", function () {
       if (document.visibilityState === "visible" && video.paused) {
-        video.play().catch(function () {});
+        tryPlay();
       }
     });
   }
