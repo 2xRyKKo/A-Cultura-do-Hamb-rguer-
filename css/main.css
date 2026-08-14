@@ -355,10 +355,21 @@
 
 .hero__actions {
   display: flex;
+  flex-direction: column;
   gap: var(--space-sm);
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   margin-top: var(--space-2xs);
+}
+
+.hero__secondary-link {
+  color: var(--color-green);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: var(--tap-target);
+  display: inline-flex;
+  align-items: center;
 }
 
 @media (min-width: 1024px) {
@@ -377,7 +388,7 @@
     align-items: flex-start;
   }
   .hero__actions {
-    justify-content: flex-start;
+    align-items: flex-start;
   }
 }
 
