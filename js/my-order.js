@@ -13,8 +13,19 @@
   // deliberately left out here.
   var INGREDIENT_CATEGORY_IDS = ["petiscos", "hamburgueres", "smash-burger", "pregos", "saladas", "sobremesas"];
 
+  // Which item rows currently have their ingredient panel open — kept
+  // outside `state` (not persisted) since it's just a UI expand/collapse,
+  // re-applied across the re-renders that toggling a chip triggers.
+  var expandedIngredients = {};
+
+  // No confirmed real table count for this restaurant (see project notes) —
+  // 30 mirrors the reservation form's own party-size cap already used
+  // elsewhere on this site, generous enough not to block a real table.
+  var MAX_TABLE_NUMBER = 30;
+  var selectedTable = null;
+
   var fabEl, fabCountEl, drawerEl, backdropEl, listEl, emptyEl, liveRegionEl, titleEl;
-  var submitBlockEl, tableInputEl, notesInputEl, submitBtnEl, submitStatusEl;
+  var submitBlockEl, tablePickerEl, notesInputEl, submitBtnEl, submitStatusEl;
 
   function t(key) {
     return window.ACHB_I18N ? window.ACHB_I18N.t(key) : key;
@@ -142,13 +153,36 @@
     var ingredients = getIngredients(item, categoryId);
     if (!ingredients) return null;
 
+    var isOpen = !!expandedIngredients[itemId];
+
     var wrap = document.createElement("div");
     wrap.className = "myorder-row__ingredients";
 
-    var label = document.createElement("p");
-    label.className = "myorder-row__ingredients-label";
-    label.textContent = t("myorder.ingredientsHint");
-    wrap.appendChild(label);
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "myorder-row__ingredients-toggle";
+    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    var toggleLabel = document.createElement("span");
+    toggleLabel.textContent = t("myorder.ingredientsToggle");
+    var chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    chevron.setAttribute("class", "myorder-row__ingredients-chevron");
+    chevron.setAttribute("width", "16");
+    chevron.setAttribute("height", "16");
+    chevron.setAttribute("viewBox", "0 0 24 24");
+    chevron.setAttribute("fill", "none");
+    chevron.setAttribute("aria-hidden", "true");
+    chevron.innerHTML = '<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    toggle.appendChild(toggleLabel);
+    toggle.appendChild(chevron);
+    toggle.addEventListener("click", function () {
+      expandedIngredients[itemId] = !isOpen;
+      render();
+    });
+    wrap.appendChild(toggle);
+
+    var panel = document.createElement("div");
+    panel.className = "myorder-row__ingredients-panel";
+    panel.setAttribute("data-open", isOpen ? "true" : "false");
 
     var chips = document.createElement("div");
     chips.className = "myorder-row__chips";
@@ -167,7 +201,8 @@
       chips.appendChild(chip);
     });
 
-    wrap.appendChild(chips);
+    panel.appendChild(chips);
+    wrap.appendChild(panel);
     return wrap;
   }
 
@@ -257,12 +292,45 @@
     });
   }
 
+  function selectTable(n) {
+    selectedTable = n;
+    if (!tablePickerEl) return;
+    tablePickerEl.querySelectorAll("[data-table]").forEach(function (btn) {
+      var isSelected = parseInt(btn.getAttribute("data-table"), 10) === n;
+      btn.setAttribute("aria-checked", isSelected ? "true" : "false");
+      btn.setAttribute("data-selected", isSelected ? "true" : "false");
+    });
+  }
+
+  function buildTablePicker() {
+    if (!tablePickerEl) return;
+    tablePickerEl.innerHTML = "";
+    for (var n = 1; n <= MAX_TABLE_NUMBER; n++) {
+      (function (n) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "myorder-table-pill";
+        btn.setAttribute("role", "radio");
+        btn.setAttribute("aria-checked", "false");
+        btn.setAttribute("data-table", n);
+        btn.textContent = n;
+        btn.addEventListener("click", function () {
+          selectTable(n);
+        });
+        tablePickerEl.appendChild(btn);
+      })(n);
+    }
+
+    var fromTag = parseInt(window.ACHB_TABLE, 10);
+    if (fromTag && fromTag >= 1 && fromTag <= MAX_TABLE_NUMBER) selectTable(fromTag);
+  }
+
   function submitOrder() {
-    var tableId = (tableInputEl.value || "").toString().trim();
-    if (!tableId) {
+    if (!selectedTable) {
       submitStatusEl.textContent = t("myorder.errorMissingTable");
       return;
     }
+    var tableId = String(selectedTable);
     if (!window.ACHB_SUPABASE) {
       submitStatusEl.textContent = t("myorder.errorGeneric");
       return;
@@ -373,13 +441,12 @@
     liveRegionEl = document.getElementById("myorder-live");
     titleEl = document.getElementById("myorder-title");
     submitBlockEl = document.getElementById("myorder-submit-block");
-    tableInputEl = document.getElementById("myorder-table-input");
+    tablePickerEl = document.getElementById("myorder-table-picker");
     notesInputEl = document.getElementById("myorder-notes-input");
     submitBtnEl = document.getElementById("myorder-submit-btn");
     submitStatusEl = document.getElementById("myorder-submit-status");
 
-    if (tableInputEl && window.ACHB_TABLE) tableInputEl.value = window.ACHB_TABLE;
-
+    buildTablePicker();
     loadState();
     render();
 

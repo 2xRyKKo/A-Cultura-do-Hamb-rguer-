@@ -212,6 +212,11 @@
     updateGroupTabsState();
     renderActiveGroupContent();
     track("menu_group_view", { group: groupId });
+    // Switching theme (Comida/Bebidas/Vinhos) swaps in a whole new category
+    // list — without this, a visitor scrolled deep into one theme stayed at
+    // that same scroll position, landing mid-way (or past the end) of the
+    // new content instead of seeing it from the top.
+    if (groupsEl) groupsEl.scrollIntoView({ block: "start" });
   }
 
   function observeItems() {

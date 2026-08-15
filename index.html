@@ -448,10 +448,10 @@
       <div class="myorder-drawer__list" id="myorder-list"></div>
       <p class="myorder-empty" id="myorder-empty" data-i18n="myorder.empty">Ainda não adicionou nenhum item.</p>
       <div class="myorder-submit" id="myorder-submit-block" hidden>
-        <label class="myorder-submit__field">
+        <div class="myorder-submit__field">
           <span data-i18n="myorder.tableLabel">Qual é a sua mesa?</span>
-          <input type="text" id="myorder-table-input" inputmode="numeric" data-i18n-attr='{"placeholder":"myorder.tablePlaceholder"}' placeholder="Ex: 7" />
-        </label>
+          <div class="myorder-table-picker" id="myorder-table-picker" role="radiogroup" aria-label="Número da mesa"></div>
+        </div>
         <label class="myorder-submit__field">
           <span data-i18n="myorder.notesLabel">Notas (opcional)</span>
           <textarea id="myorder-notes-input" rows="2" data-i18n-attr='{"placeholder":"myorder.notesPlaceholder"}' placeholder="Ex: sem cebola no Salgadeiras"></textarea>

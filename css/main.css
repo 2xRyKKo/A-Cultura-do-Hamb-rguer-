@@ -873,7 +873,7 @@
   max-height: 82vh;
   background: var(--color-bg);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: var(--space-lg) var(--space-md) var(--space-md);
+  padding: var(--space-2xl) var(--space-md) var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -953,12 +953,38 @@
    (see js/my-order.js INGREDIENT_CATEGORY_IDS) get a tap-to-remove chip
    per ingredient, so a customer can flag e.g. "sem cebola" before showing
    the list to the waiter. */
-.myorder-row__ingredients-label {
-  font-size: 0.7rem;
+.myorder-row__ingredients-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-eyebrow);
-  color: var(--color-ink-faint);
-  margin-bottom: var(--space-3xs);
+  color: var(--color-green);
+}
+
+.myorder-row__ingredients-chevron {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.myorder-row__ingredients-toggle[aria-expanded="true"] .myorder-row__ingredients-chevron {
+  transform: rotate(180deg);
+}
+
+/* Slides open/closed like the language switcher's own dropdown — same
+   max-height trick, kept consistent across the site. */
+.myorder-row__ingredients-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+
+.myorder-row__ingredients-panel[data-open="true"] {
+  max-height: 20rem;
+  opacity: 1;
+  margin-top: var(--space-2xs);
 }
 
 .myorder-row__chips {
@@ -1007,6 +1033,32 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-ink-muted);
+}
+
+.myorder-table-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.myorder-table-pill {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: var(--color-bg-elevated);
+  transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+}
+
+.myorder-table-pill[data-selected="true"] {
+  background: var(--color-green);
+  border-color: var(--color-green);
+  color: var(--color-green-contrast);
 }
 
 .myorder-submit__field input,
