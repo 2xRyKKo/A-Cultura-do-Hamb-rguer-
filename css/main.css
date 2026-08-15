@@ -1002,8 +1002,25 @@
   padding: var(--space-2xl) var(--space-md) var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  overflow: hidden;
   box-shadow: 0 -20px 50px rgba(21, 19, 15, 0.25);
+}
+
+/* The ONLY scrolling region in the drawer — before this, the item list
+   scrolled on its own while the table-number picker/notes/submit button
+   below it didn't, so a drag gesture over that lower area (especially now
+   that the picker is a tall 30-button grid, not a single text field) could
+   fall through to the page behind the drawer instead of scrolling it.
+   overscroll-behavior stops that same fall-through at the top/bottom edges. */
+.myorder-drawer__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
 .myorder-drawer__head h2 {
@@ -1027,7 +1044,6 @@
 }
 
 .myorder-drawer__list {
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

@@ -441,23 +441,25 @@
     <div class="myorder-drawer__backdrop" id="myorder-backdrop"></div>
     <div class="myorder-drawer__panel">
       <button class="myorder-drawer__close" id="myorder-close" type="button" data-i18n-attr='{"aria-label":"myorder.close"}' aria-label="Fechar">✕</button>
-      <div class="myorder-drawer__head">
-        <h2 id="myorder-title" data-i18n="myorder.title">A sua seleção — mostre ao empregado</h2>
-        <p data-i18n="myorder.subtitle">Esta lista é apenas para si. Não é um pedido online — mostre o seu telemóvel ao empregado.</p>
-      </div>
-      <div class="myorder-drawer__list" id="myorder-list"></div>
-      <p class="myorder-empty" id="myorder-empty" data-i18n="myorder.empty">Ainda não adicionou nenhum item.</p>
-      <div class="myorder-submit" id="myorder-submit-block" hidden>
-        <div class="myorder-submit__field">
-          <span data-i18n="myorder.tableLabel">Qual é a sua mesa?</span>
-          <div class="myorder-table-picker" id="myorder-table-picker" role="radiogroup" aria-label="Número da mesa"></div>
+      <div class="myorder-drawer__scroll">
+        <div class="myorder-drawer__head">
+          <h2 id="myorder-title" data-i18n="myorder.title">A sua seleção — mostre ao empregado</h2>
+          <p data-i18n="myorder.subtitle">Esta lista é apenas para si. Não é um pedido online — mostre o seu telemóvel ao empregado.</p>
         </div>
-        <label class="myorder-submit__field">
-          <span data-i18n="myorder.notesLabel">Notas (opcional)</span>
-          <textarea id="myorder-notes-input" rows="2" data-i18n-attr='{"placeholder":"myorder.notesPlaceholder"}' placeholder="Ex: sem cebola no Salgadeiras"></textarea>
-        </label>
-        <button class="btn btn--primary" type="button" id="myorder-submit-btn" data-i18n="myorder.submitOrder">Realizar o Pedido</button>
-        <p class="myorder-submit__status" id="myorder-submit-status" role="status" aria-live="polite"></p>
+        <div class="myorder-drawer__list" id="myorder-list"></div>
+        <p class="myorder-empty" id="myorder-empty" data-i18n="myorder.empty">Ainda não adicionou nenhum item.</p>
+        <div class="myorder-submit" id="myorder-submit-block" hidden>
+          <div class="myorder-submit__field">
+            <span data-i18n="myorder.tableLabel">Qual é a sua mesa?</span>
+            <div class="myorder-table-picker" id="myorder-table-picker" role="radiogroup" aria-label="Número da mesa"></div>
+          </div>
+          <label class="myorder-submit__field">
+            <span data-i18n="myorder.notesLabel">Notas (opcional)</span>
+            <textarea id="myorder-notes-input" rows="2" data-i18n-attr='{"placeholder":"myorder.notesPlaceholder"}' placeholder="Ex: sem cebola no Salgadeiras"></textarea>
+          </label>
+          <button class="btn btn--primary" type="button" id="myorder-submit-btn" data-i18n="myorder.submitOrder">Realizar o Pedido</button>
+          <p class="myorder-submit__status" id="myorder-submit-status" role="status" aria-live="polite"></p>
+        </div>
       </div>
       <div class="sr-only" id="myorder-live" aria-live="polite"></div>
     </div>
