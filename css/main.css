@@ -1157,123 +1157,42 @@
 }
 
 /* ==========================================================================
-   REVIEWS SHOWCASE — real Google review text (pasted in by the owner via
-   js/data/reviews-data.js), shown as a swipeable/snap carousel with several
-   cards visible at once. reviews-render.js hides this whole section when
-   the data file is empty, so an unfilled carousel never ships.
+   PRESS TEASER — homepage link out to imprensa.html, between the
+   reservations and reviews sections.
    ========================================================================== */
-.reviews-showcase-section {
+.press-teaser-section {
   padding-block: var(--space-2xl);
-  background: var(--color-bg-elevated);
 }
 
-.reviews-showcase-viewport {
-  margin-top: var(--space-lg);
-}
-
-.reviews-showcase-track {
-  display: flex;
-  gap: var(--space-md);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 0.25rem var(--container-padding) var(--space-xs);
-  scrollbar-width: none;
-}
-
-.reviews-showcase-track::-webkit-scrollbar {
-  display: none;
-}
-
-.review-card {
-  scroll-snap-align: start;
-  flex: 0 0 82%;
+.press-teaser-card {
+  max-width: 34rem;
+  margin-inline: auto;
+  text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-sm);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-md);
+}
+
+.press-teaser-thumbs {
+  display: flex;
+  gap: var(--space-xs);
+  margin-block: var(--space-xs) var(--space-2xs);
+}
+
+.press-teaser-thumbs img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-soft);
 }
 
-@media (min-width: 640px) {
-  .review-card {
-    flex-basis: 45%;
+@media (min-width: 768px) {
+  .press-teaser-thumbs img {
+    width: 104px;
+    height: 104px;
   }
-}
-
-@media (min-width: 1024px) {
-  .review-card {
-    flex-basis: 30%;
-  }
-}
-
-.review-card__stars {
-  color: var(--color-green);
-  font-size: 1.05rem;
-  letter-spacing: 0.1em;
-}
-
-.review-card__text {
-  flex-grow: 1;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: var(--color-ink);
-}
-
-.review-card__text::before {
-  content: "\201C";
-}
-
-.review-card__text::after {
-  content: "\201D";
-}
-
-.review-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.review-card__author {
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.review-card__source {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-ink-faint);
-}
-
-.reviews-showcase-controls {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
-}
-
-.reviews-showcase__arrow {
-  width: var(--tap-target);
-  height: var(--tap-target);
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  font-size: 1.4rem;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-ink);
-  transition: border-color var(--dur-fast), color var(--dur-fast);
-}
-
-.reviews-showcase__arrow:hover {
-  border-color: var(--color-green);
-  color: var(--color-green);
 }
 
 /* ==========================================================================

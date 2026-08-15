@@ -101,12 +101,11 @@ window.TRANSLATIONS = {
       errorMissing: "Por favor preencha todos os campos obrigatórios.",
       errorGeneric: "Não foi possível enviar a reserva. Tente novamente ou ligue-nos.",
     },
-    reviewsShowcase: {
-      eyebrow: "No Google",
-      title: "O Que Dizem os Nossos Clientes",
-      lede: "Algumas das avaliações mais recentes, direto do Google Maps.",
-      prevAria: "Avaliação anterior",
-      nextAria: "Avaliação seguinte",
+    pressTeaser: {
+      eyebrow: "Imprensa",
+      title: "Já Falaram de Nós",
+      lede: "Time Out Lisboa, Nit e outras publicações já escreveram sobre a Cultura do Hambúrguer.",
+      cta: "Ver Imprensa",
     },
     reviews: {
       eyebrow: "Avaliações",
@@ -264,12 +263,11 @@ window.TRANSLATIONS = {
       errorMissing: "Please fill in all required fields.",
       errorGeneric: "Couldn't send the reservation. Please try again or call us.",
     },
-    reviewsShowcase: {
-      eyebrow: "On Google",
-      title: "What Our Customers Say",
-      lede: "Some of the most recent reviews, straight from Google Maps.",
-      prevAria: "Previous review",
-      nextAria: "Next review",
+    pressTeaser: {
+      eyebrow: "Press",
+      title: "They've Written About Us",
+      lede: "Time Out Lisboa, Nit and other publications have already written about A Cultura do Hambúrguer.",
+      cta: "See Press",
     },
     reviews: {
       eyebrow: "Reviews",
@@ -427,12 +425,11 @@ window.TRANSLATIONS = {
       errorMissing: "Por favor complete todos los campos obligatorios.",
       errorGeneric: "No se pudo enviar la reserva. Intente de nuevo o llámenos.",
     },
-    reviewsShowcase: {
-      eyebrow: "En Google",
-      title: "Lo Que Dicen Nuestros Clientes",
-      lede: "Algunas de las reseñas más recientes, directamente de Google Maps.",
-      prevAria: "Reseña anterior",
-      nextAria: "Reseña siguiente",
+    pressTeaser: {
+      eyebrow: "Prensa",
+      title: "Ya Han Hablado de Nosotros",
+      lede: "Time Out Lisboa, Nit y otras publicaciones ya han escrito sobre A Cultura do Hambúrguer.",
+      cta: "Ver Prensa",
     },
     reviews: {
       eyebrow: "Reseñas",
@@ -591,12 +588,11 @@ window.TRANSLATIONS = {
       errorMissing: "Veuillez remplir tous les champs obligatoires.",
       errorGeneric: "Impossible d'envoyer la réservation. Veuillez réessayer ou nous appeler.",
     },
-    reviewsShowcase: {
-      eyebrow: "Sur Google",
-      title: "Ce Que Disent Nos Clients",
-      lede: "Quelques-uns des avis les plus récents, directement depuis Google Maps.",
-      prevAria: "Avis précédent",
-      nextAria: "Avis suivant",
+    pressTeaser: {
+      eyebrow: "Presse",
+      title: "Ils Ont Parlé de Nous",
+      lede: "Time Out Lisboa, Nit et d'autres publications ont déjà écrit sur A Cultura do Hambúrguer.",
+      cta: "Voir la Presse",
     },
     reviews: {
       eyebrow: "Avis",
