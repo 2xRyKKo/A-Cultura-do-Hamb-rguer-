@@ -107,6 +107,7 @@
         <a class="nav__link" href="#info" data-i18n="nav.linkInfo">Informação</a>
         <a class="nav__link" href="#reservations" data-i18n="nav.linkReservations">Reservas</a>
         <a class="nav__link" href="#reviews" data-i18n="nav.linkReviews">Avaliações</a>
+        <a class="nav__link" href="imprensa.html" data-i18n="nav.linkPress">Imprensa</a>
       </div>
       <div class="nav__right">
         <div class="lang-switch" id="lang-switch" data-open="false">
@@ -136,6 +137,7 @@
       <a class="nav-overlay__link" href="#info" data-i18n="nav.linkInfo">Informação</a>
       <a class="nav-overlay__link" href="#reservations" data-i18n="nav.linkReservations">Reservas</a>
       <a class="nav-overlay__link" href="#reviews" data-i18n="nav.linkReviews">Avaliações</a>
+      <a class="nav-overlay__link" href="imprensa.html" data-i18n="nav.linkPress">Imprensa</a>
     </nav>
   </div>
 
@@ -380,6 +382,24 @@
       </div>
     </section>
 
+    <!-- ===================== REVIEWS SHOWCASE (Google) ===================== -->
+    <section class="reviews-showcase-section" id="reviews-showcase" aria-labelledby="reviews-showcase-title">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow" data-i18n="reviewsShowcase.eyebrow">No Google</p>
+          <h2 class="section__title" id="reviews-showcase-title" data-i18n="reviewsShowcase.title">O que dizem os nossos clientes</h2>
+          <p class="section__lede" data-i18n="reviewsShowcase.lede">Algumas das avaliações mais recentes, direto do Google Maps.</p>
+        </div>
+      </div>
+      <div class="reviews-showcase-viewport">
+        <div class="reviews-showcase-track" id="reviews-showcase-track" role="list" aria-label="Avaliações de clientes no Google"></div>
+      </div>
+      <div class="container reviews-showcase-controls">
+        <button class="reviews-showcase__arrow" id="reviews-showcase-prev" type="button" data-i18n-attr='{"aria-label":"reviewsShowcase.prevAria"}' aria-label="Avaliação anterior">‹</button>
+        <button class="reviews-showcase__arrow" id="reviews-showcase-next" type="button" data-i18n-attr='{"aria-label":"reviewsShowcase.nextAria"}' aria-label="Avaliação seguinte">›</button>
+      </div>
+    </section>
+
     <!-- ============================ REVIEWS ============================ -->
     <section class="reviews-section" id="reviews" aria-labelledby="reviews-title">
       <div class="container">
@@ -480,9 +500,11 @@
   <script src="js/i18n/translations.js" defer></script>
   <script src="js/i18n/i18n.js" defer></script>
   <script src="js/data/menu-data.js" defer></script>
+  <script src="js/data/reviews-data.js" defer></script>
   <script src="js/table-session.js" defer></script>
   <script src="js/analytics.js" defer></script>
   <script src="js/menu-render.js" defer></script>
+  <script src="js/reviews-render.js" defer></script>
   <script src="js/my-order.js" defer></script>
   <script src="js/reservations.js" defer></script>
   <script src="js/nav.js" defer></script>
