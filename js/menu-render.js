@@ -144,6 +144,13 @@
           if (other !== details && other.open) other.open = false;
         });
       }
+      // Opening/closing a category changes the page's height, which shifts
+      // where every section below it (Onde Estamos included) actually sits.
+      // GSAP's scroll-reveal trigger points are computed once and don't
+      // know about this on their own — without a refresh they stay stale,
+      // so a section can fire its reveal too early/late, or need extra
+      // scrolling to appear at all.
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
     });
 
     return details;
@@ -217,6 +224,10 @@
     // that same scroll position, landing mid-way (or past the end) of the
     // new content instead of seeing it from the top.
     if (groupsEl) groupsEl.scrollIntoView({ block: "start" });
+    // Same reasoning as the accordion toggle above: the new content is very
+    // likely a different height, so any scroll-reveal trigger below this
+    // point needs its cached position recalculated.
+    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
   }
 
   function observeItems() {

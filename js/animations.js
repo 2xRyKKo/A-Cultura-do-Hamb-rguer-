@@ -246,6 +246,18 @@
     fadeInOnce(".info-grid");
     initReviewsRevealAnimation();
     initNav();
+
+    // Self-hosted display/body fonts use font-display: swap — text first
+    // renders in a fallback font, then reflows once the real font is ready.
+    // Every ScrollTrigger position below was computed against that
+    // fallback-font layout; refreshing once the swap actually happens keeps
+    // "Onde Estamos" (and everything else) revealing at the right scroll
+    // point instead of one that was correct for a slightly shorter/taller page.
+    if (hasGsap && document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        window.ScrollTrigger.refresh();
+      });
+    }
   }
 
   document.addEventListener("DOMContentLoaded", initAll);
