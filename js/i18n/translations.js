@@ -51,6 +51,11 @@ window.TRANSLATIONS = {
         "Todos os nossos produtos são frescos e feitos no dia, desde o corte dos legumes ao moer da carne. IVA incluído à taxa legal em vigor (13% e 23%, DL 10/2015).",
       addToOrder: "Adicionar a Meu Pedido",
     },
+    personalizePrompt: {
+      title: "Queres personalizar o teu {item} antes de adicionar?",
+      customize: "Personalizar",
+      confirm: "Confirmar Pedido",
+    },
     myorder: {
       fabLabel: "Meu Pedido",
       title: "O seu pedido",
@@ -217,6 +222,11 @@ window.TRANSLATIONS = {
       footnote:
         "All our products are fresh and made on the day, from cutting the vegetables to grinding the meat. VAT included at the legal rate in force (13% and 23%, DL 10/2015).",
       addToOrder: "Add to My Order",
+    },
+    personalizePrompt: {
+      title: "Want to personalize your {item} before adding it?",
+      customize: "Personalize",
+      confirm: "Confirm Order",
     },
     myorder: {
       fabLabel: "My Order",
@@ -385,6 +395,11 @@ window.TRANSLATIONS = {
         "Todos nuestros productos son frescos y hechos al día, desde cortar las verduras hasta moler la carne. IVA incluido según la tasa legal vigente (13% y 23%, DL 10/2015).",
       addToOrder: "Añadir a Mi Pedido",
     },
+    personalizePrompt: {
+      title: "¿Quieres personalizar tu {item} antes de añadirlo?",
+      customize: "Personalizar",
+      confirm: "Confirmar Pedido",
+    },
     myorder: {
       fabLabel: "Mi Pedido",
       title: "Su pedido",
@@ -552,6 +567,11 @@ window.TRANSLATIONS = {
       footnote:
         "Tous nos produits sont frais et préparés le jour même, de la découpe des légumes au hachage de la viande. TVA incluse au taux légal en vigueur (13% et 23%, DL 10/2015).",
       addToOrder: "Ajouter à Ma Commande",
+    },
+    personalizePrompt: {
+      title: "Veux-tu personnaliser ton {item} avant de l'ajouter ?",
+      customize: "Personnaliser",
+      confirm: "Confirmer la Commande",
     },
     myorder: {
       fabLabel: "Ma Commande",

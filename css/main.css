@@ -1755,6 +1755,55 @@
 }
 
 /* ==========================================================================
+   PERSONALIZE-BEFORE-ADD PROMPT — a true modal (unlike the rating toast
+   below): asks every time a personalizable item is added, deliberately,
+   so the visitor never adds one without being asked at least once.
+   ========================================================================== */
+.personalize-prompt {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+}
+
+.personalize-prompt[data-open="true"] {
+  display: flex;
+}
+
+.personalize-prompt__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 19, 15, 0.5);
+}
+
+.personalize-prompt__panel {
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+
+.personalize-prompt__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.personalize-prompt__actions {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* ==========================================================================
    RATING TOAST — small, dismissible, non-modal. Shows once per session at
    the same moment the Reviews section reveals itself (reuses the
    `reviewsRevealed` event from reviews-gate.js, no separate timer). Never

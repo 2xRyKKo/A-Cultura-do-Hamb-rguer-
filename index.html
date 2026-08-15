@@ -465,6 +465,18 @@
     </div>
   </div>
 
+  <!-- ==================== PERSONALIZE-BEFORE-ADD PROMPT ==================== -->
+  <div class="personalize-prompt" id="personalize-prompt" data-open="false" role="dialog" aria-modal="true" aria-labelledby="personalize-prompt-title">
+    <div class="personalize-prompt__backdrop" id="personalize-prompt-backdrop"></div>
+    <div class="personalize-prompt__panel">
+      <p class="personalize-prompt__title" id="personalize-prompt-title"></p>
+      <div class="personalize-prompt__actions">
+        <button class="btn btn--primary" type="button" id="personalize-prompt-customize" data-i18n="personalizePrompt.customize">Personalizar</button>
+        <button class="btn btn--ghost" type="button" id="personalize-prompt-confirm" data-i18n="personalizePrompt.confirm">Confirmar Pedido</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ========================== RATING TOAST ========================== -->
   <div class="rating-toast" id="rating-toast" data-open="false" data-step="rate" role="dialog" aria-labelledby="rating-toast-prompt">
     <button class="rating-toast__dismiss" id="rating-toast-dismiss" type="button" data-i18n-attr='{"aria-label":"ratingToast.dismiss"}' aria-label="Fechar">✕</button>
@@ -505,6 +517,7 @@
   <script src="js/analytics.js" defer></script>
   <script src="js/menu-render.js" defer></script>
   <script src="js/my-order.js" defer></script>
+  <script src="js/personalize-prompt.js" defer></script>
   <script src="js/reservations.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/reviews-gate.js" defer></script>

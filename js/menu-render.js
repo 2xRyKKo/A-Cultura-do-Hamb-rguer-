@@ -130,12 +130,15 @@
     var panel = el("div", "menu-item__personalize-panel");
     panel.setAttribute("data-open", isOpenState ? "true" : "false");
 
-    toggle.addEventListener("click", function () {
-      var nowOpen = !expandedPersonalize[item.id];
+    function setOpen(nowOpen) {
       expandedPersonalize[item.id] = nowOpen;
       toggle.setAttribute("aria-expanded", nowOpen ? "true" : "false");
       panel.setAttribute("data-open", nowOpen ? "true" : "false");
       if (nowOpen) track("item_personalize_open", { item: item.id });
+    }
+
+    toggle.addEventListener("click", function () {
+      setOpen(!expandedPersonalize[item.id]);
     });
     wrap.appendChild(toggle);
 
@@ -144,6 +147,12 @@
       panel.appendChild(buildIngredientRow(item, index, ingredient));
     });
     wrap.appendChild(panel);
+
+    // Exposed so the "add without customizing?" prompt can force this open
+    // when the visitor picks "Personalizar" instead of confirming as-is.
+    wrap.openPanel = function () {
+      setOpen(true);
+    };
 
     return wrap;
   }
@@ -228,7 +237,23 @@
     addBtn.textContent = "+";
     addBtn.setAttribute("aria-label", t("menu.addToOrder") + ": " + item.name);
     addBtn.addEventListener("click", function () {
-      if (window.ACHB_MYORDER) window.ACHB_MYORDER.addItem(item.id);
+      if (!window.ACHB_MYORDER) return;
+      // Personalizable items always confirm first — the owner wants every
+      // add of one of these to ask, not just the first time.
+      if (item.ingredients && item.ingredients.length && window.ACHB_PERSONALIZE_PROMPT) {
+        window.ACHB_PERSONALIZE_PROMPT.open(
+          item.name,
+          function () {
+            if (personalizeEl && personalizeEl.openPanel) personalizeEl.openPanel();
+            row.scrollIntoView({ block: "center" });
+          },
+          function () {
+            window.ACHB_MYORDER.addItem(item.id);
+          }
+        );
+        return;
+      }
+      window.ACHB_MYORDER.addItem(item.id);
     });
     side.appendChild(addBtn);
 
