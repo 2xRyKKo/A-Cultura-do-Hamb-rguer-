@@ -252,13 +252,17 @@
     });
   }
 
-  function selectTable(n) {
+  function selectTable(n, scrollIntoView) {
     selectedTable = n;
     if (!tablePickerEl) return;
     tablePickerEl.querySelectorAll("[data-table]").forEach(function (btn) {
       var isSelected = parseInt(btn.getAttribute("data-table"), 10) === n;
       btn.setAttribute("aria-checked", isSelected ? "true" : "false");
       btn.setAttribute("data-selected", isSelected ? "true" : "false");
+      // A table pre-filled from the NFC tag could be scrolled out of view
+      // in the swipeable strip — bring it into view so it's clear it's
+      // already picked, rather than looking unselected.
+      if (isSelected && scrollIntoView) btn.scrollIntoView({ block: "nearest", inline: "center" });
     });
   }
 
@@ -282,7 +286,7 @@
     }
 
     var fromTag = parseInt(window.ACHB_TABLE, 10);
-    if (fromTag && fromTag >= 1 && fromTag <= MAX_TABLE_NUMBER) selectTable(fromTag);
+    if (fromTag && fromTag >= 1 && fromTag <= MAX_TABLE_NUMBER) selectTable(fromTag, true);
   }
 
   function submitOrder() {
