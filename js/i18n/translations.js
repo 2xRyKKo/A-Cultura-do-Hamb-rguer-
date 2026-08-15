@@ -44,6 +44,9 @@ window.TRANSLATIONS = {
       title: "Cardápio Completo",
       lede: "Consulte, compare, decida — e mostre a sua escolha ao empregado.",
       allergensNote: "Informação sobre alergénios: a confirmar.",
+      personalize: "Personalizar",
+      ingredientsHeading: "Ingredientes",
+      required: "Obrigatório",
       footnote:
         "Todos os nossos produtos são frescos e feitos no dia, desde o corte dos legumes ao moer da carne. IVA incluído à taxa legal em vigor (13% e 23%, DL 10/2015).",
       addToOrder: "Adicionar a Meu Pedido",
@@ -64,7 +67,9 @@ window.TRANSLATIONS = {
       sending: "A enviar...",
       success: "Pedido enviado! O empregado já vai ter isto.",
       errorMissingTable: "Por favor indique a sua mesa.",
-      ingredientsToggle: "Remover Ingredientes",
+      excludedCountOne: "1 ingrediente removido",
+      excludedCountMany: "{n} ingredientes removidos",
+      withoutLabel: "Sem:",
       errorGeneric: "Não foi possível enviar. Tente novamente.",
     },
     info: {
@@ -206,6 +211,9 @@ window.TRANSLATIONS = {
       title: "Full Menu",
       lede: "Browse, compare, decide — then show your pick to your server.",
       allergensNote: "Allergen information: to be confirmed.",
+      personalize: "Personalize",
+      ingredientsHeading: "Ingredients",
+      required: "Required",
       footnote:
         "All our products are fresh and made on the day, from cutting the vegetables to grinding the meat. VAT included at the legal rate in force (13% and 23%, DL 10/2015).",
       addToOrder: "Add to My Order",
@@ -226,7 +234,9 @@ window.TRANSLATIONS = {
       sending: "Sending...",
       success: "Order sent! Your server has it now.",
       errorMissingTable: "Please enter your table.",
-      ingredientsToggle: "Remove Ingredients",
+      excludedCountOne: "1 ingredient removed",
+      excludedCountMany: "{n} ingredients removed",
+      withoutLabel: "Without:",
       errorGeneric: "Couldn't send it. Please try again.",
     },
     info: {
@@ -368,6 +378,9 @@ window.TRANSLATIONS = {
       title: "Menú Completo",
       lede: "Consulta, compara, decide — y muestra tu elección al camarero.",
       allergensNote: "Información sobre alérgenos: por confirmar.",
+      personalize: "Personalizar",
+      ingredientsHeading: "Ingredientes",
+      required: "Obligatorio",
       footnote:
         "Todos nuestros productos son frescos y hechos al día, desde cortar las verduras hasta moler la carne. IVA incluido según la tasa legal vigente (13% y 23%, DL 10/2015).",
       addToOrder: "Añadir a Mi Pedido",
@@ -388,7 +401,9 @@ window.TRANSLATIONS = {
       sending: "Enviando...",
       success: "¡Pedido enviado! Su camarero ya lo tiene.",
       errorMissingTable: "Por favor indique su mesa.",
-      ingredientsToggle: "Quitar Ingredientes",
+      excludedCountOne: "1 ingrediente eliminado",
+      excludedCountMany: "{n} ingredientes eliminados",
+      withoutLabel: "Sin:",
       errorGeneric: "No se pudo enviar. Intente de nuevo.",
     },
     info: {
@@ -531,6 +546,9 @@ window.TRANSLATIONS = {
       title: "Menu Complet",
       lede: "Consultez, comparez, décidez — et montrez votre choix au serveur.",
       allergensNote: "Informations sur les allergènes : à confirmer.",
+      personalize: "Personnaliser",
+      ingredientsHeading: "Ingrédients",
+      required: "Obligatoire",
       footnote:
         "Tous nos produits sont frais et préparés le jour même, de la découpe des légumes au hachage de la viande. TVA incluse au taux légal en vigueur (13% et 23%, DL 10/2015).",
       addToOrder: "Ajouter à Ma Commande",
@@ -551,7 +569,9 @@ window.TRANSLATIONS = {
       sending: "Envoi en cours...",
       success: "Commande envoyée ! Votre serveur l'a déjà.",
       errorMissingTable: "Veuillez indiquer votre table.",
-      ingredientsToggle: "Retirer des Ingrédients",
+      excludedCountOne: "1 ingrédient retiré",
+      excludedCountMany: "{n} ingrédients retirés",
+      withoutLabel: "Sans :",
       errorGeneric: "Impossible d'envoyer. Veuillez réessayer.",
     },
     info: {

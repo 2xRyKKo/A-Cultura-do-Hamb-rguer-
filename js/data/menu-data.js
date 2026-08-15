@@ -68,6 +68,14 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con queso cheddar, tomate, lechuga, mayonesa de ajo",
           fr: "Pain burger, steak haché avec fromage cheddar, tomate, laitue, mayonnaise à l'ail",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Cheddar", en: "cheddar cheese", es: "queso cheddar", fr: "fromage cheddar" } },
+          { required: false, name: { pt: "Tomate", en: "tomato", es: "tomate", fr: "tomate" } },
+          { required: false, name: { pt: "Alface", en: "lettuce", es: "lechuga", fr: "laitue" } },
+          { required: false, name: { pt: "Maionese de Alho", en: "garlic mayo", es: "mayonesa de ajo", fr: "mayonnaise à l'ail" } },
+        ],
         allergens: null,
       },
       {
@@ -81,6 +89,15 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con queso manchego, bacon crujiente, cebolla caramelizada, tomate, mayonesa de albahaca",
           fr: "Pain burger, steak haché avec fromage manchego, bacon croustillant, oignon caramélisé, tomate, mayonnaise au basilic",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Manchego", en: "manchego cheese", es: "queso manchego", fr: "fromage manchego" } },
+          { required: false, name: { pt: "Bacon Crocante", en: "crispy bacon", es: "bacon crujiente", fr: "bacon croustillant" } },
+          { required: false, name: { pt: "Cebola Caramelizada", en: "caramelized onion", es: "cebolla caramelizada", fr: "oignon caramélisé" } },
+          { required: false, name: { pt: "Tomate", en: "tomato", es: "tomate", fr: "tomate" } },
+          { required: false, name: { pt: "Maionese de Manjericão", en: "basil mayo", es: "mayonesa de albahaca", fr: "mayonnaise au basilic" } },
+        ],
         allergens: null,
       },
       {
@@ -93,6 +110,15 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con queso emmental, tomate cherry asado, bacon frito, sour cream, piña",
           fr: "Pain burger, steak haché avec fromage emmental, tomate cerise rôtie, bacon frit, sour cream, ananas",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Emmental", en: "emmental cheese", es: "queso emmental", fr: "fromage emmental" } },
+          { required: false, name: { pt: "Tomate Cherry Assado", en: "roasted cherry tomato", es: "tomate cherry asado", fr: "tomate cerise rôtie" } },
+          { required: false, name: { pt: "Bacon Frito", en: "fried bacon", es: "bacon frito", fr: "bacon frit" } },
+          { required: false, name: { pt: "Sour Cream", en: "sour cream", es: "sour cream", fr: "sour cream" } },
+          { required: false, name: { pt: "Ananás", en: "pineapple", es: "piña", fr: "ananas" } },
+        ],
         allergens: null,
       },
       {
@@ -105,6 +131,16 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con queso gorgonzola, salami picante, cebolla confitada, berro, tomate, salsa tártara",
           fr: "Pain burger, steak haché avec fromage gorgonzola, salami épicé, oignon confit, cresson, tomate, sauce tartare",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Gorgonzola", en: "gorgonzola cheese", es: "queso gorgonzola", fr: "fromage gorgonzola" } },
+          { required: false, name: { pt: "Salame Picante", en: "spicy salami", es: "salami picante", fr: "salami épicé" } },
+          { required: false, name: { pt: "Cebola Confitada", en: "confit onion", es: "cebolla confitada", fr: "oignon confit" } },
+          { required: false, name: { pt: "Agrião", en: "watercress", es: "berro", fr: "cresson" } },
+          { required: false, name: { pt: "Tomate", en: "tomato", es: "tomate", fr: "tomate" } },
+          { required: false, name: { pt: "Molho Tártaro", en: "tartar sauce", es: "salsa tártara", fr: "sauce tartare" } },
+        ],
         allergens: null,
       },
       {
@@ -117,6 +153,16 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con mayonesa de aguacate, cebolla morada, cebolla cruda, jamón curado frito, pimientos rojos asados, salsa tártara",
           fr: "Pain burger, steak haché avec mayonnaise à l'avocat, oignon rouge, oignon cru, jambon fumé frit, poivrons rouges rôtis, sauce tartare",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Maionese de Abacate", en: "avocado mayo", es: "mayonesa de aguacate", fr: "mayonnaise à l'avocat" } },
+          { required: false, name: { pt: "Cebola Roxa", en: "red onion", es: "cebolla morada", fr: "oignon rouge" } },
+          { required: false, name: { pt: "Cebola Crua", en: "raw onion", es: "cebolla cruda", fr: "oignon cru" } },
+          { required: false, name: { pt: "Presunto Frito", en: "fried cured ham", es: "jamón curado frito", fr: "jambon fumé frit" } },
+          { required: false, name: { pt: "Pimentos Vermelhos Assados", en: "roasted red peppers", es: "pimientos rojos asados", fr: "poivrons rouges rôtis" } },
+          { required: false, name: { pt: "Molho Tártaro", en: "tartar sauce", es: "salsa tártara", fr: "sauce tartare" } },
+        ],
         allergens: null,
       },
       {
@@ -129,6 +175,17 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con queso cheddar, huevo frito, jamón curado, champiñones, tomate, lechuga, mayonesa",
           fr: "Pain burger, steak haché avec fromage cheddar, œuf au plat, jambon fumé, champignons, tomate, laitue, mayonnaise",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Cheddar", en: "cheddar cheese", es: "queso cheddar", fr: "fromage cheddar" } },
+          { required: false, name: { pt: "Ovo Estrelado", en: "fried egg", es: "huevo frito", fr: "œuf au plat" } },
+          { required: false, name: { pt: "Presunto", en: "cured ham", es: "jamón curado", fr: "jambon fumé" } },
+          { required: false, name: { pt: "Cogumelos", en: "mushrooms", es: "champiñones", fr: "champignons" } },
+          { required: false, name: { pt: "Tomate", en: "tomato", es: "tomate", fr: "tomate" } },
+          { required: false, name: { pt: "Alface", en: "lettuce", es: "lechuga", fr: "laitue" } },
+          { required: false, name: { pt: "Maionese", en: "mayo", es: "mayonesa", fr: "mayonnaise" } },
+        ],
         allergens: null,
       },
       {
@@ -141,6 +198,25 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa de remolacha, frijoles negros y arroz, queso cheddar, lechuga iceberg, mayonesa de ajo",
           fr: "Pain burger, steak de betterave, haricots noirs et riz, fromage cheddar, laitue iceberg, mayonnaise à l'ail",
         },
+        // The veggie patty itself is beetroot + black beans + rice (two
+        // comma segments in the source description) — kept together as one
+        // required entry since they're the patty's own composition, not
+        // separable toppings.
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          {
+            required: true,
+            name: {
+              pt: "Hambúrguer de Beterraba, Feijão Preto e Arroz",
+              en: "beetroot patty, black beans and rice",
+              es: "hamburguesa de remolacha, frijoles negros y arroz",
+              fr: "steak de betterave, haricots noirs et riz",
+            },
+          },
+          { required: false, name: { pt: "Queijo Cheddar", en: "cheddar cheese", es: "queso cheddar", fr: "fromage cheddar" } },
+          { required: false, name: { pt: "Alface Iceberg", en: "iceberg lettuce", es: "lechuga iceberg", fr: "laitue iceberg" } },
+          { required: false, name: { pt: "Maionese de Alho", en: "garlic mayo", es: "mayonesa de ajo", fr: "mayonnaise à l'ail" } },
+        ],
         allergens: null,
       },
       {
@@ -153,6 +229,16 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa, hamburguesa con chorizo picante, queso da Serra, huevo frito, cebolla confitada, berro, mayonesa de pimientos rojos",
           fr: "Pain burger, steak haché avec chorizo et piment, fromage da Serra, œuf au plat, oignon confit, cresson, mayonnaise au poivron rouge",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer", en: "Burger bun", es: "Pan de hamburguesa", fr: "Pain burger" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Chouriço e Malagueta", en: "spicy chorizo", es: "chorizo picante", fr: "chorizo et piment" } },
+          { required: false, name: { pt: "Queijo da Serra", en: "Serra cheese", es: "queso da Serra", fr: "fromage da Serra" } },
+          { required: false, name: { pt: "Ovo Estrelado", en: "fried egg", es: "huevo frito", fr: "œuf au plat" } },
+          { required: false, name: { pt: "Cebola Confitada", en: "confit onion", es: "cebolla confitada", fr: "oignon confit" } },
+          { required: false, name: { pt: "Agrião", en: "watercress", es: "berro", fr: "cresson" } },
+          { required: false, name: { pt: "Maionese de Pimentos Vermelhos", en: "red pepper mayo", es: "mayonesa de pimientos rojos", fr: "mayonnaise au poivron rouge" } },
+        ],
         allergens: null,
       },
       {
@@ -165,6 +251,16 @@ window.MENU_DATA = [
           es: "Pan de hamburguesa brioche, hamburguesa con queso emmental, col morada, cebolla morada frita, bacon fino, salsa tártara, pepinillos",
           fr: "Pain burger brioché, steak haché avec fromage emmental, chou rouge, oignon rouge frit, bacon fin, sauce tartare, cornichons",
         },
+        ingredients: [
+          { required: true, name: { pt: "Pão de Hambúrguer Brioche", en: "Brioche burger bun", es: "Pan de hamburguesa brioche", fr: "Pain burger brioché" } },
+          { required: true, name: { pt: "Hambúrguer", en: "beef patty", es: "hamburguesa", fr: "steak haché" } },
+          { required: false, name: { pt: "Queijo Emmental", en: "emmental cheese", es: "queso emmental", fr: "fromage emmental" } },
+          { required: false, name: { pt: "Couve Roxa", en: "red cabbage", es: "col morada", fr: "chou rouge" } },
+          { required: false, name: { pt: "Cebola Roxa Frita", en: "fried red onion", es: "cebolla morada frita", fr: "oignon rouge frit" } },
+          { required: false, name: { pt: "Bacon Fino", en: "thin-cut bacon", es: "bacon fino", fr: "bacon fin" } },
+          { required: false, name: { pt: "Molho Tártaro", en: "tartar sauce", es: "salsa tártara", fr: "sauce tartare" } },
+          { required: false, name: { pt: "Picles", en: "pickles", es: "pepinillos", fr: "cornichons" } },
+        ],
         allergens: null,
       },
       {
@@ -189,6 +285,15 @@ window.MENU_DATA = [
           es: "Sin patatas fritas. 100g de carne de ternera smashed, pan de hamburguesa brioche, salsa especial, queso cheddar, aguacate, cebolla, bacon",
           fr: "Sans frites. 100g de bœuf de génisse smashed, pain burger brioché, sauce spéciale, fromage cheddar, avocat, oignon, bacon",
         },
+        ingredients: [
+          { required: true, name: { pt: "100g de Carne de Vaca de Novilho Smashed", en: "100g smashed young-beef patty", es: "100g de carne de ternera smashed", fr: "100g de bœuf de génisse smashed" } },
+          { required: true, name: { pt: "Pão de Hambúrguer Brioche", en: "brioche burger bun", es: "pan de hamburguesa brioche", fr: "pain burger brioché" } },
+          { required: false, name: { pt: "Molho Especial", en: "special sauce", es: "salsa especial", fr: "sauce spéciale" } },
+          { required: false, name: { pt: "Queijo Cheddar", en: "cheddar cheese", es: "queso cheddar", fr: "fromage cheddar" } },
+          { required: false, name: { pt: "Abacate", en: "avocado", es: "aguacate", fr: "avocat" } },
+          { required: false, name: { pt: "Cebola", en: "onion", es: "cebolla", fr: "oignon" } },
+          { required: false, name: { pt: "Bacon", en: "bacon", es: "bacon", fr: "bacon" } },
+        ],
         allergens: null,
       },
     ],

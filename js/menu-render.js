@@ -7,6 +7,11 @@
   var viewedItems = {};
   var activeGroupId = null;
 
+  // Which items currently have their "Personalizar" panel open — kept
+  // outside the DOM so it survives the full re-render that a language
+  // switch or theme-tab change triggers elsewhere in this file.
+  var expandedPersonalize = {};
+
   function t(key) {
     return window.ACHB_I18N ? window.ACHB_I18N.t(key) : key;
   }
@@ -59,6 +64,89 @@
     return null;
   }
 
+  // Required ingredients (bun, patty) render locked and never get a click
+  // handler at all — there is no code path that can remove them.
+  function buildIngredientRow(item, index, ingredient) {
+    if (ingredient.required) {
+      var lockRow = el("div", "menu-ingredient-row menu-ingredient-row--required");
+      lockRow.appendChild(textEl("span", "menu-ingredient-row__icon", "🔒"));
+      lockRow.appendChild(textEl("span", "menu-ingredient-row__name", tf(ingredient.name)));
+      lockRow.appendChild(textEl("span", "menu-ingredient-row__badge", t("menu.required")));
+      return lockRow;
+    }
+
+    var isExcluded = window.ACHB_MYORDER ? window.ACHB_MYORDER.getExclusions(item.id).indexOf(index) !== -1 : false;
+
+    var btn = el("button", "menu-ingredient-row");
+    btn.type = "button";
+    btn.setAttribute("aria-pressed", isExcluded ? "false" : "true");
+    btn.setAttribute("data-excluded", isExcluded ? "true" : "false");
+
+    var check = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    check.setAttribute("class", "menu-ingredient-row__check");
+    check.setAttribute("width", "20");
+    check.setAttribute("height", "20");
+    check.setAttribute("viewBox", "0 0 24 24");
+    check.setAttribute("fill", "none");
+    check.setAttribute("aria-hidden", "true");
+    check.innerHTML =
+      '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path class="menu-ingredient-row__checkmark" d="M8 12.3l2.6 2.6L16.2 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+    btn.appendChild(check);
+    btn.appendChild(textEl("span", "menu-ingredient-row__name", tf(ingredient.name)));
+
+    btn.addEventListener("click", function () {
+      if (!window.ACHB_MYORDER) return;
+      window.ACHB_MYORDER.toggleIngredient(item.id, index);
+      var nowExcluded = window.ACHB_MYORDER.getExclusions(item.id).indexOf(index) !== -1;
+      btn.setAttribute("aria-pressed", nowExcluded ? "false" : "true");
+      btn.setAttribute("data-excluded", nowExcluded ? "true" : "false");
+    });
+
+    return btn;
+  }
+
+  function buildPersonalize(item) {
+    if (!item.ingredients || !item.ingredients.length) return null;
+
+    var isOpenState = !!expandedPersonalize[item.id];
+
+    var wrap = el("div", "menu-item__personalize");
+
+    var toggle = el("button", "menu-item__personalize-toggle");
+    toggle.type = "button";
+    toggle.setAttribute("aria-expanded", isOpenState ? "true" : "false");
+    toggle.appendChild(textEl("span", null, t("menu.personalize")));
+    var chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    chevron.setAttribute("class", "menu-item__personalize-chevron");
+    chevron.setAttribute("width", "16");
+    chevron.setAttribute("height", "16");
+    chevron.setAttribute("viewBox", "0 0 24 24");
+    chevron.setAttribute("fill", "none");
+    chevron.setAttribute("aria-hidden", "true");
+    chevron.innerHTML = '<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    toggle.appendChild(chevron);
+
+    var panel = el("div", "menu-item__personalize-panel");
+    panel.setAttribute("data-open", isOpenState ? "true" : "false");
+
+    toggle.addEventListener("click", function () {
+      var nowOpen = !expandedPersonalize[item.id];
+      expandedPersonalize[item.id] = nowOpen;
+      toggle.setAttribute("aria-expanded", nowOpen ? "true" : "false");
+      panel.setAttribute("data-open", nowOpen ? "true" : "false");
+      if (nowOpen) track("item_personalize_open", { item: item.id });
+    });
+    wrap.appendChild(toggle);
+
+    panel.appendChild(textEl("p", "menu-item__personalize-heading", t("menu.ingredientsHeading")));
+    item.ingredients.forEach(function (ingredient, index) {
+      panel.appendChild(buildIngredientRow(item, index, ingredient));
+    });
+    wrap.appendChild(panel);
+
+    return wrap;
+  }
+
   function buildItem(item) {
     var main = el("div", "menu-item__main");
 
@@ -81,6 +169,9 @@
     // Allergen info is shown once near the top of the Menu section (see
     // index.html), not repeated per item — the schema keeps `allergens`
     // ready for real per-item data once the restaurant supplies it.
+
+    var personalizeEl = buildPersonalize(item);
+    if (personalizeEl) main.appendChild(personalizeEl);
 
     var side = el("div", "menu-item__side");
     var priceBlock = buildPriceBlock(item);

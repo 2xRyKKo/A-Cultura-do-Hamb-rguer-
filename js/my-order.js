@@ -2,30 +2,24 @@
   "use strict";
 
   var STORAGE_KEY = "achb.myOrder";
-  // { itemId: { qty: number, excluded: [ingredientIndex, ...] } }
-  var state = {};
+  // { qty: { itemId: number }, exclusions: { itemId: [ingredientIndex, ...] } }
+  // qty and exclusions are independent on purpose: customization can be set
+  // from the menu card before an item is ever added, and stays put across
+  // qty changes — increasing quantity of the same item never splits it into
+  // separate differently-customized lines.
+  var qty = {};
+  var exclusions = {};
   var isOpen = false;
   var lastFocusedEl = null;
 
-  // Only real composed dishes get an ingredient breakdown — "Maionese
-  // Extra" also lives in the Comida group but its description lists
-  // flavour *choices*, not ingredients to strip from a dish, so it's
-  // deliberately left out here.
-  var INGREDIENT_CATEGORY_IDS = ["petiscos", "hamburgueres", "smash-burger", "pregos", "saladas", "sobremesas"];
-
-  // Which item rows currently have their ingredient panel open — kept
-  // outside `state` (not persisted) since it's just a UI expand/collapse,
-  // re-applied across the re-renders that toggling a chip triggers.
-  var expandedIngredients = {};
+  var fabEl, fabCountEl, drawerEl, backdropEl, listEl, emptyEl, liveRegionEl, titleEl;
+  var submitBlockEl, tablePickerEl, notesInputEl, submitBtnEl, submitStatusEl;
 
   // No confirmed real table count for this restaurant (see project notes) —
   // 30 mirrors the reservation form's own party-size cap already used
   // elsewhere on this site, generous enough not to block a real table.
   var MAX_TABLE_NUMBER = 30;
   var selectedTable = null;
-
-  var fabEl, fabCountEl, drawerEl, backdropEl, listEl, emptyEl, liveRegionEl, titleEl;
-  var submitBlockEl, tablePickerEl, notesInputEl, submitBtnEl, submitStatusEl;
 
   function t(key) {
     return window.ACHB_I18N ? window.ACHB_I18N.t(key) : key;
@@ -43,26 +37,27 @@
     try {
       var raw = window.sessionStorage.getItem(STORAGE_KEY);
       var parsed = raw ? JSON.parse(raw) : {};
-      state = {};
-      Object.keys(parsed || {}).forEach(function (id) {
-        var entry = parsed[id];
-        // Normalize the old { itemId: qty } shape from before per-ingredient
-        // customization existed, so a session started before this change
-        // doesn't break on load.
-        if (typeof entry === "number") {
-          state[id] = { qty: entry, excluded: [] };
-        } else if (entry && typeof entry.qty === "number") {
-          state[id] = { qty: entry.qty, excluded: entry.excluded || [] };
-        }
-      });
+      qty = {};
+      exclusions = {};
+      if (parsed && parsed.qty && typeof parsed.qty === "object") {
+        Object.keys(parsed.qty).forEach(function (id) {
+          if (typeof parsed.qty[id] === "number" && parsed.qty[id] > 0) qty[id] = parsed.qty[id];
+        });
+      }
+      if (parsed && parsed.exclusions && typeof parsed.exclusions === "object") {
+        Object.keys(parsed.exclusions).forEach(function (id) {
+          if (Array.isArray(parsed.exclusions[id])) exclusions[id] = parsed.exclusions[id];
+        });
+      }
     } catch (e) {
-      state = {};
+      qty = {};
+      exclusions = {};
     }
   }
 
   function saveState() {
     try {
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ qty: qty, exclusions: exclusions }));
     } catch (e) {
       /* sessionStorage unavailable — selection just won't persist across a reload */
     }
@@ -79,68 +74,50 @@
     return null;
   }
 
-  function findCategoryId(itemId) {
-    var data = window.MENU_DATA || [];
-    for (var i = 0; i < data.length; i++) {
-      var items = data[i].items || [];
-      for (var j = 0; j < items.length; j++) {
-        if (items[j].id === itemId) return data[i].id;
-      }
-    }
-    return null;
+  function getExclusions(itemId) {
+    return exclusions[itemId] || [];
   }
 
-  // Descriptions are already real comma-separated ingredient lists (see
-  // menu-data.js) — reused here instead of duplicating the same data in a
-  // second place. Only items with more than 2 parts get the breakdown.
-  function getIngredients(item, categoryId) {
-    if (INGREDIENT_CATEGORY_IDS.indexOf(categoryId) === -1) return null;
-    var desc = tf(item.description);
-    if (!desc) return null;
-    var parts = desc
-      .split(",")
-      .map(function (s) {
-        return s.trim();
-      })
-      .filter(Boolean);
-    return parts.length > 2 ? parts : null;
+  function toggleIngredient(itemId, index) {
+    var item = findItem(itemId);
+    var ingredient = item && item.ingredients ? item.ingredients[index] : null;
+    // Defense in depth: the UI never wires up a click for a required
+    // ingredient (bun/patty), but this guard makes it impossible to remove
+    // one even if called some other way.
+    if (!ingredient || ingredient.required) return;
+
+    var list = exclusions[itemId] ? exclusions[itemId].slice() : [];
+    var pos = list.indexOf(index);
+    if (pos === -1) list.push(index);
+    else list.splice(pos, 1);
+    exclusions[itemId] = list;
+    saveState();
+    track("order_ingredient_toggled", { item: itemId, index: index, excluded: pos === -1 });
+    render();
   }
 
   function totalCount() {
-    return Object.keys(state).reduce(function (sum, id) {
-      return sum + state[id].qty;
+    return Object.keys(qty).reduce(function (sum, id) {
+      return sum + qty[id];
     }, 0);
   }
 
   function addItem(itemId) {
-    var entry = state[itemId] || { qty: 0, excluded: [] };
-    entry.qty += 1;
-    state[itemId] = entry;
+    qty[itemId] = (qty[itemId] || 0) + 1;
     saveState();
-    track("order_item_added", { item: itemId, qty: entry.qty });
+    track("order_item_added", { item: itemId, qty: qty[itemId] });
     render();
     announce();
   }
 
   function decrementItem(itemId) {
-    if (!state[itemId]) return;
-    state[itemId].qty -= 1;
-    if (state[itemId].qty <= 0) delete state[itemId];
+    if (!qty[itemId]) return;
+    qty[itemId] -= 1;
+    if (qty[itemId] <= 0) delete qty[itemId];
     saveState();
     track("order_item_removed", { item: itemId });
     render();
     announce();
-  }
-
-  function toggleIngredient(itemId, index) {
-    var entry = state[itemId];
-    if (!entry) return;
-    var pos = entry.excluded.indexOf(index);
-    if (pos === -1) entry.excluded.push(index);
-    else entry.excluded.splice(pos, 1);
-    saveState();
-    track("order_ingredient_toggled", { item: itemId, index: index, excluded: pos === -1 });
-    render();
   }
 
   function announce() {
@@ -149,67 +126,23 @@
     liveRegionEl.textContent = count + " " + t("myorder.itemsAnnounce");
   }
 
-  function buildIngredients(itemId, item, categoryId, excluded) {
-    var ingredients = getIngredients(item, categoryId);
-    if (!ingredients) return null;
-
-    var isOpen = !!expandedIngredients[itemId];
-
-    var wrap = document.createElement("div");
-    wrap.className = "myorder-row__ingredients";
-
-    var toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "myorder-row__ingredients-toggle";
-    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    var toggleLabel = document.createElement("span");
-    toggleLabel.textContent = t("myorder.ingredientsToggle");
-    var chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    chevron.setAttribute("class", "myorder-row__ingredients-chevron");
-    chevron.setAttribute("width", "16");
-    chevron.setAttribute("height", "16");
-    chevron.setAttribute("viewBox", "0 0 24 24");
-    chevron.setAttribute("fill", "none");
-    chevron.setAttribute("aria-hidden", "true");
-    chevron.innerHTML = '<path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
-    toggle.appendChild(toggleLabel);
-    toggle.appendChild(chevron);
-    toggle.addEventListener("click", function () {
-      expandedIngredients[itemId] = !isOpen;
-      render();
-    });
-    wrap.appendChild(toggle);
-
-    var panel = document.createElement("div");
-    panel.className = "myorder-row__ingredients-panel";
-    panel.setAttribute("data-open", isOpen ? "true" : "false");
-
-    var chips = document.createElement("div");
-    chips.className = "myorder-row__chips";
-
-    ingredients.forEach(function (ingredient, index) {
-      var isExcluded = excluded.indexOf(index) !== -1;
-      var chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "myorder-chip";
-      chip.setAttribute("aria-pressed", isExcluded ? "true" : "false");
-      chip.setAttribute("data-excluded", isExcluded ? "true" : "false");
-      chip.textContent = ingredient;
-      chip.addEventListener("click", function () {
-        toggleIngredient(itemId, index);
-      });
-      chips.appendChild(chip);
-    });
-
-    panel.appendChild(chips);
-    wrap.appendChild(panel);
-    return wrap;
+  function excludedNames(item, itemId) {
+    if (!item.ingredients) return [];
+    return getExclusions(itemId)
+      .slice()
+      .sort(function (a, b) {
+        return a - b;
+      })
+      .map(function (index) {
+        var ing = item.ingredients[index];
+        return ing ? tf(ing.name) : null;
+      })
+      .filter(Boolean);
   }
 
-  function buildRow(itemId, entry) {
+  function buildRow(itemId, itemQty) {
     var item = findItem(itemId);
     if (!item) return null;
-    var categoryId = findCategoryId(itemId);
 
     var row = document.createElement("div");
     row.className = "myorder-row";
@@ -220,7 +153,7 @@
     var info = document.createElement("div");
     var nameEl = document.createElement("div");
     nameEl.className = "myorder-row__name";
-    nameEl.textContent = (entry.qty > 1 ? entry.qty + "x " : "") + item.name;
+    nameEl.textContent = (itemQty > 1 ? itemQty + "x " : "") + item.name;
     info.appendChild(nameEl);
 
     if (item.price) {
@@ -258,8 +191,35 @@
     top.appendChild(controls);
     row.appendChild(top);
 
-    var ingredientsEl = buildIngredients(itemId, item, categoryId, entry.excluded);
-    if (ingredientsEl) row.appendChild(ingredientsEl);
+    // Read-only summary — editing customization happens on the menu card,
+    // not here, so this is just "what did I pick" at a glance.
+    var names = excludedNames(item, itemId);
+    if (names.length) {
+      var summary = document.createElement("div");
+      summary.className = "myorder-row__excluded";
+
+      var summaryToggle = document.createElement("button");
+      summaryToggle.type = "button";
+      summaryToggle.className = "myorder-row__excluded-toggle";
+      summaryToggle.setAttribute("aria-expanded", "false");
+      summaryToggle.textContent =
+        names.length === 1 ? t("myorder.excludedCountOne") : t("myorder.excludedCountMany").replace("{n}", names.length);
+
+      var summaryPanel = document.createElement("p");
+      summaryPanel.className = "myorder-row__excluded-panel";
+      summaryPanel.setAttribute("data-open", "false");
+      summaryPanel.textContent = t("myorder.withoutLabel") + " " + names.join(", ");
+
+      summaryToggle.addEventListener("click", function () {
+        var isOpenNow = summaryPanel.getAttribute("data-open") === "true";
+        summaryPanel.setAttribute("data-open", isOpenNow ? "false" : "true");
+        summaryToggle.setAttribute("aria-expanded", isOpenNow ? "false" : "true");
+      });
+
+      summary.appendChild(summaryToggle);
+      summary.appendChild(summaryPanel);
+      row.appendChild(summary);
+    }
 
     return row;
   }
@@ -274,7 +234,7 @@
     if (!listEl) return;
     listEl.innerHTML = "";
 
-    var ids = Object.keys(state);
+    var ids = Object.keys(qty);
     if (ids.length === 0) {
       if (emptyEl) {
         emptyEl.textContent = t("myorder.empty");
@@ -287,7 +247,7 @@
     if (submitBlockEl) submitBlockEl.hidden = false;
 
     ids.forEach(function (id) {
-      var row = buildRow(id, state[id]);
+      var row = buildRow(id, qty[id]);
       if (row) listEl.appendChild(row);
     });
   }
@@ -336,22 +296,13 @@
       return;
     }
 
-    var items = Object.keys(state).map(function (id) {
+    var items = Object.keys(qty).map(function (id) {
       var item = findItem(id);
-      var entry = state[id];
-      var categoryId = findCategoryId(id);
-      var ingredients = item ? getIngredients(item, categoryId) : null;
-      var excludedNames =
-        ingredients && entry.excluded.length
-          ? entry.excluded.map(function (index) {
-              return ingredients[index];
-            })
-          : [];
       return {
         id: id,
         name: item ? item.name : id,
-        qty: entry.qty,
-        excluded: excludedNames,
+        qty: qty[id],
+        excluded: item ? excludedNames(item, id) : [],
       };
     });
 
@@ -372,7 +323,7 @@
         }
         submitStatusEl.textContent = t("myorder.success");
         track("order_submitted", { table: tableId, itemCount: items.length });
-        state = {};
+        qty = {};
         saveState();
         render();
       })
@@ -457,7 +408,11 @@
     if (submitBtnEl) submitBtnEl.addEventListener("click", submitOrder);
   }
 
-  window.ACHB_MYORDER = { addItem: addItem };
+  window.ACHB_MYORDER = {
+    addItem: addItem,
+    getExclusions: getExclusions,
+    toggleIngredient: toggleIngredient,
+  };
 
   document.addEventListener("DOMContentLoaded", init);
   document.addEventListener("languagechange", render);

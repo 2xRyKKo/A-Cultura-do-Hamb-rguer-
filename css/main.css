@@ -755,6 +755,132 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 10% 50%);
 }
 
+/* ==========================================================================
+   PERSONALIZAR — per-item ingredient customization, right on the menu
+   card. Closed by default; expands to a plain vertical list of large,
+   thumb-friendly rows. No checkboxes, no horizontal scroll, no bounce.
+   ========================================================================== */
+.menu-item__personalize {
+  margin-top: var(--space-xs);
+}
+
+.menu-item__personalize-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-eyebrow);
+  color: var(--color-green);
+}
+
+.menu-item__personalize-chevron {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.menu-item__personalize-toggle[aria-expanded="true"] .menu-item__personalize-chevron {
+  transform: rotate(180deg);
+}
+
+/* Same max-height slide used by the language switcher and other panels
+   site-wide — a plain deceleration curve, deliberately no bounce/elastic. */
+.menu-item__personalize-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+
+.menu-item__personalize-panel[data-open="true"] {
+  max-height: 40rem;
+  opacity: 1;
+  margin-top: var(--space-2xs);
+}
+
+.menu-item__personalize-heading {
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-eyebrow);
+  color: var(--color-ink-faint);
+  margin-bottom: var(--space-3xs);
+}
+
+.menu-ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  min-height: 44px;
+  padding-block: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.menu-ingredient-row:last-child {
+  border-bottom: none;
+}
+
+.menu-ingredient-row__name {
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  transition: color var(--dur-fast), text-decoration-color var(--dur-fast);
+}
+
+.menu-ingredient-row__check {
+  flex-shrink: 0;
+  color: var(--color-green);
+  transition: color var(--dur-fast);
+}
+
+.menu-ingredient-row__checkmark {
+  transition: opacity var(--dur-fast);
+}
+
+.menu-ingredient-row[data-excluded="true"] .menu-ingredient-row__check {
+  color: var(--color-ink-faint);
+}
+
+.menu-ingredient-row[data-excluded="true"] .menu-ingredient-row__checkmark {
+  opacity: 0;
+}
+
+.menu-ingredient-row[data-excluded="true"] .menu-ingredient-row__name {
+  color: var(--color-ink-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-border);
+}
+
+.menu-ingredient-row--required {
+  color: var(--color-ink-muted);
+}
+
+.menu-ingredient-row--required .menu-ingredient-row__icon {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.menu-ingredient-row--required .menu-ingredient-row__name {
+  color: var(--color-ink-muted);
+}
+
+.menu-ingredient-row--required .menu-ingredient-row__badge {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-item__personalize-panel {
+    transition: none;
+  }
+}
+
 .menu-item__side {
   display: flex;
   align-items: center;
@@ -949,67 +1075,31 @@
   color: var(--color-green);
 }
 
-/* Ingredient breakdown — food items with more than 2 real ingredients
-   (see js/my-order.js INGREDIENT_CATEGORY_IDS) get a tap-to-remove chip
-   per ingredient, so a customer can flag e.g. "sem cebola" before showing
-   the list to the waiter. */
-.myorder-row__ingredients-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: var(--letter-spacing-eyebrow);
-  color: var(--color-green);
+/* Read-only customization summary — editing happens on the menu card
+   itself (see .menu-item__personalize below), this is just "what did I
+   pick", kept visually minor so it never dominates the row. */
+.myorder-row__excluded {
+  font-size: 0.8rem;
 }
 
-.myorder-row__ingredients-chevron {
-  transition: transform var(--dur-fast) var(--ease-out);
+.myorder-row__excluded-toggle {
+  color: var(--color-ink-faint);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.myorder-row__ingredients-toggle[aria-expanded="true"] .myorder-row__ingredients-chevron {
-  transform: rotate(180deg);
-}
-
-/* Slides open/closed like the language switcher's own dropdown — same
-   max-height trick, kept consistent across the site. */
-.myorder-row__ingredients-panel {
+.myorder-row__excluded-panel {
+  margin-top: 2px;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  color: var(--color-ink-muted);
   transition: max-height var(--dur-base) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
 }
 
-.myorder-row__ingredients-panel[data-open="true"] {
-  max-height: 20rem;
+.myorder-row__excluded-panel[data-open="true"] {
+  max-height: 10rem;
   opacity: 1;
-  margin-top: var(--space-2xs);
-}
-
-.myorder-row__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.myorder-chip {
-  font-size: 0.78rem;
-  line-height: 1.2;
-  padding: 5px 11px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border);
-  color: var(--color-ink);
-  background: var(--color-bg);
-  transition: opacity var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast),
-    text-decoration-color var(--dur-fast);
-}
-
-.myorder-chip[data-excluded="true"] {
-  text-decoration: line-through;
-  color: var(--color-ink-faint);
-  border-color: var(--color-border);
-  opacity: 0.6;
 }
 
 .myorder-empty {
