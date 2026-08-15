@@ -3,6 +3,7 @@
 
   var groupsEl = null;
   var categoriesEl = null;
+  var menuSectionEl = null;
   var itemObserver = null;
   var viewedItems = {};
   var activeGroupId = null;
@@ -147,6 +148,41 @@
     return wrap;
   }
 
+  // A real mutually-exclusive choice (e.g. Coca-Cola: Normal ou Zero) —
+  // single-select pills, first option pre-selected so there's always a
+  // valid pick. Distinct from buildPersonalize: this replaces one thing
+  // with another, it doesn't remove parts of a composed dish.
+  function buildVariantPicker(item) {
+    if (!item.variantOptions || !item.variantOptions.length) return null;
+
+    var wrap = el("div", "menu-item__variant-picker");
+    wrap.setAttribute("role", "radiogroup");
+
+    var selected = window.ACHB_MYORDER ? window.ACHB_MYORDER.getVariant(item.id) : 0;
+
+    item.variantOptions.forEach(function (option, index) {
+      var btn = el("button", "menu-variant-pill");
+      btn.type = "button";
+      btn.setAttribute("role", "radio");
+      var isSelected = index === selected;
+      btn.setAttribute("aria-checked", isSelected ? "true" : "false");
+      btn.setAttribute("data-selected", isSelected ? "true" : "false");
+      btn.textContent = tf(option);
+      btn.addEventListener("click", function () {
+        if (!window.ACHB_MYORDER) return;
+        window.ACHB_MYORDER.selectVariant(item.id, index);
+        wrap.querySelectorAll(".menu-variant-pill").forEach(function (pill, pillIndex) {
+          var nowSelected = pillIndex === index;
+          pill.setAttribute("aria-checked", nowSelected ? "true" : "false");
+          pill.setAttribute("data-selected", nowSelected ? "true" : "false");
+        });
+      });
+      wrap.appendChild(btn);
+    });
+
+    return wrap;
+  }
+
   function buildItem(item) {
     var main = el("div", "menu-item__main");
 
@@ -160,7 +196,11 @@
     if (item.description) {
       main.appendChild(textEl("p", "menu-item__desc", tf(item.description)));
     }
-    if (item.variantNote) {
+    // variantNote is superseded by the interactive picker below once an
+    // item has real variantOptions — kept in the data as a plain-text
+    // fallback for the (currently nonexistent) case of a note without
+    // structured options.
+    if (item.variantNote && !item.variantOptions) {
       main.appendChild(textEl("p", "menu-item__desc", "(" + tf(item.variantNote) + ")"));
     }
     if (item.region) {
@@ -169,6 +209,9 @@
     // Allergen info is shown once near the top of the Menu section (see
     // index.html), not repeated per item — the schema keeps `allergens`
     // ready for real per-item data once the restaurant supplies it.
+
+    var variantPickerEl = buildVariantPicker(item);
+    if (variantPickerEl) main.appendChild(variantPickerEl);
 
     var personalizeEl = buildPersonalize(item);
     if (personalizeEl) main.appendChild(personalizeEl);
@@ -227,6 +270,8 @@
     if (cat.id === "hamburgueres") details.open = true;
 
     details.addEventListener("toggle", function () {
+      var scrollYBefore = window.scrollY;
+
       if (details.open) {
         track("category_view", { category: cat.id });
         // Accordion behaviour: keep only one category open at a time so the
@@ -242,6 +287,18 @@
       // so a section can fire its reveal too early/late, or need extra
       // scrolling to appear at all.
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+
+      // Opening/closing a category must never move the page on its own —
+      // restore the exact scroll position in case the browser's native
+      // <details> handling (or the refresh above) nudged it, without the
+      // usual smooth-scroll animating that correction into view.
+      if (window.scrollY !== scrollYBefore) {
+        var htmlEl = document.documentElement;
+        var prevBehavior = htmlEl.style.scrollBehavior;
+        htmlEl.style.scrollBehavior = "auto";
+        window.scrollTo(0, scrollYBefore);
+        htmlEl.style.scrollBehavior = prevBehavior;
+      }
     });
 
     return details;
@@ -313,8 +370,11 @@
     // Switching theme (Comida/Bebidas/Vinhos) swaps in a whole new category
     // list — without this, a visitor scrolled deep into one theme stayed at
     // that same scroll position, landing mid-way (or past the end) of the
-    // new content instead of seeing it from the top.
-    if (groupsEl) groupsEl.scrollIntoView({ block: "start" });
+    // new content instead of seeing it from the top. Targets the whole
+    // #menu section (not just the tab row) — "back to the top of the menu",
+    // not a jump all the way up to the hero.
+    var scrollTarget = menuSectionEl || groupsEl;
+    if (scrollTarget) scrollTarget.scrollIntoView({ block: "start" });
     // Same reasoning as the accordion toggle above: the new content is very
     // likely a different height, so any scroll-reveal trigger below this
     // point needs its cached position recalculated.
@@ -346,6 +406,7 @@
   function render() {
     if (!groupsEl) groupsEl = document.getElementById("menu-groups");
     if (!categoriesEl) categoriesEl = document.getElementById("menu-categories");
+    if (!menuSectionEl) menuSectionEl = document.getElementById("menu");
     if (!groupsEl || !categoriesEl) return;
 
     var groups = window.MENU_GROUPS || [];

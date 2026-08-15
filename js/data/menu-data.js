@@ -589,6 +589,12 @@ window.MENU_DATA = [
           es: "Normal o Zero",
           fr: "Normal ou Zero",
         },
+        // Real choice the customer must actually make, not just a
+        // description — first entry is the default until they pick.
+        variantOptions: [
+          { pt: "Normal", en: "Regular", es: "Normal", fr: "Normal" },
+          { pt: "Zero", en: "Zero", es: "Zero", fr: "Zero" },
+        ],
         allergens: null,
       },
       { id: "7up", name: "7UP", price: "3,10€", allergens: null },
@@ -602,6 +608,11 @@ window.MENU_DATA = [
           es: "Limón, Melocotón o Té Verde",
           fr: "Citron, Pêche ou Thé Vert",
         },
+        variantOptions: [
+          { pt: "Limão", en: "Lemon", es: "Limón", fr: "Citron" },
+          { pt: "Pêssego", en: "Peach", es: "Melocotón", fr: "Pêche" },
+          { pt: "Chá Verde", en: "Green Tea", es: "Té Verde", fr: "Thé Vert" },
+        ],
         allergens: null,
       },
       { id: "cafe", name: "Café", price: "1,20€", allergens: null },
@@ -689,6 +700,10 @@ window.MENU_DATA = [
         name: "Vinho do Porto",
         price: "5,50€ / Copo",
         variantNote: { pt: "Branco ou Tinto", en: "White or Red", es: "Blanco o Tinto", fr: "Blanc ou Rouge" },
+        variantOptions: [
+          { pt: "Branco", en: "White", es: "Blanco", fr: "Blanc" },
+          { pt: "Tinto", en: "Red", es: "Tinto", fr: "Rouge" },
+        ],
         allergens: null,
       },
     ],

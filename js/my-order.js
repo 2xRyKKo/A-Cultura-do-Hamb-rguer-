@@ -2,13 +2,15 @@
   "use strict";
 
   var STORAGE_KEY = "achb.myOrder";
-  // { qty: { itemId: number }, exclusions: { itemId: [ingredientIndex, ...] } }
-  // qty and exclusions are independent on purpose: customization can be set
-  // from the menu card before an item is ever added, and stays put across
-  // qty changes — increasing quantity of the same item never splits it into
-  // separate differently-customized lines.
+  // { qty: { itemId: number }, exclusions: { itemId: [ingredientIndex, ...] },
+  //   variants: { itemId: optionIndex } }
+  // qty/exclusions/variants are independent on purpose: customization can be
+  // set from the menu card before an item is ever added, and stays put
+  // across qty changes — increasing quantity of the same item never splits
+  // it into separate differently-customized lines.
   var qty = {};
   var exclusions = {};
+  var variants = {};
   var isOpen = false;
   var lastFocusedEl = null;
 
@@ -39,6 +41,7 @@
       var parsed = raw ? JSON.parse(raw) : {};
       qty = {};
       exclusions = {};
+      variants = {};
       if (parsed && parsed.qty && typeof parsed.qty === "object") {
         Object.keys(parsed.qty).forEach(function (id) {
           if (typeof parsed.qty[id] === "number" && parsed.qty[id] > 0) qty[id] = parsed.qty[id];
@@ -49,15 +52,21 @@
           if (Array.isArray(parsed.exclusions[id])) exclusions[id] = parsed.exclusions[id];
         });
       }
+      if (parsed && parsed.variants && typeof parsed.variants === "object") {
+        Object.keys(parsed.variants).forEach(function (id) {
+          if (typeof parsed.variants[id] === "number") variants[id] = parsed.variants[id];
+        });
+      }
     } catch (e) {
       qty = {};
       exclusions = {};
+      variants = {};
     }
   }
 
   function saveState() {
     try {
-      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ qty: qty, exclusions: exclusions }));
+      window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ qty: qty, exclusions: exclusions, variants: variants }));
     } catch (e) {
       /* sessionStorage unavailable — selection just won't persist across a reload */
     }
@@ -93,6 +102,17 @@
     exclusions[itemId] = list;
     saveState();
     track("order_ingredient_toggled", { item: itemId, index: index, excluded: pos === -1 });
+    render();
+  }
+
+  function getVariant(itemId) {
+    return variants[itemId] || 0;
+  }
+
+  function selectVariant(itemId, index) {
+    variants[itemId] = index;
+    saveState();
+    track("order_variant_selected", { item: itemId, index: index });
     render();
   }
 
@@ -140,6 +160,12 @@
       .filter(Boolean);
   }
 
+  function variantLabel(item, itemId) {
+    if (!item.variantOptions || !item.variantOptions.length) return null;
+    var option = item.variantOptions[getVariant(itemId)] || item.variantOptions[0];
+    return option ? tf(option) : null;
+  }
+
   function buildRow(itemId, itemQty) {
     var item = findItem(itemId);
     if (!item) return null;
@@ -153,7 +179,8 @@
     var info = document.createElement("div");
     var nameEl = document.createElement("div");
     nameEl.className = "myorder-row__name";
-    nameEl.textContent = (itemQty > 1 ? itemQty + "x " : "") + item.name;
+    var variantText = variantLabel(item, itemId);
+    nameEl.textContent = (itemQty > 1 ? itemQty + "x " : "") + item.name + (variantText ? " (" + variantText + ")" : "");
     info.appendChild(nameEl);
 
     if (item.price) {
@@ -307,6 +334,7 @@
         name: item ? item.name : id,
         qty: qty[id],
         excluded: item ? excludedNames(item, id) : [],
+        variant: item ? variantLabel(item, id) : null,
       };
     });
 
@@ -416,6 +444,8 @@
     addItem: addItem,
     getExclusions: getExclusions,
     toggleIngredient: toggleIngredient,
+    getVariant: getVariant,
+    selectVariant: selectVariant,
   };
 
   document.addEventListener("DOMContentLoaded", init);

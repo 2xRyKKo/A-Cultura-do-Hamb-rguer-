@@ -95,7 +95,8 @@
 
       var itemsList = el("ul", "staff-order-items");
       (o.items || []).forEach(function (item) {
-        var li = el("li", null, (item.qty || 1) + "x " + item.name);
+        var label = (item.qty || 1) + "x " + item.name + (item.variant ? " (" + item.variant + ")" : "");
+        var li = el("li", null, label);
         if (item.excluded && item.excluded.length) {
           var excludedEl = el("span", "staff-order-item__excluded", "sem " + item.excluded.join(", "));
           li.appendChild(excludedEl);
