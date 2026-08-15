@@ -9,6 +9,15 @@ html {
   text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-height);
+  /* Chrome/Safari's automatic "scroll anchoring" tries to keep whatever
+     content is currently at the top of the viewport in place whenever
+     something ABOVE it changes size — which is exactly what opening/
+     closing a menu category or switching Comida/Bebidas/Vinhos does. Left
+     on, the browser itself can shift scroll position on top of (and
+     independently of) anything this site's own JS does to manage scroll,
+     which is a better explanation for scroll landing somewhere unexpected
+     after those actions than anything in menu-render.js's own code. */
+  overflow-anchor: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
