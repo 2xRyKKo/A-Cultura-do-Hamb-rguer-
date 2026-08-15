@@ -592,14 +592,15 @@
 
 /* Three big theme tabs (Comida / Bebidas / Vinhos) — the only pill-shaped
    navigation now; categories render straight below as accordions, no
-   second row of per-category pills.
-   Deliberately NOT sticky — a sticky tab row here floated on top of every
-   item as the visitor scrolled the list underneath it, reading as broken
-   overlap rather than a helpful nav aid. Scrolls away normally; switching
-   tabs scrolls back to the top of #menu (see menu-render.js) instead. */
+   second row of per-category pills. Sticky under the nav bar on purpose —
+   switching tabs scrolls back to the top of #menu (see menu-render.js),
+   so the sticky row is what you land on/keep seeing while browsing. */
 .menu-groups {
   display: flex;
   gap: var(--space-xs);
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 11;
   padding-top: var(--space-sm);
   padding-bottom: var(--space-sm);
   margin-bottom: var(--space-sm);
