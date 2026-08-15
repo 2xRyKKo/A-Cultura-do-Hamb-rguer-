@@ -5,7 +5,11 @@
   // itself (reuses reviews-gate.js's timer/event — no separate 5-minute
   // clock). Every rating gets the same optional-comment follow-up; nothing
   // here branches on the score given.
-  var RESPONDED_KEY = "achb.ratingResponded";
+  //
+  // Marked "shown" the instant it opens (not only once the visitor responds)
+  // so a reload after the toast appeared — without clicking anything — can
+  // never bring it back within the same session.
+  var SHOWN_KEY = "achb.ratingShown";
 
   var toastEl, starsEl, commentEl, dismissBtn, skipBtn, submitBtn;
   var selectedRating = null;
@@ -18,17 +22,17 @@
     if (window.ACHB_ANALYTICS) window.ACHB_ANALYTICS.track(event, payload);
   }
 
-  function hasResponded() {
+  function hasShown() {
     try {
-      return window.sessionStorage.getItem(RESPONDED_KEY) === "true";
+      return window.sessionStorage.getItem(SHOWN_KEY) === "true";
     } catch (e) {
       return false;
     }
   }
 
-  function markResponded() {
+  function markShown() {
     try {
-      window.sessionStorage.setItem(RESPONDED_KEY, "true");
+      window.sessionStorage.setItem(SHOWN_KEY, "true");
     } catch (e) {
       /* sessionStorage unavailable — toast just won't remember across reloads */
     }
@@ -91,7 +95,6 @@
 
   function onSkip() {
     submitFeedback(selectedRating, null);
-    markResponded();
     closeToast();
   }
 
@@ -99,18 +102,17 @@
     var comment = (commentEl.value || "").trim();
     submitFeedback(selectedRating, comment || null);
     track("site_feedback_submitted", { rating: selectedRating, hasComment: !!comment });
-    markResponded();
     toastEl.setAttribute("data-step", "done");
     window.setTimeout(closeToast, 2200);
   }
 
   function onDismiss() {
-    markResponded();
     closeToast();
   }
 
   function maybeShow() {
-    if (hasResponded()) return;
+    if (hasShown()) return;
+    markShown();
     openToast();
   }
 
