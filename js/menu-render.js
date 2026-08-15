@@ -8,6 +8,15 @@
   var viewedItems = {};
   var activeGroupId = null;
 
+  // Opening one category programmatically closes any other open one (see
+  // buildCategory below) — that close also fires ITS OWN "toggle" event,
+  // which would otherwise run this same scroll-position-restore logic a
+  // second time, nested inside the first, each working off a different
+  // captured scroll position. This flag makes only the outermost,
+  // directly-clicked toggle actually touch scroll; closes that happen as
+  // a side effect of it are inert for that purpose.
+  var isHandlingCategoryToggle = false;
+
   // Which items currently have their "Personalizar" panel open — kept
   // outside the DOM so it survives the full re-render that a language
   // switch or theme-tab change triggers elsewhere in this file.
@@ -295,6 +304,21 @@
     if (cat.id === "hamburgueres") details.open = true;
 
     details.addEventListener("toggle", function () {
+      // Closing another open category below (to keep the accordion
+      // exclusive) fires that category's OWN "toggle" listener too — this
+      // guard makes that nested call skip stright to the accordion-state
+      // bookkeeping, so only the toggle the visitor actually clicked ever
+      // touches scroll position or calls ScrollTrigger.refresh().
+      if (isHandlingCategoryToggle) {
+        if (details.open) {
+          document.querySelectorAll(".menu-category").forEach(function (other) {
+            if (other !== details && other.open) other.open = false;
+          });
+        }
+        return;
+      }
+      isHandlingCategoryToggle = true;
+
       var scrollYBefore = window.scrollY;
 
       if (details.open) {
@@ -324,6 +348,8 @@
         window.scrollTo(0, scrollYBefore);
         htmlEl.style.scrollBehavior = prevBehavior;
       }
+
+      isHandlingCategoryToggle = false;
     });
 
     return details;
