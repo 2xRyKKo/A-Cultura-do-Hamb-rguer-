@@ -909,11 +909,17 @@
 
 .myorder-row {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.myorder-row__top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--color-border);
 }
 
 .myorder-row__name {
@@ -941,6 +947,43 @@
 .myorder-row__stepper-btn:hover {
   border-color: var(--color-green);
   color: var(--color-green);
+}
+
+/* Ingredient breakdown — food items with more than 2 real ingredients
+   (see js/my-order.js INGREDIENT_CATEGORY_IDS) get a tap-to-remove chip
+   per ingredient, so a customer can flag e.g. "sem cebola" before showing
+   the list to the waiter. */
+.myorder-row__ingredients-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-eyebrow);
+  color: var(--color-ink-faint);
+  margin-bottom: var(--space-3xs);
+}
+
+.myorder-row__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.myorder-chip {
+  font-size: 0.78rem;
+  line-height: 1.2;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  transition: opacity var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast),
+    text-decoration-color var(--dur-fast);
+}
+
+.myorder-chip[data-excluded="true"] {
+  text-decoration: line-through;
+  color: var(--color-ink-faint);
+  border-color: var(--color-border);
+  opacity: 0.6;
 }
 
 .myorder-empty {

@@ -231,6 +231,13 @@ body {
   font-size: 0.9rem;
 }
 
+.staff-order-item__excluded {
+  display: block;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #8a2318;
+}
+
 .staff-hint {
   margin-top: var(--space-sm);
   font-size: 0.8rem;

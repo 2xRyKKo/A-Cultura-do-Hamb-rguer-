@@ -2,9 +2,16 @@
   "use strict";
 
   var STORAGE_KEY = "achb.myOrder";
-  var state = {}; // { itemId: qty }
+  // { itemId: { qty: number, excluded: [ingredientIndex, ...] } }
+  var state = {};
   var isOpen = false;
   var lastFocusedEl = null;
+
+  // Only real composed dishes get an ingredient breakdown — "Maionese
+  // Extra" also lives in the Comida group but its description lists
+  // flavour *choices*, not ingredients to strip from a dish, so it's
+  // deliberately left out here.
+  var INGREDIENT_CATEGORY_IDS = ["petiscos", "hamburgueres", "smash-burger", "pregos", "saladas", "sobremesas"];
 
   var fabEl, fabCountEl, drawerEl, backdropEl, listEl, emptyEl, liveRegionEl, titleEl;
   var submitBlockEl, tableInputEl, notesInputEl, submitBtnEl, submitStatusEl;
@@ -24,7 +31,19 @@
   function loadState() {
     try {
       var raw = window.sessionStorage.getItem(STORAGE_KEY);
-      if (raw) state = JSON.parse(raw) || {};
+      var parsed = raw ? JSON.parse(raw) : {};
+      state = {};
+      Object.keys(parsed || {}).forEach(function (id) {
+        var entry = parsed[id];
+        // Normalize the old { itemId: qty } shape from before per-ingredient
+        // customization existed, so a session started before this change
+        // doesn't break on load.
+        if (typeof entry === "number") {
+          state[id] = { qty: entry, excluded: [] };
+        } else if (entry && typeof entry.qty === "number") {
+          state[id] = { qty: entry.qty, excluded: entry.excluded || [] };
+        }
+      });
     } catch (e) {
       state = {};
     }
@@ -49,28 +68,68 @@
     return null;
   }
 
+  function findCategoryId(itemId) {
+    var data = window.MENU_DATA || [];
+    for (var i = 0; i < data.length; i++) {
+      var items = data[i].items || [];
+      for (var j = 0; j < items.length; j++) {
+        if (items[j].id === itemId) return data[i].id;
+      }
+    }
+    return null;
+  }
+
+  // Descriptions are already real comma-separated ingredient lists (see
+  // menu-data.js) — reused here instead of duplicating the same data in a
+  // second place. Only items with more than 2 parts get the breakdown.
+  function getIngredients(item, categoryId) {
+    if (INGREDIENT_CATEGORY_IDS.indexOf(categoryId) === -1) return null;
+    var desc = tf(item.description);
+    if (!desc) return null;
+    var parts = desc
+      .split(",")
+      .map(function (s) {
+        return s.trim();
+      })
+      .filter(Boolean);
+    return parts.length > 2 ? parts : null;
+  }
+
   function totalCount() {
     return Object.keys(state).reduce(function (sum, id) {
-      return sum + state[id];
+      return sum + state[id].qty;
     }, 0);
   }
 
   function addItem(itemId) {
-    state[itemId] = (state[itemId] || 0) + 1;
+    var entry = state[itemId] || { qty: 0, excluded: [] };
+    entry.qty += 1;
+    state[itemId] = entry;
     saveState();
-    track("order_item_added", { item: itemId, qty: state[itemId] });
+    track("order_item_added", { item: itemId, qty: entry.qty });
     render();
     announce();
   }
 
   function decrementItem(itemId) {
     if (!state[itemId]) return;
-    state[itemId] -= 1;
-    if (state[itemId] <= 0) delete state[itemId];
+    state[itemId].qty -= 1;
+    if (state[itemId].qty <= 0) delete state[itemId];
     saveState();
     track("order_item_removed", { item: itemId });
     render();
     announce();
+  }
+
+  function toggleIngredient(itemId, index) {
+    var entry = state[itemId];
+    if (!entry) return;
+    var pos = entry.excluded.indexOf(index);
+    if (pos === -1) entry.excluded.push(index);
+    else entry.excluded.splice(pos, 1);
+    saveState();
+    track("order_ingredient_toggled", { item: itemId, index: index, excluded: pos === -1 });
+    render();
   }
 
   function announce() {
@@ -79,17 +138,54 @@
     liveRegionEl.textContent = count + " " + t("myorder.itemsAnnounce");
   }
 
-  function buildRow(itemId, qty) {
+  function buildIngredients(itemId, item, categoryId, excluded) {
+    var ingredients = getIngredients(item, categoryId);
+    if (!ingredients) return null;
+
+    var wrap = document.createElement("div");
+    wrap.className = "myorder-row__ingredients";
+
+    var label = document.createElement("p");
+    label.className = "myorder-row__ingredients-label";
+    label.textContent = t("myorder.ingredientsHint");
+    wrap.appendChild(label);
+
+    var chips = document.createElement("div");
+    chips.className = "myorder-row__chips";
+
+    ingredients.forEach(function (ingredient, index) {
+      var isExcluded = excluded.indexOf(index) !== -1;
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "myorder-chip";
+      chip.setAttribute("aria-pressed", isExcluded ? "true" : "false");
+      chip.setAttribute("data-excluded", isExcluded ? "true" : "false");
+      chip.textContent = ingredient;
+      chip.addEventListener("click", function () {
+        toggleIngredient(itemId, index);
+      });
+      chips.appendChild(chip);
+    });
+
+    wrap.appendChild(chips);
+    return wrap;
+  }
+
+  function buildRow(itemId, entry) {
     var item = findItem(itemId);
     if (!item) return null;
+    var categoryId = findCategoryId(itemId);
 
     var row = document.createElement("div");
     row.className = "myorder-row";
 
+    var top = document.createElement("div");
+    top.className = "myorder-row__top";
+
     var info = document.createElement("div");
     var nameEl = document.createElement("div");
     nameEl.className = "myorder-row__name";
-    nameEl.textContent = (qty > 1 ? qty + "x " : "") + item.name;
+    nameEl.textContent = (entry.qty > 1 ? entry.qty + "x " : "") + item.name;
     info.appendChild(nameEl);
 
     if (item.price) {
@@ -123,8 +219,13 @@
     controls.appendChild(minusBtn);
     controls.appendChild(plusBtn);
 
-    row.appendChild(info);
-    row.appendChild(controls);
+    top.appendChild(info);
+    top.appendChild(controls);
+    row.appendChild(top);
+
+    var ingredientsEl = buildIngredients(itemId, item, categoryId, entry.excluded);
+    if (ingredientsEl) row.appendChild(ingredientsEl);
+
     return row;
   }
 
@@ -169,7 +270,21 @@
 
     var items = Object.keys(state).map(function (id) {
       var item = findItem(id);
-      return { id: id, name: item ? item.name : id, qty: state[id] };
+      var entry = state[id];
+      var categoryId = findCategoryId(id);
+      var ingredients = item ? getIngredients(item, categoryId) : null;
+      var excludedNames =
+        ingredients && entry.excluded.length
+          ? entry.excluded.map(function (index) {
+              return ingredients[index];
+            })
+          : [];
+      return {
+        id: id,
+        name: item ? item.name : id,
+        qty: entry.qty,
+        excluded: excludedNames,
+      };
     });
 
     submitBtnEl.disabled = true;

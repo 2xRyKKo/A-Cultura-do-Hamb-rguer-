@@ -65,6 +65,7 @@ window.TRANSLATIONS = {
       sending: "A enviar...",
       success: "Pedido enviado! O empregado já vai ter isto.",
       errorMissingTable: "Por favor indique a sua mesa.",
+      ingredientsHint: "Toque para remover:",
       errorGeneric: "Não foi possível enviar. Tente novamente.",
     },
     info: {
@@ -227,6 +228,7 @@ window.TRANSLATIONS = {
       sending: "Sending...",
       success: "Order sent! Your server has it now.",
       errorMissingTable: "Please enter your table.",
+      ingredientsHint: "Tap to remove:",
       errorGeneric: "Couldn't send it. Please try again.",
     },
     info: {
@@ -389,6 +391,7 @@ window.TRANSLATIONS = {
       sending: "Enviando...",
       success: "¡Pedido enviado! Su camarero ya lo tiene.",
       errorMissingTable: "Por favor indique su mesa.",
+      ingredientsHint: "Toque para quitar:",
       errorGeneric: "No se pudo enviar. Intente de nuevo.",
     },
     info: {
@@ -552,6 +555,7 @@ window.TRANSLATIONS = {
       sending: "Envoi en cours...",
       success: "Commande envoyée ! Votre serveur l'a déjà.",
       errorMissingTable: "Veuillez indiquer votre table.",
+      ingredientsHint: "Touchez pour retirer :",
       errorGeneric: "Impossible d'envoyer. Veuillez réessayer.",
     },
     info: {

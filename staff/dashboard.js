@@ -95,7 +95,12 @@
 
       var itemsList = el("ul", "staff-order-items");
       (o.items || []).forEach(function (item) {
-        itemsList.appendChild(el("li", null, (item.qty || 1) + "x " + item.name));
+        var li = el("li", null, (item.qty || 1) + "x " + item.name);
+        if (item.excluded && item.excluded.length) {
+          var excludedEl = el("span", "staff-order-item__excluded", "sem " + item.excluded.join(", "));
+          li.appendChild(excludedEl);
+        }
+        itemsList.appendChild(li);
       });
       card.appendChild(itemsList);
       if (o.notes) card.appendChild(el("p", "staff-card__notes", o.notes));
