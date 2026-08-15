@@ -386,37 +386,40 @@
     observeItems();
   }
 
+  function scrollToMenuTop() {
+    var scrollTarget = menuSectionEl || groupsEl;
+    if (!scrollTarget) return;
+    var navHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-height")) || 68;
+    var targetY = scrollTarget.getBoundingClientRect().top + window.scrollY - navHeight;
+    window.scrollTo(0, Math.max(targetY, 0));
+  }
+
   function setActiveGroup(groupId) {
     if (groupId === activeGroupId) return;
     activeGroupId = groupId;
     updateGroupTabsState();
     renderActiveGroupContent();
     track("menu_group_view", { group: groupId });
+
+    // Recalculate scroll-reveal trigger positions for the new (very likely
+    // differently-sized) content BEFORE moving anything, so nothing runs
+    // after the scroll below that could still be adjusting layout/scroll
+    // state out from under it.
+    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+
     // Switching theme (Comida/Bebidas/Vinhos) swaps in a whole new category
     // list — without this, a visitor scrolled deep into one theme stayed at
     // that same scroll position, landing mid-way (or past the end) of the
     // new content instead of seeing it from the top. Targets the whole
     // #menu section (not just the tab row) — "back to the top of the menu"
     // (visible "Cardápio" heading), not a jump all the way up to the hero.
-    //
-    // Deliberately NOT scrollTarget.scrollIntoView({block:"start"}): that
-    // relies on the browser applying the html { scroll-padding-top } rule
-    // to scrollIntoView, which Safari has a history of not doing reliably —
-    // the section's top would land exactly at the viewport's top edge,
-    // right under/behind the fixed nav, hiding the "Cardápio" heading it
-    // was supposed to reveal. Computing the offset by hand and calling
-    // scrollTo works the same in every browser.
-    var scrollTarget = menuSectionEl || groupsEl;
-    if (scrollTarget) {
-      var navHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-height")) || 68;
-      var targetY = scrollTarget.getBoundingClientRect().top + window.scrollY - navHeight;
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: Math.max(targetY, 0), behavior: reduceMotion ? "auto" : "smooth" });
-    }
-    // Same reasoning as the accordion toggle above: the new content is very
-    // likely a different height, so any scroll-reveal trigger below this
-    // point needs its cached position recalculated.
-    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    // Run on the next animation frame, once the browser has actually
+    // painted the rebuilt content and settled layout from the refresh
+    // above — computing/applying the scroll in the same tick as both of
+    // those DOM changes was landing in the wrong place.
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(scrollToMenuTop);
+    });
   }
 
   function observeItems() {
