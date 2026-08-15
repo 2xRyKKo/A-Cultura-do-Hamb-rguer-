@@ -8,15 +8,6 @@
   var viewedItems = {};
   var activeGroupId = null;
 
-  // Opening one category programmatically closes any other open one (see
-  // buildCategory below) — that close also fires ITS OWN "toggle" event,
-  // which would otherwise run this same scroll-position-restore logic a
-  // second time, nested inside the first, each working off a different
-  // captured scroll position. This flag makes only the outermost,
-  // directly-clicked toggle actually touch scroll; closes that happen as
-  // a side effect of it are inert for that purpose.
-  var isHandlingCategoryToggle = false;
-
   // Which items currently have their "Personalizar" panel open — kept
   // outside the DOM so it survives the full re-render that a language
   // switch or theme-tab change triggers elsewhere in this file.
@@ -303,53 +294,52 @@
     // came here to decide on, regardless of where it sits in the data order.
     if (cat.id === "hamburgueres") details.open = true;
 
-    details.addEventListener("toggle", function () {
-      // Closing another open category below (to keep the accordion
-      // exclusive) fires that category's OWN "toggle" listener too — this
-      // guard makes that nested call skip stright to the accordion-state
-      // bookkeeping, so only the toggle the visitor actually clicked ever
-      // touches scroll position or calls ScrollTrigger.refresh().
-      if (isHandlingCategoryToggle) {
-        if (details.open) {
+    // Deliberately a "click" listener on the summary, not a "toggle"
+    // listener on the details element. toggle fires for BOTH the click the
+    // visitor actually made AND every other category we close below to
+    // keep the accordion exclusive (setting .open = false dispatches its
+    // own toggle) — and that second dispatch is not reliably synchronous
+    // across browsers, so a flag guarding "am I already inside a toggle
+    // handler" can't be trusted to catch it. A click on this one specific
+    // summary fires exactly once, for exactly this interaction, full stop.
+    summary.addEventListener("click", function () {
+      var scrollYBefore = window.scrollY;
+      var willOpen = !details.open;
+
+      // Let the browser's native open/close happen on its own first (this
+      // listener runs before that default action, so details.open above
+      // still reads the pre-click state) — do our own work next frame,
+      // once that native toggle (and the closes below) have fully settled.
+      window.requestAnimationFrame(function () {
+        if (willOpen) {
+          track("category_view", { category: cat.id });
+          // Accordion behaviour: keep only one category open at a time so
+          // the menu doesn't stack into a long, disorganised list of open
+          // panels. No listener of any kind reacts to these closes.
           document.querySelectorAll(".menu-category").forEach(function (other) {
             if (other !== details && other.open) other.open = false;
           });
         }
-        return;
-      }
-      isHandlingCategoryToggle = true;
+        // Opening/closing a category changes the page's height, which
+        // shifts where every section below it (Onde Estamos included)
+        // actually sits. GSAP's scroll-reveal trigger points are computed
+        // once and don't know about this on their own — without a refresh
+        // they stay stale, so a section can fire its reveal too early/
+        // late, or need extra scrolling to appear at all.
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
 
-      var scrollYBefore = window.scrollY;
-
-      if (details.open) {
-        track("category_view", { category: cat.id });
-        // Accordion behaviour: keep only one category open at a time so the
-        // menu doesn't stack into a long, disorganised list of open panels.
-        document.querySelectorAll(".menu-category").forEach(function (other) {
-          if (other !== details && other.open) other.open = false;
-        });
-      }
-      // Opening/closing a category changes the page's height, which shifts
-      // where every section below it (Onde Estamos included) actually sits.
-      // GSAP's scroll-reveal trigger points are computed once and don't
-      // know about this on their own — without a refresh they stay stale,
-      // so a section can fire its reveal too early/late, or need extra
-      // scrolling to appear at all.
-      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
-
-      // Opening/closing a category must never move the page on its own —
-      // restore the exact scroll position in case the browser's native
-      // <details> handling (or the refresh above) nudged it, without the
-      // usual smooth-scroll animating that correction into view.
-      if (window.scrollY !== scrollYBefore) {
-        var htmlEl = document.documentElement;
-        var prevBehavior = htmlEl.style.scrollBehavior;
-        htmlEl.style.scrollBehavior = "auto";
-        window.scrollTo(0, scrollYBefore);
-        htmlEl.style.scrollBehavior = prevBehavior;
-      }
-
-      isHandlingCategoryToggle = false;
+        // Opening/closing a category must never move the page on its own —
+        // restore the exact scroll position in case the browser's native
+        // <details> handling (or the refresh above) nudged it, without the
+        // usual smooth-scroll animating that correction into view.
+        if (window.scrollY !== scrollYBefore) {
+          var htmlEl = document.documentElement;
+          var prevBehavior = htmlEl.style.scrollBehavior;
+          htmlEl.style.scrollBehavior = "auto";
+          window.scrollTo(0, scrollYBefore);
+          htmlEl.style.scrollBehavior = prevBehavior;
+        }
+      });
     });
 
     return details;
