@@ -40,6 +40,7 @@
 
   function close() {
     if (promptEl) promptEl.setAttribute("data-open", "false");
+    document.documentElement.style.overflow = "";
     document.removeEventListener("keydown", onKeydown);
     if (lastFocusedEl) lastFocusedEl.focus();
     currentOnCustomize = null;
@@ -55,6 +56,10 @@
     lastFocusedEl = document.activeElement;
     if (titleEl) titleEl.textContent = t("personalizePrompt.title").replace("{item}", itemName);
     promptEl.setAttribute("data-open", "true");
+    // Same reasoning as the order drawer: without this, a touch-drag over
+    // the dimmed menu behind this modal could scroll the menu instead of
+    // just dismissing/using the modal.
+    document.documentElement.style.overflow = "hidden";
     document.addEventListener("keydown", onKeydown);
     if (customizeBtn) customizeBtn.focus();
   }

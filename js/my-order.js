@@ -393,6 +393,11 @@
     lastFocusedEl = document.activeElement;
     if (drawerEl) drawerEl.setAttribute("data-open", "true");
     if (backdropEl) backdropEl.setAttribute("data-open", "true");
+    // Without this, the page behind the dimmed backdrop was still
+    // scrollable — a touch-drag anywhere over it (or even over parts of
+    // the drawer itself) could scroll the menu underneath instead of the
+    // drawer, which read as the drawer "not responding" to touch.
+    document.documentElement.style.overflow = "hidden";
     var focusable = getFocusable();
     if (focusable.length) focusable[0].focus();
     document.addEventListener("keydown", onKeydown);
@@ -402,6 +407,7 @@
     isOpen = false;
     if (drawerEl) drawerEl.setAttribute("data-open", "false");
     if (backdropEl) backdropEl.setAttribute("data-open", "false");
+    document.documentElement.style.overflow = "";
     document.removeEventListener("keydown", onKeydown);
     if (lastFocusedEl) lastFocusedEl.focus();
   }
