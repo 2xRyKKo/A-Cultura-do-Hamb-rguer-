@@ -1438,7 +1438,8 @@
    RESERVATIONS
    ========================================================================== */
 .reservation-section {
-  padding-block: var(--space-2xl);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-2xl);
   background: var(--color-bg-elevated);
 }
 
